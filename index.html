@@ -4,135 +4,165 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Affidavit Generator India (AGI) – Professional Court Version</title>
+<title>Affidavit SaaS Pro</title>
 
-<link rel="stylesheet" href="style.css">
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
-<!-- QR Code Library -->
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+<style>
+body{font-family:Arial;background:#f4f4f4;padding:20px}
+.container{max-width:500px;margin:auto;background:#fff;padding:20px;border-radius:10px}
+input,select{width:100%;padding:10px;margin:5px 0}
+button{padding:10px 15px;margin:5px;border:none;border-radius:6px;cursor:pointer}
+</style>
 
 </head>
-
 <body>
 
 <div class="container">
 
-<header>
-<h1>Affidavit Generator India (AGI)</h1>
-<p class="tagline">Professional Court-Ready Affidavit Tool</p>
-</header>
+<h2>🚀 Affidavit SaaS System</h2>
 
-<section class="form-section">
+<!-- LOGIN -->
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
 
-<!-- PREMIUM STATUS BADGE -->
-<div id="premiumStatus"></div>
+<button onclick="register()">Register</button>
+<button onclick="login()">Login</button>
+<button onclick="logout()">Logout</button>
 
-<h2>Affidavit Details</h2>
+<hr>
 
-<label>Language</label>
-<select id="lang">
-<option value="english">English</option>
-<option value="hindi">Hindi</option>
-<option value="urdu">Urdu</option>
-</select>
-
-<label>Template Type</label>
+<!-- TOOL -->
 <select id="template">
-<option value="general">General Declaration (Free)</option>
-<option value="name">Name Correction (Premium)</option>
+<option value="general">General (Free)</option>
+<option value="name">Name Change (Premium)</option>
 <option value="address">Address Change (Premium)</option>
-<option value="dob">DOB Correction (Premium)</option>
-<option value="lost">Lost Document (Premium)</option>
-<option value="marriage">Marriage Affidavit (Premium)</option>
 <option value="income">Income Affidavit (Premium)</option>
-<option value="identity">Identity Proof (Premium)</option>
-<option value="property">Property Declaration (Premium)</option>
-<option value="gap">Gap Certificate (Premium)</option>
 </select>
 
-<label>Gender</label>
-<select id="gender">
-<option value="male">Male</option>
-<option value="female">Female</option>
-<option value="other">Other</option>
-</select>
+<br>
 
-<label>Full Name</label>
-<input type="text" id="name">
+<button onclick="payUPI()">💰 Pay ₹49</button>
+<button onclick="unlockWithCode()">🔑 Enter Code</button>
 
-<label>Father / Husband Name</label>
-<input type="text" id="father">
+<hr>
 
-<label>Age</label>
-<input type="number" id="age">
-
-<label>Full Address</label>
-<textarea id="address"></textarea>
-
-<label>Affidavit Purpose</label>
-<textarea id="purpose"></textarea>
-
-<label>State</label>
-<select id="state">
-<option value="">Select State</option>
-<option>Jammu & Kashmir</option>
-<option>Delhi</option>
-<option>Maharashtra</option>
-<option>Uttar Pradesh</option>
-<option>Karnataka</option>
-<option>Gujarat</option>
-<option>Tamil Nadu</option>
-<option>West Bengal</option>
-<option>Rajasthan</option>
-<option>Punjab</option>
-</select>
-
-<label>Stamp Value</label>
-<select id="stamp">
-<option value="">Select Stamp</option>
-<option>₹10</option>
-<option>₹20</option>
-<option>₹50</option>
-<option>₹100</option>
-<option>₹500</option>
-</select>
-
-<label>Place</label>
-<input type="text" id="place">
-
-<label>Date</label>
-<input type="date" id="date">
-
-<label>Additional Declaration (Premium)</label>
-<textarea id="customParagraph"></textarea>
-
-<div class="toggle-group">
-<label>
-<input type="checkbox" id="addWitness">
-Add Witness Section (Premium)
-</label>
-</div>
-
-<div class="button-group">
-<button onclick="generateAffidavit()">Generate Preview</button>
-<button onclick="printAffidavit()">Print A4</button>
-<button id="downloadBtn" onclick="downloadPDF()">Download PDF (Premium)</button>
-<button onclick="unlockPremium()">Upgrade to Premium</button>
-</div>
-
-</section>
-
-<section class="preview-section" id="previewSection">
-<div id="previewArea" class="document-preview"></div>
-</section>
-
-<footer>
-<p>© 2026 Affidavit Generator India | All Rights Reserved</p>
-</footer>
+<div id="status">Checking...</div>
 
 </div>
 
-<script src="script.js"></script>
+<script>
+
+// 🔥 FIREBASE CONFIG (YAHAN APNI DETAILS DAALO)
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// ================= LOGIN =================
+function register(){
+  auth.createUserWithEmailAndPassword(
+    document.getElementById("email").value,
+    document.getElementById("password").value
+  ).then(()=>alert("Registered ✅"))
+  .catch(e=>alert(e.message));
+}
+
+function login(){
+  auth.signInWithEmailAndPassword(
+    document.getElementById("email").value,
+    document.getElementById("password").value
+  ).then(()=>alert("Login Success 🚀"))
+  .catch(e=>alert(e.message));
+}
+
+function logout(){
+  auth.signOut();
+  alert("Logged Out");
+}
+
+// ================= PREMIUM CHECK =================
+let isPremium = false;
+
+auth.onAuthStateChanged(user => {
+
+  if(user){
+
+    db.collection("users").doc(user.uid).get()
+    .then(doc => {
+
+      if(doc.exists && doc.data().premium){
+        isPremium = true;
+        document.getElementById("status").innerHTML = "✅ Premium User";
+      } else {
+        isPremium = false;
+        document.getElementById("status").innerHTML = "Free User";
+      }
+
+    });
+
+  } else {
+    document.getElementById("status").innerHTML = "Not Logged In";
+  }
+
+});
+
+// ================= LOCK SYSTEM =================
+document.getElementById("template").addEventListener("change", function(){
+
+  if(this.value !== "general" && !isPremium){
+    alert("🚀 Premium Feature. Please upgrade.");
+    this.value = "general";
+  }
+
+});
+
+// ================= UPI PAYMENT =================
+function payUPI(){
+
+  let upi = "upi://pay?pa=rehmankhatibur4-1@okaxis&pn=Khateeb&am=49&cu=INR&tn=AffidavitPremium";
+
+  window.location.href = upi;
+
+}
+
+// ================= CODE UNLOCK =================
+function unlockWithCode(){
+
+  let code = prompt("Enter Premium Code:");
+
+  if(code === "DSS123"){
+
+    let user = auth.currentUser;
+
+    if(!user){
+      alert("Login first ❗");
+      return;
+    }
+
+    db.collection("users").doc(user.uid).set({
+      premium:true
+    });
+
+    alert("🎉 Premium Unlocked!");
+    location.reload();
+
+  } else {
+    alert("Invalid Code ❌");
+  }
+
+}
+
+</script>
 
 </body>
 </html>
