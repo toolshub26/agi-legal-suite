@@ -61,11 +61,35 @@ auth.onAuthStateChanged(user=>{
   .then(doc=>{
 
     let d = doc.data();
+    let now = Date.now();
+
+    // 🔥 EXPIRY CHECK
+    if(d.expiry && now > d.expiry){
+
+      db.collection("users").doc(user.uid).update({
+        premium:false
+      });
+
+      d.premium = false;
+    }
+
+    // 🔥 PREMIUM STATUS TEXT
+    let premiumText = "";
+
+    if(d.expiry && now > d.expiry){
+      premiumText = "Expired ❌";
+    } 
+    else if(d.premium){
+      premiumText = "Active ✅";
+    } 
+    else {
+      premiumText = "Free ❌";
+    }
 
     document.getElementById("info").innerHTML = `
     📧 ${user.email}<br><br>
     💰 Wallet: ₹${d.wallet || 0}<br>
-    ⭐ Premium: ${d.premium ? "Active" : "Free"}<br>
+    ⭐ Premium: ${premiumText}<br>
     🎁 Referral Code: ${d.refCode || "N/A"}
     `;
 
