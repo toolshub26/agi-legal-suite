@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Premium Tool</title>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<style>
+body{background:#000;color:#0f0;font-family:Arial;text-align:center}
+.container{max-width:500px;margin:auto;padding:20px}
+.card{background:#111;padding:15px;margin:10px;border-radius:8px}
+button{padding:10px 15px;margin:5px;border:none;border-radius:6px;cursor:pointer}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🔥 Premium Affidavit Tool</h2>
+
+<div class="card">
+<p>✅ You have access to premium features</p>
+<p>🎉 Now you can use all affidavit tools</p>
+</div>
+
+<button onclick="logout()">Logout</button>
+
+</div>
+
+<script>
+
+// 🔥 FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyC_1bKbNGAoGviGt1-a1f27h9VDj4hr3oA",
+  authDomain: "affidavittool.firebaseapp.com",
+  projectId: "affidavittool",
+  storageBucket: "affidavittool.firebasestorage.app",
+  messagingSenderId: "108525725649",
+  appId: "1:108525725649:web:2c3cab440860c81e6de2f0"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// ================= PROTECT PAGE =================
+auth.onAuthStateChanged(user=>{
+
+  if(!user){
+    location.href = "index.html";
+    return;
+  }
+
+  db.collection("users").doc(user.uid).get()
+  .then(doc=>{
+
+    if(!doc.exists){
+      location.href = "index.html";
+      return;
+    }
+
+    let d = doc.data();
+
+    if(d.premium){
+      console.log("Access Granted ✅");
+    } else {
+      alert("❌ Premium Required");
+      location.href = "dashboard.html";
+    }
+
+  });
+
+});
+
+// ================= LOGOUT =================
+function logout(){
+  auth.signOut();
+  location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>
