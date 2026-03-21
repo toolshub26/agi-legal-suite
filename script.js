@@ -1,249 +1,224 @@
 /* =========================================
-   AGI – PROFESSIONAL LOGIC ENGINE v2.2
-   UI Lock + QR + Premium Badge + Payment Ready
+   AGI – ULTRA PRO ENGINE v5.0 🚀
+   Premium + Expiry + QR Verify + History + Security
 ========================================= */
 
 const AGI = {
-    premium: false,
-    premiumCode: "INDIA49",
-    docPrefix: "IND-AFF-"
+    premium:false,
+    premiumCode:"INDIA49",
+    docPrefix:"IND-AFF-",
+    premiumDays:30,
+    domain:location.origin
 };
 
-/* ===============================
-   INIT SYSTEM
-=============================== */
+/* ================= INIT ================= */
 (function initAGI(){
-    AGI.premium = localStorage.getItem("agiPremium") === "true";
+
+    let p = localStorage.getItem("agiPremium");
+    let exp = localStorage.getItem("agiExpiry");
+
+    if(p==="true" && exp && Date.now()<exp){
+        AGI.premium = true;
+    } else {
+        AGI.premium = false;
+        localStorage.removeItem("agiPremium");
+    }
+
     restoreDraft();
     updateUI();
+
 })();
 
-/* ===============================
-   PREMIUM UNLOCK / PAYMENT
-=============================== */
+/* ================= PREMIUM ================= */
 function unlockPremium(){
-
-    // Payment redirect (Replace with real Razorpay link later)
     window.open("https://rzp.io/l/YOUR_PAYMENT_LINK","_blank");
-
-    alert("Complete payment. After confirmation, Premium will be activated manually.");
+    alert("Complete payment. Premium activate after confirmation.");
 }
 
-/* Manual activation fallback */
 function activatePremiumManually(){
-    let code = prompt("Enter Admin Premium Code:");
+
+    let code = prompt("Enter Premium Code:");
+
     if(code === AGI.premiumCode){
+
+        let expiry = Date.now() + (AGI.premiumDays*86400000);
+
         AGI.premium = true;
         localStorage.setItem("agiPremium","true");
+        localStorage.setItem("agiExpiry",expiry);
+
         alert("Premium Activated ✔");
         location.reload();
+
     } else {
         alert("Invalid Code ❌");
     }
 }
 
-/* ===============================
-   UPDATE UI STATE
-=============================== */
+/* ================= UI ================= */
 function updateUI(){
 
-    const badge = document.getElementById("premiumStatus");
-    const downloadBtn = document.getElementById("downloadBtn");
-    const witnessToggle = document.getElementById("addWitness");
+    let badge = document.getElementById("premiumStatus");
+    let btn = document.getElementById("downloadBtn");
+    let witness = document.getElementById("addWitness");
 
     if(AGI.premium){
-        if(badge) badge.innerHTML = `<div class="premium-active">Premium Active ✔</div>`;
-        if(downloadBtn) downloadBtn.classList.remove("locked");
+        if(badge) badge.innerHTML = `<div class="premium-active">Premium ✔</div>`;
+        if(btn) btn.classList.remove("locked");
     } else {
-        if(badge) badge.innerHTML = "";
-        if(downloadBtn) downloadBtn.classList.add("locked");
-        if(witnessToggle) witnessToggle.checked = false;
+        if(badge) badge.innerHTML = `<div class="premium-off">Free Mode</div>`;
+        if(btn) btn.classList.add("locked");
+        if(witness) witness.checked=false;
     }
 }
 
-/* ===============================
-   SAVE & RESTORE DRAFT
-=============================== */
-const fieldIDs = [
-    "lang","template","gender","name","father","age",
-    "address","purpose","state","stamp","place",
-    "date","customParagraph"
-];
+/* ================= DRAFT ================= */
+const fieldIDs = ["lang","template","gender","name","father","age","address","purpose","state","stamp","place","date","customParagraph"];
 
 function restoreDraft(){
     fieldIDs.forEach(id=>{
-        const el = document.getElementById(id);
+        let el=document.getElementById(id);
         if(!el) return;
 
-        const saved = localStorage.getItem("agi_"+id);
-        if(saved) el.value = saved;
+        let val=localStorage.getItem("agi_"+id);
+        if(val) el.value=val;
 
         el.addEventListener("input",()=>{
-            localStorage.setItem("agi_"+id, el.value);
+            localStorage.setItem("agi_"+id,el.value);
         });
     });
 }
 
-/* ===============================
-   DOC ID GENERATOR
-=============================== */
+/* ================= DOC ID ================= */
 function generateDocID(){
-    return AGI.docPrefix + Math.random().toString(36).substring(2,8).toUpperCase();
+    let d=new Date().toISOString().slice(0,10).replace(/-/g,"");
+    let r=Math.random().toString(36).substring(2,6).toUpperCase();
+    return `${AGI.docPrefix}${d}-${r}`;
 }
 
-/* ===============================
-   GENDER SMART TEXT
-=============================== */
-function genderText(gender){
-    if(gender==="male") return { relation:"Son of", verb:"do hereby solemnly affirm" };
-    if(gender==="female") return { relation:"Daughter of", verb:"do hereby solemnly affirm" };
-    return { relation:"Child of", verb:"do hereby solemnly affirm" };
-}
-
-/* ===============================
-   WATERMARK
-=============================== */
-function getWatermark(){
-    return AGI.premium ? "" : `<div class="watermark">FREE VERSION</div>`;
-}
-
-/* ===============================
-   QR GENERATOR (Premium Only)
-=============================== */
-function generateQR(docID,name,date){
+/* ================= QR ================= */
+function generateQR(docID){
 
     if(!AGI.premium) return;
 
-    const container = document.getElementById("qrCodeContainer");
-    if(!container) return;
+    let url = `${AGI.domain}/verify.html?id=${docID}`;
 
-    container.innerHTML = "";
+    let box=document.getElementById("qrCodeContainer");
+    if(!box) return;
 
-    new QRCode(container,{
-        text: `AGI Verification\nID:${docID}\nName:${name}\nDate:${date}`,
+    box.innerHTML="";
+
+    new QRCode(box,{
+        text:url,
         width:100,
         height:100
     });
 }
 
-/* ===============================
-   VALIDATION
-=============================== */
+/* ================= SAVE DOC ================= */
+function saveDoc(docID,data){
+
+    localStorage.setItem("doc_"+docID, JSON.stringify({
+        name:data.name,
+        date:data.date
+    }));
+
+    let history = JSON.parse(localStorage.getItem("agiHistory")||"[]");
+
+    history.unshift({
+        id:docID,
+        name:data.name,
+        date:data.date
+    });
+
+    localStorage.setItem("agiHistory", JSON.stringify(history));
+}
+
+/* ================= VALIDATION ================= */
 function validateRequired(data){
 
-    const required = ["name","father","age","address","purpose","place","date"];
+    let req=["name","father","age","address","purpose","place","date"];
 
-    for(let key of required){
-        if(!data[key] || data[key].trim()===""){
-            alert("Please fill all required fields.");
+    for(let k of req){
+        if(!data[k] || data[k].trim()===""){
+            alert("Fill all required fields ❗");
             return false;
         }
     }
     return true;
 }
 
-/* ===============================
-   MAIN GENERATOR
-=============================== */
+/* ================= MAIN ================= */
 function generateAffidavit(){
 
-    const preview = document.getElementById("previewArea");
+    let preview=document.getElementById("previewArea");
 
-    const data = {
-        lang: document.getElementById("lang")?.value,
-        template: document.getElementById("template")?.value,
-        gender: document.getElementById("gender")?.value,
-        name: document.getElementById("name")?.value,
-        father: document.getElementById("father")?.value,
-        age: document.getElementById("age")?.value,
-        address: document.getElementById("address")?.value,
-        purpose: document.getElementById("purpose")?.value,
-        state: document.getElementById("state")?.value,
-        stamp: document.getElementById("stamp")?.value,
-        place: document.getElementById("place")?.value,
-        date: document.getElementById("date")?.value,
-        custom: document.getElementById("customParagraph")?.value,
-        addWitness: document.getElementById("addWitness")?.checked
+    let data={
+        lang:lang.value,
+        template:template.value,
+        gender:gender.value,
+        name:name.value,
+        father:father.value,
+        age:age.value,
+        address:address.value,
+        purpose:purpose.value,
+        state:state.value,
+        stamp:stamp.value,
+        place:place.value,
+        date:date.value
     };
 
     if(!validateRequired(data)) return;
 
-    if(!AGI.premium && data.template !== "general"){
-        alert("This template is Premium. Unlock to use.");
+    if(!AGI.premium && data.template!=="general"){
+        alert("Premium Template ❌");
         return;
     }
 
-    const docID = generateDocID();
-    const g = genderText(data.gender);
-    let content = getWatermark();
+    let docID=generateDocID();
 
-    preview.removeAttribute("dir");
-
-    /* ENGLISH */
-    if(data.lang==="english"){
-        content+=`
-        <div class="title">AFFIDAVIT</div>
-        <p>I, <strong>${data.name}</strong>, ${g.relation} <strong>${data.father}</strong>, aged about <strong>${data.age}</strong> years, residing at <strong>${data.address}</strong>, ${g.verb} as follows:</p>
-        <p>1. That I am a citizen of India.</p>
-        <p>2. That this affidavit is executed for the purpose of <strong>${data.purpose}</strong>.</p>
-        <p>3. Executed in the State of <strong>${data.state}</strong>.</p>
-        <p>4. To be executed on <strong>${data.stamp}</strong> Non-Judicial Stamp Paper.</p>
-        <p><br>Verified at <strong>${data.place}</strong> on <strong>${data.date}</strong>.</p>`;
-    }
-
-    /* HINDI */
-    if(data.lang==="hindi"){
-        content+=`
-        <div class="title">शपथ पत्र</div>
-        <p>मैं <strong>${data.name}</strong>, पिता <strong>${data.father}</strong>, आयु <strong>${data.age}</strong> वर्ष, निवासी <strong>${data.address}</strong>, शपथपूर्वक घोषणा करता/करती हूँ कि:</p>
-        <p>1. मैं भारत का नागरिक हूँ।</p>
-        <p>2. यह शपथ पत्र <strong>${data.purpose}</strong> हेतु बनाया गया है।</p>
-        <p><br>स्थान <strong>${data.place}</strong>, दिनांक <strong>${data.date}</strong></p>`;
-    }
-
-    /* URDU */
-    if(data.lang==="urdu"){
-        preview.setAttribute("dir","rtl");
-        content+=`
-        <div class="title">حلف نامہ</div>
-        <p>میں <strong>${data.name}</strong>, ولد <strong>${data.father}</strong>, عمر <strong>${data.age}</strong> سال، ساکن <strong>${data.address}</strong>، حلفاً بیان کرتا/کرتی ہوں کہ:</p>
-        <p>1. میں بھارت کا شہری ہوں۔</p>
-        <p>2. یہ حلف نامہ <strong>${data.purpose}</strong> کے لئے ہے۔</p>
-        <p><br>مقام <strong>${data.place}</strong>, تاریخ <strong>${data.date}</strong></p>`;
-    }
+    let content = AGI.premium ? "" : `<div class="watermark">FREE VERSION</div>`;
 
     content+=`
-    <div class="signature-section">
-        <div class="signature-block">_________________________<br>Signature</div>
-        <div class="signature-block">_________________________<br>Notary</div>
-    </div>
+    <h2>AFFIDAVIT</h2>
+    <p>I ${data.name}, S/o ${data.father}, age ${data.age}, resident ${data.address}</p>
+    <p>Purpose: ${data.purpose}</p>
+    <p>Place: ${data.place}</p>
+    <p>Date: ${data.date}</p>
     `;
 
     if(AGI.premium){
-        content+=`<div class="doc-id">Document ID: ${docID}</div>
-                  <div id="qrCodeContainer"></div>`;
+        content+=`
+        <p>ID: ${docID}</p>
+        <div id="qrCodeContainer"></div>
+        <button onclick="copyID('${docID}')">Copy ID</button>
+        `;
     }
 
-    preview.innerHTML = content;
+    preview.innerHTML=content;
 
     if(AGI.premium){
-        generateQR(docID,data.name,data.date);
+        generateQR(docID);
     }
+
+    saveDoc(docID,data);
 }
 
-/* ===============================
-   PRINT
-=============================== */
+/* ================= COPY ================= */
+function copyID(id){
+    navigator.clipboard.writeText(id);
+    alert("Copied ✔");
+}
+
+/* ================= PRINT ================= */
 function printAffidavit(){
     window.print();
 }
 
-/* ===============================
-   DOWNLOAD PDF
-=============================== */
+/* ================= DOWNLOAD ================= */
 function downloadPDF(){
     if(!AGI.premium){
-        alert("Premium Required for PDF Download");
+        alert("Premium Required ❌");
         return;
     }
     window.print();
