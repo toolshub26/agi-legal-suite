@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Affidavit SaaS</title>
+<title>Affidavit SaaS PRO</title>
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -19,9 +19,11 @@ body{background:#111;color:#fff;font-family:Arial;text-align:center}
 .container{max-width:400px;margin:auto;padding:20px}
 input{width:90%;padding:10px;margin:10px}
 button{padding:12px 20px;margin:5px;border:none;border-radius:6px;cursor:pointer}
-.signup{background:#28a745;color:#fff}
-.login{background:#007bff;color:#fff}
-.buy{background:#ff9800;color:#fff}
+.signup{background:#28a745}
+.login{background:#007bff}
+.buy{background:#ff9800}
+.withdraw{background:#e91e63}
+.admin{background:#9c27b0}
 </style>
 
 </head>
@@ -30,12 +32,10 @@ button{padding:12px 20px;margin:5px;border:none;border-radius:6px;cursor:pointer
 
 <div class="container">
 
-<h2>🚀 Affidavit SaaS</h2>
+<h2>🚀 Affidavit SaaS PRO</h2>
 
 <input type="email" id="email" placeholder="Email">
 <input type="password" id="password" placeholder="Password">
-
-<br>
 
 <button class="signup" onclick="signup()">Signup</button>
 <button class="login" onclick="login()">Login</button>
@@ -44,6 +44,16 @@ button{padding:12px 20px;margin:5px;border:none;border-radius:6px;cursor:pointer
 
 <input id="ref" placeholder="Referral Code (optional)">
 <button class="buy" onclick="buy()">Buy Premium ₹99</button>
+
+<hr>
+
+<h3>💰 Wallet: ₹<span id="wallet">0</span></h3>
+<input id="amount" placeholder="Withdraw Amount">
+<button class="withdraw" onclick="withdraw()">Withdraw</button>
+
+<hr>
+
+<button class="admin" onclick="adminPanel()">Admin Panel</button>
 
 <h3 id="status">Checking...</h3>
 
@@ -66,6 +76,9 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+const emailEl = document.getElementById("email");
+const passwordEl = document.getElementById("password");
+
 // ================= SIGNUP =================
 function signup(){
 
@@ -78,16 +91,17 @@ function signup(){
   }
 
   auth.createUserWithEmailAndPassword(email, password)
-  .then(res=>{
+  .then(async res=>{
 
     let uid = res.user.uid;
-    let refCode = uid.substring(0,6);
+    let referral = uid.substring(0,6);
 
-    db.collection("users").doc(uid).set({
+    await db.collection("users").doc(uid).set({
       premium:false,
       wallet:0,
-      refCode:refCode,
-      usedReferral:false
+      referral: referral,
+      usedReferral:false,
+      isAdmin:false
     });
 
     alert("Signup Success ✅");
@@ -97,21 +111,23 @@ function signup(){
 
 // ================= LOGIN =================
 function login(){
-
-  let email = emailEl.value.trim();
-  let password = passwordEl.value.trim();
-
-  auth.signInWithEmailAndPassword(email, password)
-  .then(()=>{
-    alert("Login Success ✅");
-    window.location.href = "/affidavit-generator-india/dashboard.html";
-  })
+  auth.signInWithEmailAndPassword(emailEl.value, passwordEl.value)
+  .then(()=> alert("Login Success ✅"))
   .catch(err=>alert(err.message));
 }
 
-// ================= AUTH CHECK =================
-auth.onAuthStateChanged(user=>{
-  document.getElementById("status").innerText = user ? "Logged In ✅" : "Not Logged In ❌";
+// ================= AUTH =================
+auth.onAuthStateChanged(async user=>{
+  if(user){
+    document.getElementById("status").innerText = "Logged In ✅";
+
+    let doc = await db.collection("users").doc(user.uid).get();
+    let data = doc.data();
+    document.getElementById("wallet").innerText = data.wallet || 0;
+
+  } else {
+    document.getElementById("status").innerText = "Not Logged In ❌";
+  }
 });
 
 // ================= BUY PREMIUM =================
@@ -126,68 +142,110 @@ function buy(){
   }
 
   var options = {
-    key: "rzp_test_xxxxxxxx", // 👉 replace with live key
+    key: "rzp_test_xxxxxxxx",
     amount: 9900,
     currency: "INR",
-    name: "Affidavit Tool",
-    description: "Premium Plan",
 
     handler: async function (){
 
       let expiry = Date.now() + (30*24*60*60*1000);
 
       let userRef = db.collection("users").doc(user.uid);
-      let userDoc = await userRef.get();
-      let userData = userDoc.data();
+      let userData = (await userRef.get()).data();
 
       await userRef.update({
         premium:true,
         expiry:expiry
       });
 
-      // 🔥 DOUBLE EARNING SYSTEM
+      // Referral system
       if(refInput && !userData.usedReferral){
 
-        let snapshot = await db.collection("users")
-        .where("refCode","==",refInput)
+        let snap = await db.collection("users")
+        .where("referral","==",refInput)
         .get();
 
-        snapshot.forEach(async doc=>{
+        snap.forEach(async doc=>{
 
-          // ₹20 to referrer
           await db.collection("users").doc(doc.id).update({
             wallet: firebase.firestore.FieldValue.increment(20)
           });
 
-          // ₹10 to new user
           await userRef.update({
             wallet: firebase.firestore.FieldValue.increment(10),
             usedReferral:true
-          });
-
-          // save history
-          await db.collection("referrals").add({
-            referrer: doc.id,
-            newUser: user.uid,
-            amountReferrer:20,
-            amountNewUser:10,
-            time:Date.now()
           });
 
         });
       }
 
       alert("Premium Activated 🚀");
-      window.location.href="/affidavit-generator-india/dashboard.html";
     }
   };
 
   new Razorpay(options).open();
 }
 
-// shorthand
-const emailEl = document.getElementById("email");
-const passwordEl = document.getElementById("password");
+// ================= WITHDRAW =================
+async function withdraw(){
+
+  let user = auth.currentUser;
+  let amount = parseInt(document.getElementById("amount").value);
+
+  if(!user || !amount){
+    alert("Invalid ❗");
+    return;
+  }
+
+  let userRef = db.collection("users").doc(user.uid);
+  let data = (await userRef.get()).data();
+
+  if(data.wallet < amount){
+    alert("Low balance ❌");
+    return;
+  }
+
+  // deduct
+  await userRef.update({
+    wallet: data.wallet - amount
+  });
+
+  // save request
+  await db.collection("withdraws").add({
+    uid:user.uid,
+    amount:amount,
+    status:"pending",
+    time:Date.now()
+  });
+
+  alert("Withdraw request sent ✅");
+}
+
+// ================= ADMIN PANEL =================
+async function adminPanel(){
+
+  let user = auth.currentUser;
+  if(!user) return;
+
+  let doc = await db.collection("users").doc(user.uid).get();
+
+  if(!doc.data().isAdmin){
+    alert("Not admin ❌");
+    return;
+  }
+
+  let requests = await db.collection("withdraws")
+  .where("status","==","pending")
+  .get();
+
+  requests.forEach(async req=>{
+    await db.collection("withdraws").doc(req.id).update({
+      status:"approved"
+    });
+  });
+
+  alert("All withdraws approved ✅");
+}
 
 </script>
 
