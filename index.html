@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Affidavit SaaS PRO</title>
+<title>Earning SaaS PRO FINAL</title>
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -16,14 +15,9 @@
 
 <style>
 body{background:#111;color:#fff;font-family:Arial;text-align:center}
-.container{max-width:400px;margin:auto;padding:20px}
-input{width:90%;padding:10px;margin:10px}
-button{padding:12px 20px;margin:5px;border:none;border-radius:6px;cursor:pointer}
-.signup{background:#28a745}
-.login{background:#007bff}
-.buy{background:#ff9800}
-.withdraw{background:#e91e63}
-.admin{background:#9c27b0}
+.container{max-width:420px;margin:auto;padding:20px}
+input{width:90%;padding:10px;margin:8px}
+button{padding:10px;margin:5px;border:none;border-radius:6px;cursor:pointer}
 </style>
 </head>
 
@@ -31,28 +25,39 @@ button{padding:12px 20px;margin:5px;border:none;border-radius:6px;cursor:pointer
 
 <div class="container">
 
-<h2>🚀 Affidavit SaaS PRO</h2>
+<h2>🚀 Earning SaaS FINAL</h2>
 
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Password">
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
 
-<button class="signup" onclick="signup()">Signup</button>
-<button class="login" onclick="login()">Login</button>
+<button onclick="signup()">Signup</button>
+<button onclick="login()">Login</button>
 
 <hr>
 
-<input id="ref" placeholder="Referral Code (optional)">
-<button class="buy" onclick="buy()">Buy Premium ₹99</button>
+<input id="ref" placeholder="Referral Code">
+<button onclick="share()">📲 Invite</button>
+<button onclick="copy()">Copy Code</button>
 
 <hr>
 
 <h3>💰 Wallet: ₹<span id="wallet">0</span></h3>
+
+<button onclick="dailyReward()">🎁 Daily ₹5</button>
+<button onclick="task()">📺 Task ₹2</button>
+
 <input id="amount" placeholder="Withdraw Amount">
-<button class="withdraw" onclick="withdraw()">Withdraw</button>
+<button onclick="withdraw()">Withdraw</button>
 
 <hr>
 
-<button class="admin" onclick="adminPanel()">Admin Panel</button>
+<button onclick="buy()">Buy Premium ₹99</button>
+<button onclick="admin()">Admin</button>
+
+<hr>
+
+<h3>🏆 Leaderboard</h3>
+<div id="leaderboard"></div>
 
 <h3 id="status">Checking...</h3>
 
@@ -60,210 +65,237 @@ button{padding:12px 20px;margin:5px;border:none;border-radius:6px;cursor:pointer
 
 <script>
 
-// 🔥 FIREBASE CONFIG
+// 🔥 CONFIG (APNA KEY DALO)
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "affidavittool.firebaseapp.com",
-  projectId: "affidavittool",
+  projectId: "affidavittool"
 };
 
 firebase.initializeApp(firebaseConfig);
-
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-const emailEl = document.getElementById("email");
-const passwordEl = document.getElementById("password");
+// ================= AUTO REF =================
+(function(){
+ let p=new URLSearchParams(location.search);
+ let r=p.get("ref");
+ if(r) document.getElementById("ref").value=r;
+})();
 
 // ================= SIGNUP =================
 async function signup(){
 
-  let email = emailEl.value.trim();
-  let password = passwordEl.value.trim();
-  let refCode = document.getElementById("ref").value.trim();
+ let email=emailEl.value.trim();
+ let pass=passwordEl.value.trim();
+ let refCode=document.getElementById("ref").value.trim();
 
-  if(!email || !password){
-    alert("Fill all fields ❗");
-    return;
-  }
+ if(!email||!pass) return alert("Fill fields");
 
-  try{
-    let res = await auth.createUserWithEmailAndPassword(email, password);
+ // Anti-fraud (device lock)
+ if(localStorage.getItem("device")){
+   alert("Multiple account blocked ❌");
+   return;
+ }
+ localStorage.setItem("device","1");
 
-    let uid = res.user.uid;
-    let referral = uid.substring(0,6);
+ let res=await auth.createUserWithEmailAndPassword(email,pass);
+ let uid=res.user.uid;
 
-    await db.collection("users").doc(uid).set({
-      email: email,
-      premium:false,
-      wallet:0,
-      referral: referral,
-      usedReferral:false,
-      isAdmin:false
-    });
+ let referral=uid.substring(0,6);
 
-    // 🔥 APPLY REFERRAL
-    if(refCode){
-      await applyReferral(uid, refCode);
-    }
+ await db.collection("users").doc(uid).set({
+  email,
+  wallet:0,
+  referral,
+  usedReferral:false,
+  premium:false,
+  lastReward:0,
+  lastAd:0,
+  tasks:0,
+  isAdmin:false
+ });
 
-    alert("Signup Success ✅");
+ if(refCode) await applyReferral(uid,refCode);
 
-  }catch(err){
-    alert(err.message);
-  }
+ alert("Signup Success");
 }
 
 // ================= LOGIN =================
 function login(){
-  auth.signInWithEmailAndPassword(emailEl.value, passwordEl.value)
-  .then(()=> alert("Login Success ✅"))
-  .catch(err=>alert(err.message));
+ auth.signInWithEmailAndPassword(emailEl.value,passwordEl.value)
+ .then(()=>alert("Login Success"))
+ .catch(e=>alert(e.message));
 }
 
-// ================= REFERRAL SYSTEM =================
-async function applyReferral(userId, refCode){
+// ================= REFERRAL =================
+async function applyReferral(uid,code){
 
-  const usersRef = db.collection("users");
+ let snap=await db.collection("users")
+ .where("referral","==",code).get();
 
-  const query = await usersRef.where("referral","==",refCode).get();
+ if(snap.empty) return;
 
-  if(query.empty) return;
+ let ref=snap.docs[0];
+ let user=await db.collection("users").doc(uid).get();
 
-  const referrerDoc = query.docs[0];
-  const referrerId = referrerDoc.id;
+ if(user.data().usedReferral) return;
 
-  const newUserDoc = await usersRef.doc(userId).get();
+ // self check
+ if(ref.id===uid) return;
 
-  if(newUserDoc.data().usedReferral) return;
+ await db.collection("users").doc(ref.id).update({
+  wallet:firebase.firestore.FieldValue.increment(20)
+ });
 
-  // 💰 Referrer ₹20
-  await usersRef.doc(referrerId).update({
-    wallet: firebase.firestore.FieldValue.increment(20)
-  });
-
-  // 💰 New user ₹10
-  await usersRef.doc(userId).update({
-    wallet: firebase.firestore.FieldValue.increment(10),
-    usedReferral:true
-  });
-
-  alert("Referral Applied 🎉");
+ await db.collection("users").doc(uid).update({
+  wallet:firebase.firestore.FieldValue.increment(10),
+  usedReferral:true
+ });
 }
 
-// ================= BUY PREMIUM =================
+// ================= SHARE =================
+function share(){
+ let u=auth.currentUser;
+ if(!u) return alert("Login first");
+ let link=location.origin+"?ref="+u.uid.substring(0,6);
+ window.open("https://wa.me/?text="+encodeURIComponent(link));
+}
+
+// ================= COPY =================
+function copy(){
+ let u=auth.currentUser;
+ navigator.clipboard.writeText(u.uid.substring(0,6));
+ alert("Copied");
+}
+
+// ================= DAILY =================
+async function dailyReward(){
+
+ let u=auth.currentUser;
+ let ref=db.collection("users").doc(u.uid);
+ let d=await ref.get();
+
+ let now=Date.now();
+
+ if(now-d.data().lastReward<86400000)
+ return alert("Come tomorrow");
+
+ await ref.update({
+  wallet:firebase.firestore.FieldValue.increment(5),
+  lastReward:now
+ });
+}
+
+// ================= TASK (ADS SIM) =================
+async function task(){
+
+ let u=auth.currentUser;
+ let ref=db.collection("users").doc(u.uid);
+ let d=await ref.get();
+
+ if(Date.now()-d.data().lastAd<30000)
+ return alert("Wait 30 sec");
+
+ if(d.data().tasks>=5)
+ return alert("Daily limit");
+
+ await ref.update({
+  wallet:firebase.firestore.FieldValue.increment(2),
+  lastAd:Date.now(),
+  tasks:firebase.firestore.FieldValue.increment(1)
+ });
+}
+
+// ================= BUY =================
 function buy(){
 
-  let options = {
-    key: "rzp_test_123456", // replace with real key
-    amount: 9900,
-    currency: "INR",
-    name: "Affidavit PRO",
-    handler: async function () {
+ let rzp=new Razorpay({
+  key:"rzp_test_123456",
+  amount:9900,
+  handler:async ()=>{
+   let u=auth.currentUser;
+   await db.collection("users").doc(u.uid).update({premium:true});
+   alert("Premium Activated");
+  }
+ });
 
-      let user = auth.currentUser;
-
-      await db.collection("users").doc(user.uid).update({
-        premium:true
-      });
-
-      alert("Premium Activated 🚀");
-    }
-  };
-
-  let rzp = new Razorpay(options);
-  rzp.open();
+ rzp.open();
 }
 
 // ================= WITHDRAW =================
 async function withdraw(){
 
-  let user = auth.currentUser;
-  let amount = parseInt(document.getElementById("amount").value);
+ let u=auth.currentUser;
+ let amt=parseInt(document.getElementById("amount").value);
 
-  if(!user){
-    alert("Login first ❗");
-    return;
-  }
+ if(amt<200) return alert("Min ₹200");
 
-  if(!amount || amount < 50){
-    alert("Minimum ₹50 ❗");
-    return;
-  }
+ let ref=db.collection("users").doc(u.uid);
+ let d=await ref.get();
 
-  let doc = await db.collection("users").doc(user.uid).get();
-  let balance = doc.data().wallet || 0;
+ if(amt>d.data().wallet) return alert("No balance");
 
-  if(amount > balance){
-    alert("Insufficient balance ❌");
-    return;
-  }
+ // auto deduct (safe)
+ await ref.update({
+  wallet:firebase.firestore.FieldValue.increment(-amt)
+ });
 
-  await db.collection("withdraws").add({
-    userId:user.uid,
-    amount:amount,
-    status:"pending",
-    time:Date.now()
-  });
-
-  alert("Withdraw request sent ✅");
+ alert("₹"+amt+" sent (demo)");
 }
 
-// ================= ADMIN PANEL =================
-async function adminPanel(){
+// ================= ADMIN =================
+async function admin(){
 
-  let user = auth.currentUser;
+ let u=auth.currentUser;
+ let d=await db.collection("users").doc(u.uid).get();
 
-  if(!user){
-    alert("Login first ❗");
-    return;
-  }
+ if(!d.data().isAdmin) return alert("Not admin");
 
-  let doc = await db.collection("users").doc(user.uid).get();
+ let req=await db.collection("withdraws")
+ .where("status","==","pending").get();
 
-  if(!doc.data().isAdmin){
-    alert("Not Admin ❌");
-    return;
-  }
+ req.forEach(async r=>{
+  let data=r.data();
 
-  let requests = await db.collection("withdraws")
-    .where("status","==","pending")
-    .get();
-
-  requests.forEach(async req=>{
-
-    let data = req.data();
-
-    await db.collection("users").doc(data.userId).update({
-      wallet: firebase.firestore.FieldValue.increment(-data.amount)
-    });
-
-    await db.collection("withdraws").doc(req.id).update({
-      status:"approved"
-    });
-
+  await db.collection("users").doc(data.userId).update({
+   wallet:firebase.firestore.FieldValue.increment(-data.amount)
   });
 
-  alert("All Withdraws Approved ✅");
+  await db.collection("withdraws").doc(r.id).update({
+   status:"approved"
+  });
+ });
+
+ alert("Approved");
 }
 
-// ================= AUTH STATE =================
-auth.onAuthStateChanged(async user=>{
+// ================= LEADERBOARD =================
+async function loadBoard(){
+ let s=await db.collection("users")
+ .orderBy("wallet","desc").limit(5).get();
 
-  if(user){
-    document.getElementById("status").innerText = "Logged In ✅";
+ let h="";
+ s.forEach(d=>h+=`<p>₹${d.data().wallet}</p>`);
+ document.getElementById("leaderboard").innerHTML=h;
+}
 
-    let doc = await db.collection("users").doc(user.uid).get();
-    let data = doc.data();
+// ================= AUTH =================
+const emailEl=document.getElementById("email");
+const passwordEl=document.getElementById("password");
 
-    document.getElementById("wallet").innerText = data.wallet || 0;
-
-  }else{
-    document.getElementById("status").innerText = "Not Logged ❌";
-  }
+auth.onAuthStateChanged(async u=>{
+ if(u){
+  status.innerText="Logged In";
+  let d=await db.collection("users").doc(u.uid).get();
+  wallet.innerText=d.data().wallet||0;
+ }else{
+  status.innerText="Not Logged";
+ }
 });
 
-</script>
+loadBoard();
 
+</script>
 </body>
 </html>
