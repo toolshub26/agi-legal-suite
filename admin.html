@@ -17,26 +17,18 @@ body{
   font-family:Arial;
   margin:0;
 }
-
 .container{
   max-width:900px;
   margin:auto;
   padding:20px;
 }
-
-h2{
-  text-align:center;
-  margin-bottom:20px;
-}
-
+h2{text-align:center;margin-bottom:20px}
 .card{
   background:#1e293b;
   padding:15px;
   margin:10px 0;
   border-radius:10px;
-  text-align:left;
 }
-
 button{
   padding:8px 12px;
   margin:5px;
@@ -44,36 +36,12 @@ button{
   border-radius:6px;
   cursor:pointer;
 }
-
 .approve{background:#22c55e;color:#fff}
 .reject{background:#ef4444;color:#fff}
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:20px;
-}
-
-.search{
-  padding:8px;
-  width:100%;
-  border-radius:6px;
-  border:none;
-}
-
-.stats{
-  display:flex;
-  justify-content:space-around;
-  margin-bottom:20px;
-}
-
-.stat{
-  background:#1e293b;
-  padding:10px;
-  border-radius:8px;
-  width:30%;
-  text-align:center;
-}
+.topbar{display:flex;margin-bottom:20px}
+.search{padding:8px;width:100%;border-radius:6px;border:none}
+.stats{display:flex;justify-content:space-around;margin-bottom:20px}
+.stat{background:#1e293b;padding:10px;border-radius:8px;width:30%;text-align:center}
 </style>
 
 </head>
@@ -104,11 +72,14 @@ button{
 
 <script>
 
-// ================= FIREBASE =================
+// ================= FIREBASE (FIXED) =================
 const firebaseConfig = {
-  apiKey: "AIzaSyC_1bKbNGAoGviGt1-a1f27h9VDj4hr3oA",
+  apiKey: "AIzaSyC_1bkBNGAoGviGt1-a1f27h9VDj4hr3oA",
   authDomain: "affidavittool.firebaseapp.com",
-  projectId: "affidavittool"
+  projectId: "affidavittool",
+  storageBucket: "affidavittool.firebasestorage.app",
+  messagingSenderId: "108525725649",
+  appId: "1:108525725649:web:2c3cab440860c81e6de2f0"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -119,7 +90,11 @@ const auth = firebase.auth();
 const ADMIN_UID = "PUT_YOUR_UID_HERE";
 
 auth.onAuthStateChanged(user=>{
-  if(!user || user.uid !== ADMIN_UID){
+  if(!user){
+    alert("Login required ❌");
+    location.href="index.html";
+  }
+  else if(user.uid !== ADMIN_UID){
     alert("Access Denied ❌");
     location.href="index.html";
   }
@@ -129,7 +104,6 @@ auth.onAuthStateChanged(user=>{
 let allUsers=[];
 
 function loadUsers(){
-
   db.collection("users").onSnapshot(snapshot=>{
     let html="";
     allUsers=[];
@@ -150,12 +124,10 @@ function loadUsers(){
 
     document.getElementById("users").innerHTML=html;
   });
-
 }
 
 // ================= FILTER =================
 function filterUsers(){
-
   let val=document.getElementById("search").value.toLowerCase();
   let html="";
 
@@ -175,7 +147,6 @@ function filterUsers(){
 
 // ================= WITHDRAW =================
 function loadWithdraw(){
-
   db.collection("withdrawals")
   .where("status","==","pending")
   .onSnapshot(snapshot=>{
@@ -202,12 +173,10 @@ function loadWithdraw(){
     document.getElementById("totalAmount").innerText=total;
     document.getElementById("withdrawals").innerHTML=html;
   });
-
 }
 
 // ================= APPROVE =================
 async function approve(id, uid, amount){
-
   await db.collection("users").doc(uid).update({
     wallet: firebase.firestore.FieldValue.increment(-amount)
   });
@@ -221,7 +190,6 @@ async function approve(id, uid, amount){
 
 // ================= REJECT =================
 async function reject(id){
-
   await db.collection("withdrawals").doc(id).update({
     status:"rejected"
   });
