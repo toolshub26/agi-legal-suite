@@ -70,12 +70,12 @@ button{padding:10px;margin:5px;border:none;border-radius:6px;cursor:pointer}
 
 <script>
 
-// 🔥 FIREBASE CONFIG (UPDATED)
+// ✅ FIREBASE CONFIG (CORRECT)
 const firebaseConfig = {
   apiKey: "AIzaSyC_1bkBNGAoGviGt1-a1f27h9VDj4hr3oA",
   authDomain: "affidavittool.firebaseapp.com",
   projectId: "affidavittool",
-  storageBucket: "affidavittool.firebasestorage.app",
+  storageBucket: "affidavittool.appspot.com", // ⚠️ FIXED
   messagingSenderId: "108525725649",
   appId: "1:108525725649:web:2c3cab440860c81e6de2f0"
 };
@@ -85,7 +85,7 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// ================= SERVICE WORKER =================
+// ✅ SERVICE WORKER
 if("serviceWorker" in navigator){
   navigator.serviceWorker.register("sw.js");
 }
@@ -97,7 +97,7 @@ if("serviceWorker" in navigator){
  if(r) document.getElementById("ref").value=r;
 })();
 
-// ================= SIGNUP =================
+// ================= SIGNUP (FIXED) =================
 async function signup(){
 
  let email=emailEl.value.trim();
@@ -106,38 +106,37 @@ async function signup(){
 
  if(!email||!pass) return alert("Fill fields");
 
- if(localStorage.getItem("device")){
-   alert("Multiple account blocked ❌");
-   return;
+ try{
+   let res=await auth.createUserWithEmailAndPassword(email,pass);
+   let uid=res.user.uid;
+
+   let referral=uid.substring(0,6);
+
+   await db.collection("users").doc(uid).set({
+    email,
+    wallet:0,
+    referral,
+    usedReferral:false,
+    premium:false,
+    lastReward:0,
+    lastAd:0,
+    tasks:0,
+    isAdmin:false
+   });
+
+   if(refCode) await applyReferral(uid,refCode);
+
+   alert("Signup Success ✅");
+
+ }catch(e){
+   alert(e.message);
  }
- localStorage.setItem("device","1");
-
- let res=await auth.createUserWithEmailAndPassword(email,pass);
- let uid=res.user.uid;
-
- let referral=uid.substring(0,6);
-
- await db.collection("users").doc(uid).set({
-  email,
-  wallet:0,
-  referral,
-  usedReferral:false,
-  premium:false,
-  lastReward:0,
-  lastAd:0,
-  tasks:0,
-  isAdmin:false
- });
-
- if(refCode) await applyReferral(uid,refCode);
-
- alert("Signup Success");
 }
 
-// ================= LOGIN =================
+// ================= LOGIN (FIXED ERROR HANDLE) =================
 function login(){
  auth.signInWithEmailAndPassword(emailEl.value,passwordEl.value)
- .then(()=>alert("Login Success"))
+ .then(()=>alert("Login Success ✅"))
  .catch(e=>alert(e.message));
 }
 
@@ -176,39 +175,46 @@ function share(){
 // ================= COPY =================
 function copy(){
  let u=auth.currentUser;
+ if(!u) return alert("Login first");
  navigator.clipboard.writeText(u.uid.substring(0,6));
- alert("Copied");
+ alert("Copied ✅");
 }
 
 // ================= DAILY =================
 async function dailyReward(){
 
  let u=auth.currentUser;
+ if(!u) return alert("Login first");
+
  let ref=db.collection("users").doc(u.uid);
  let d=await ref.get();
 
  let now=Date.now();
 
- if(now-d.data().lastReward<86400000)
+ if(now-(d.data().lastReward||0)<86400000)
  return alert("Come tomorrow");
 
  await ref.update({
   wallet:firebase.firestore.FieldValue.increment(5),
   lastReward:now
  });
+
+ alert("₹5 Added ✅");
 }
 
 // ================= TASK =================
 async function task(){
 
  let u=auth.currentUser;
+ if(!u) return alert("Login first");
+
  let ref=db.collection("users").doc(u.uid);
  let d=await ref.get();
 
- if(Date.now()-d.data().lastAd<30000)
+ if(Date.now()-(d.data().lastAd||0)<30000)
  return alert("Wait 30 sec");
 
- if(d.data().tasks>=5)
+ if((d.data().tasks||0)>=5)
  return alert("Daily limit");
 
  await ref.update({
@@ -216,18 +222,22 @@ async function task(){
   lastAd:Date.now(),
   tasks:firebase.firestore.FieldValue.increment(1)
  });
+
+ alert("₹2 Added ✅");
 }
 
 // ================= BUY =================
 function buy(){
 
+ let u=auth.currentUser;
+ if(!u) return alert("Login first");
+
  let rzp=new Razorpay({
   key:"rzp_test_123456",
   amount:9900,
   handler:async ()=>{
-   let u=auth.currentUser;
    await db.collection("users").doc(u.uid).update({premium:true});
-   alert("Premium Activated");
+   alert("Premium Activated ✅");
   }
  });
 
@@ -238,31 +248,35 @@ function buy(){
 async function withdraw(){
 
  let u=auth.currentUser;
+ if(!u) return alert("Login first");
+
  let amt=parseInt(document.getElementById("amount").value);
 
- if(amt<200) return alert("Min ₹200");
+ if(!amt || amt<200) return alert("Min ₹200");
 
  let ref=db.collection("users").doc(u.uid);
  let d=await ref.get();
 
- if(amt>d.data().wallet) return alert("No balance");
+ if(amt>(d.data().wallet||0)) return alert("No balance");
 
  await ref.update({
   wallet:firebase.firestore.FieldValue.increment(-amt)
  });
 
- alert("₹"+amt+" sent (demo)");
+ alert("₹"+amt+" Withdraw Requested ✅");
 }
 
 // ================= ADMIN =================
 async function admin(){
 
  let u=auth.currentUser;
+ if(!u) return alert("Login first");
+
  let d=await db.collection("users").doc(u.uid).get();
 
- if(!d.data().isAdmin) return alert("Not admin");
+ if(!d.data().isAdmin) return alert("Not admin ❌");
 
- alert("Admin Access Granted");
+ alert("Admin Access Granted ✅");
 }
 
 // ================= LEADERBOARD =================
@@ -281,11 +295,11 @@ const passwordEl=document.getElementById("password");
 
 auth.onAuthStateChanged(async u=>{
  if(u){
-  status.innerText="Logged In";
+  status.innerText="Logged In ✅";
   let d=await db.collection("users").doc(u.uid).get();
   wallet.innerText=d.data().wallet||0;
  }else{
-  status.innerText="Not Logged";
+  status.innerText="Not Logged ❌";
  }
 });
 
