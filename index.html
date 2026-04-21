@@ -4,20 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Earning SaaS PRO FINAL</title>
+<title>AGI Affidavit PRO</title>
 
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f172a">
-
-<!-- Razorpay -->
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<!-- ✅ QR CODE -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
 body{background:#0f172a;color:#fff;font-family:Arial;text-align:center}
 .container{max-width:420px;margin:auto;padding:20px}
-input{width:90%;padding:10px;margin:8px;border-radius:6px;border:none}
+input,select{width:90%;padding:10px;margin:6px;border-radius:6px;border:none}
 button{padding:10px;margin:5px;border:none;border-radius:6px;cursor:pointer}
+.locked{opacity:0.5}
 </style>
 </head>
 
@@ -25,270 +22,219 @@ button{padding:10px;margin:5px;border:none;border-radius:6px;cursor:pointer}
 
 <div class="container">
 
-<h2>🚀 Earning SaaS FINAL</h2>
+<h2>📄 Affidavit Generator PRO</h2>
 
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
+<div id="premiumStatus"></div>
 
-<button onclick="signup()">Signup</button>
-<button onclick="login()">Login</button>
+<input id="name" placeholder="Name">
+<input id="father" placeholder="Father Name">
+<input id="age" placeholder="Age">
+<input id="address" placeholder="Address">
+<input id="purpose" placeholder="Purpose">
+<input id="place" placeholder="Place">
+<input id="date" type="date">
 
-<hr>
+<select id="template">
+<option value="general">Free Template</option>
+<option value="premium">Premium Template</option>
+</select>
 
-<input id="ref" placeholder="Referral Code">
-<button onclick="share()">📲 Invite</button>
-<button onclick="copy()">Copy Code</button>
-
-<hr>
-
-<h3>💰 Wallet: ₹<span id="wallet">0</span></h3>
-
-<button onclick="dailyReward()">🎁 Daily ₹5</button>
-<button onclick="task()">📺 Task ₹2</button>
-
-<input id="amount" placeholder="Withdraw Amount">
-<button onclick="withdraw()">Withdraw</button>
+<button onclick="generateAffidavit()">Generate</button>
+<button onclick="downloadPDF()" id="downloadBtn">Download</button>
+<button onclick="unlockPremium()">Buy Premium</button>
+<button onclick="activatePremiumManually()">Enter Code</button>
 
 <hr>
 
-<button onclick="buy()">Buy Premium ₹99</button>
-<button onclick="admin()">Admin</button>
+<div id="previewArea"></div>
 
 <hr>
 
-<h3>🏆 Leaderboard</h3>
-<div id="leaderboard"></div>
-
-<h3 id="status">Checking...</h3>
+<h3>📜 History</h3>
+<div id="history"></div>
 
 </div>
 
-<!-- ✅ FIREBASE v9 (MODULE) -->
+<!-- 🔥 FIREBASE V9 -->
 <script type="module">
 
-// 🔥 IMPORTS
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  increment,
-  collection,
-  query,
-  orderBy,
-  limit,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-
-// 🔑 CONFIG (already correct)
+// ✅ CONFIG
 const firebaseConfig = {
-  apiKey: "AIzaSyC_1bkBNGAoGviGt1-a1f27h9VDj4hr3oA",
-  authDomain: "affidavittool.firebaseapp.com",
-  projectId: "affidavittool",
-  storageBucket: "affidavittool.appspot.com",
-  messagingSenderId: "108525725649",
-  appId: "1:108525725649:web:2c3cab440860c81e6de2f0"
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
 };
 
-// INIT
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
 
-// ================= AUTO REF =================
+/* =========================================
+   AGI ENGINE FINAL v9 🚀
+========================================= */
+
+const AGI = {
+    premium:false,
+    premiumCode:"INDIA49",
+    docPrefix:"IND-AFF-",
+    premiumDays:30,
+    domain:location.origin
+};
+
+/* INIT */
 (function(){
- let p=new URLSearchParams(location.search);
- let r=p.get("ref");
- if(r) document.getElementById("ref").value=r;
+    let p = localStorage.getItem("agiPremium");
+    let exp = parseInt(localStorage.getItem("agiExpiry"));
+
+    AGI.premium = (p==="true" && exp && Date.now()<exp);
+
+    restoreDraft();
+    updateUI();
+    loadHistory();
 })();
 
-// ================= SIGNUP =================
-window.signup = async function(){
+/* PREMIUM */
+window.unlockPremium = ()=> {
+    window.open("https://rzp.io/l/YOUR_PAYMENT_LINK","_blank");
+};
 
- let email=document.getElementById("email").value.trim();
- let pass=document.getElementById("password").value.trim();
+window.activatePremiumManually = ()=>{
+    let code = prompt("Enter Premium Code:");
+    if(code===AGI.premiumCode){
+        let expiry = Date.now()+(AGI.premiumDays*86400000);
+        localStorage.setItem("agiPremium","true");
+        localStorage.setItem("agiExpiry",expiry);
+        alert("Premium Activated ✔");
+        location.reload();
+    } else alert("Invalid Code ❌");
+};
 
- if(!email||!pass) return alert("Fill fields");
+/* UI */
+function updateUI(){
+    let badge = document.getElementById("premiumStatus");
+    let btn = document.getElementById("downloadBtn");
 
- try{
-   let res=await createUserWithEmailAndPassword(auth,email,pass);
-   let uid=res.user.uid;
-
-   await setDoc(doc(db,"users",uid),{
-    email,
-    wallet:0,
-    lastReward:0,
-    lastAd:0,
-    tasks:0,
-    premium:false,
-    isAdmin:false
-   });
-
-   alert("Signup Success ✅");
-
- }catch(e){
-   alert(e.message);
- }
+    if(AGI.premium){
+        badge.innerHTML="🟢 Premium Active";
+        btn.classList.remove("locked");
+    } else {
+        badge.innerHTML="🔴 Free Mode";
+        btn.classList.add("locked");
+    }
 }
 
-// ================= LOGIN =================
-window.login = function(){
- signInWithEmailAndPassword(
-  auth,
-  document.getElementById("email").value,
-  document.getElementById("password").value
- )
- .then(()=>alert("Login Success ✅"))
- .catch(e=>alert(e.message));
+/* DRAFT */
+const fields=["name","father","age","address","purpose","place","date","template"];
+
+function restoreDraft(){
+    fields.forEach(id=>{
+        let el=document.getElementById(id);
+        if(!el) return;
+        let val=localStorage.getItem("agi_"+id);
+        if(val) el.value=val;
+        el.oninput=()=>localStorage.setItem("agi_"+id,el.value);
+    });
 }
 
-// ================= DAILY =================
-window.dailyReward = async function(){
-
- let u=auth.currentUser;
- if(!u) return alert("Login first");
-
- let ref=doc(db,"users",u.uid);
- let snap=await getDoc(ref);
-
- let now=Date.now();
-
- if(now-(snap.data().lastReward||0)<86400000)
- return alert("Come tomorrow");
-
- await updateDoc(ref,{
-  wallet:increment(5),
-  lastReward:now
- });
-
- alert("+₹5 Added");
+/* DOC ID */
+function generateDocID(){
+    let d=new Date().toISOString().slice(0,10).replace(/-/g,"");
+    let r=Math.random().toString(36).substring(2,6).toUpperCase();
+    return `${AGI.docPrefix}${d}-${r}`;
 }
 
-// ================= TASK =================
-window.task = async function(){
-
- let u=auth.currentUser;
- if(!u) return alert("Login first");
-
- let ref=doc(db,"users",u.uid);
- let snap=await getDoc(ref);
-
- if(Date.now()-(snap.data().lastAd||0)<30000)
- return alert("Wait 30 sec");
-
- if((snap.data().tasks||0)>=5)
- return alert("Daily limit");
-
- await updateDoc(ref,{
-  wallet:increment(2),
-  lastAd:Date.now(),
-  tasks:increment(1)
- });
-
- alert("+₹2 Added");
+/* QR */
+function generateQR(id){
+    let box=document.getElementById("qrCodeContainer");
+    if(!box) return;
+    box.innerHTML="";
+    new QRCode(box,{text:`${AGI.domain}/verify.html?id=${id}`,width:120,height:120});
 }
 
-// ================= WITHDRAW =================
-window.withdraw = async function(){
+/* SAVE (FIREBASE + LOCAL) */
+async function saveDoc(id,data){
+    localStorage.setItem("doc_"+id,JSON.stringify(data));
 
- let u=auth.currentUser;
- if(!u) return alert("Login first");
+    let history=JSON.parse(localStorage.getItem("agiHistory")||"[]");
+    history.unshift({id,name:data.name,date:data.date});
+    localStorage.setItem("agiHistory",JSON.stringify(history));
 
- let amt=parseInt(document.getElementById("amount").value);
-
- if(!amt || amt<200) return alert("Min ₹200");
-
- let ref=doc(db,"users",u.uid);
- let snap=await getDoc(ref);
-
- if(amt>(snap.data().wallet||0)) return alert("No balance");
-
- await updateDoc(ref,{
-  wallet:increment(-amt)
- });
-
- alert("Withdraw Request Sent ✅");
+    // 🔥 FIREBASE SAVE
+    try{
+        await setDoc(doc(db,"affidavits",id),data);
+    }catch(e){}
 }
 
-// ================= SHARE =================
-window.share = function(){
- let u=auth.currentUser;
- if(!u) return alert("Login first");
- let link=location.origin+"?ref="+u.uid.substring(0,6);
- window.open("https://wa.me/?text="+encodeURIComponent(link));
+/* HISTORY */
+function loadHistory(){
+    let box=document.getElementById("history");
+    let history=JSON.parse(localStorage.getItem("agiHistory")||"[]");
+
+    if(history.length===0){
+        box.innerHTML="No History";
+        return;
+    }
+
+    box.innerHTML=history.slice(0,5).map(i=>`
+        <div>${i.name} (${i.date})<br>ID: ${i.id}</div><hr>
+    `).join("");
 }
 
-// ================= COPY =================
-window.copy = function(){
- let u=auth.currentUser;
- if(!u) return alert("Login first");
- navigator.clipboard.writeText(u.uid.substring(0,6));
- alert("Copied ✅");
+/* VALIDATION */
+function validate(d){
+    return d.name && d.father && d.age && d.address && d.purpose && d.place && d.date;
 }
 
-// ================= BUY =================
-window.buy = function(){
+/* MAIN */
+window.generateAffidavit = async ()=>{
 
- let u=auth.currentUser;
- if(!u) return alert("Login first");
+    let data={
+        name:name.value,
+        father:father.value,
+        age:age.value,
+        address:address.value,
+        purpose:purpose.value,
+        place:place.value,
+        date:date.value,
+        template:template.value
+    };
 
- let rzp=new Razorpay({
-  key:"rzp_test_123456",
-  amount:9900,
-  handler:async ()=>{
-   await updateDoc(doc(db,"users",u.uid),{premium:true});
-   alert("Premium Activated ✅");
-  }
- });
+    if(!validate(data)) return alert("Fill all fields ❗");
 
- rzp.open();
-}
+    if(!AGI.premium && data.template!=="general")
+        return alert("Premium Template ❌");
 
-// ================= ADMIN =================
-window.admin = async function(){
+    let id=generateDocID();
 
- let u=auth.currentUser;
- if(!u) return alert("Login first");
+    let html=AGI.premium?"":"<div style='color:red'>FREE VERSION</div>";
 
- let snap=await getDoc(doc(db,"users",u.uid));
+    html+=`
+    <h2>AFFIDAVIT</h2>
+    <p>I ${data.name}, S/o ${data.father}, age ${data.age}</p>
+    <p>${data.address}</p>
+    <p>${data.purpose}</p>
+    <p>${data.place} - ${data.date}</p>
+    `;
 
- if(!snap.data().isAdmin) return alert("Not admin ❌");
+    if(AGI.premium){
+        html+=`<p><b>ID:</b> ${id}</p><div id="qrCodeContainer"></div>`;
+    }
 
- alert("Admin Access Granted ✅");
-}
+    previewArea.innerHTML=html;
 
-// ================= LEADERBOARD =================
-async function loadBoard(){
- let q=query(collection(db,"users"),orderBy("wallet","desc"),limit(5));
- let snap=await getDocs(q);
+    if(AGI.premium) generateQR(id);
 
- let h="";
- snap.forEach(d=>h+=`<p>₹${d.data().wallet}</p>`);
- document.getElementById("leaderboard").innerHTML=h;
-}
+    await saveDoc(id,data);
+    loadHistory();
+};
 
-// ================= AUTH =================
-onAuthStateChanged(auth, async u=>{
- if(u){
-  document.getElementById("status").innerText="Logged In ✅";
-  let snap=await getDoc(doc(db,"users",u.uid));
-  document.getElementById("wallet").innerText=snap.data().wallet||0;
- }else{
-  document.getElementById("status").innerText="Not Logged ❌";
- }
-});
-
-loadBoard();
+/* DOWNLOAD */
+window.downloadPDF = ()=>{
+    if(!AGI.premium) return alert("Premium Required ❌");
+    window.print();
+};
 
 </script>
 
