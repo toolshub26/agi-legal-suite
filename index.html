@@ -6,14 +6,9 @@
 
 <title>Earning SaaS PRO FINAL</title>
 
-<!-- ✅ PWA -->
+<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0f172a">
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <!-- Razorpay -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -68,27 +63,47 @@ button{padding:10px;margin:5px;border:none;border-radius:6px;cursor:pointer}
 
 </div>
 
-<script>
+<!-- ✅ FIREBASE v9 (MODULE) -->
+<script type="module">
 
-// ✅ FIREBASE CONFIG (CORRECT)
+// 🔥 IMPORTS
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  increment,
+  collection,
+  query,
+  orderBy,
+  limit,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+// 🔑 CONFIG (already correct)
 const firebaseConfig = {
   apiKey: "AIzaSyC_1bkBNGAoGviGt1-a1f27h9VDj4hr3oA",
   authDomain: "affidavittool.firebaseapp.com",
   projectId: "affidavittool",
-  storageBucket: "affidavittool.appspot.com", // ⚠️ FIXED
+  storageBucket: "affidavittool.appspot.com",
   messagingSenderId: "108525725649",
   appId: "1:108525725649:web:2c3cab440860c81e6de2f0"
 };
 
-firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-// ✅ SERVICE WORKER
-if("serviceWorker" in navigator){
-  navigator.serviceWorker.register("sw.js");
-}
+// INIT
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 // ================= AUTO REF =================
 (function(){
@@ -97,34 +112,27 @@ if("serviceWorker" in navigator){
  if(r) document.getElementById("ref").value=r;
 })();
 
-// ================= SIGNUP (FIXED) =================
-async function signup(){
+// ================= SIGNUP =================
+window.signup = async function(){
 
- let email=emailEl.value.trim();
- let pass=passwordEl.value.trim();
- let refCode=document.getElementById("ref").value.trim();
+ let email=document.getElementById("email").value.trim();
+ let pass=document.getElementById("password").value.trim();
 
  if(!email||!pass) return alert("Fill fields");
 
  try{
-   let res=await auth.createUserWithEmailAndPassword(email,pass);
+   let res=await createUserWithEmailAndPassword(auth,email,pass);
    let uid=res.user.uid;
 
-   let referral=uid.substring(0,6);
-
-   await db.collection("users").doc(uid).set({
+   await setDoc(doc(db,"users",uid),{
     email,
     wallet:0,
-    referral,
-    usedReferral:false,
-    premium:false,
     lastReward:0,
     lastAd:0,
     tasks:0,
+    premium:false,
     isAdmin:false
    });
-
-   if(refCode) await applyReferral(uid,refCode);
 
    alert("Signup Success ✅");
 
@@ -133,119 +141,65 @@ async function signup(){
  }
 }
 
-// ================= LOGIN (FIXED ERROR HANDLE) =================
-function login(){
- auth.signInWithEmailAndPassword(emailEl.value,passwordEl.value)
+// ================= LOGIN =================
+window.login = function(){
+ signInWithEmailAndPassword(
+  auth,
+  document.getElementById("email").value,
+  document.getElementById("password").value
+ )
  .then(()=>alert("Login Success ✅"))
  .catch(e=>alert(e.message));
 }
 
-// ================= REFERRAL =================
-async function applyReferral(uid,code){
-
- let snap=await db.collection("users")
- .where("referral","==",code).get();
-
- if(snap.empty) return;
-
- let ref=snap.docs[0];
- let user=await db.collection("users").doc(uid).get();
-
- if(user.data().usedReferral) return;
- if(ref.id===uid) return;
-
- await db.collection("users").doc(ref.id).update({
-  wallet:firebase.firestore.FieldValue.increment(20)
- });
-
- await db.collection("users").doc(uid).update({
-  wallet:firebase.firestore.FieldValue.increment(10),
-  usedReferral:true
- });
-}
-
-// ================= SHARE =================
-function share(){
- let u=auth.currentUser;
- if(!u) return alert("Login first");
- let link=location.origin+"?ref="+u.uid.substring(0,6);
- window.open("https://wa.me/?text="+encodeURIComponent(link));
-}
-
-// ================= COPY =================
-function copy(){
- let u=auth.currentUser;
- if(!u) return alert("Login first");
- navigator.clipboard.writeText(u.uid.substring(0,6));
- alert("Copied ✅");
-}
-
 // ================= DAILY =================
-async function dailyReward(){
+window.dailyReward = async function(){
 
  let u=auth.currentUser;
  if(!u) return alert("Login first");
 
- let ref=db.collection("users").doc(u.uid);
- let d=await ref.get();
+ let ref=doc(db,"users",u.uid);
+ let snap=await getDoc(ref);
 
  let now=Date.now();
 
- if(now-(d.data().lastReward||0)<86400000)
+ if(now-(snap.data().lastReward||0)<86400000)
  return alert("Come tomorrow");
 
- await ref.update({
-  wallet:firebase.firestore.FieldValue.increment(5),
+ await updateDoc(ref,{
+  wallet:increment(5),
   lastReward:now
  });
 
- alert("₹5 Added ✅");
+ alert("+₹5 Added");
 }
 
 // ================= TASK =================
-async function task(){
+window.task = async function(){
 
  let u=auth.currentUser;
  if(!u) return alert("Login first");
 
- let ref=db.collection("users").doc(u.uid);
- let d=await ref.get();
+ let ref=doc(db,"users",u.uid);
+ let snap=await getDoc(ref);
 
- if(Date.now()-(d.data().lastAd||0)<30000)
+ if(Date.now()-(snap.data().lastAd||0)<30000)
  return alert("Wait 30 sec");
 
- if((d.data().tasks||0)>=5)
+ if((snap.data().tasks||0)>=5)
  return alert("Daily limit");
 
- await ref.update({
-  wallet:firebase.firestore.FieldValue.increment(2),
+ await updateDoc(ref,{
+  wallet:increment(2),
   lastAd:Date.now(),
-  tasks:firebase.firestore.FieldValue.increment(1)
+  tasks:increment(1)
  });
 
- alert("₹2 Added ✅");
-}
-
-// ================= BUY =================
-function buy(){
-
- let u=auth.currentUser;
- if(!u) return alert("Login first");
-
- let rzp=new Razorpay({
-  key:"rzp_test_123456",
-  amount:9900,
-  handler:async ()=>{
-   await db.collection("users").doc(u.uid).update({premium:true});
-   alert("Premium Activated ✅");
-  }
- });
-
- rzp.open();
+ alert("+₹2 Added");
 }
 
 // ================= WITHDRAW =================
-async function withdraw(){
+window.withdraw = async function(){
 
  let u=auth.currentUser;
  if(!u) return alert("Login first");
@@ -254,52 +208,83 @@ async function withdraw(){
 
  if(!amt || amt<200) return alert("Min ₹200");
 
- let ref=db.collection("users").doc(u.uid);
- let d=await ref.get();
+ let ref=doc(db,"users",u.uid);
+ let snap=await getDoc(ref);
 
- if(amt>(d.data().wallet||0)) return alert("No balance");
+ if(amt>(snap.data().wallet||0)) return alert("No balance");
 
- await ref.update({
-  wallet:firebase.firestore.FieldValue.increment(-amt)
+ await updateDoc(ref,{
+  wallet:increment(-amt)
  });
 
- alert("₹"+amt+" Withdraw Requested ✅");
+ alert("Withdraw Request Sent ✅");
 }
 
-// ================= ADMIN =================
-async function admin(){
+// ================= SHARE =================
+window.share = function(){
+ let u=auth.currentUser;
+ if(!u) return alert("Login first");
+ let link=location.origin+"?ref="+u.uid.substring(0,6);
+ window.open("https://wa.me/?text="+encodeURIComponent(link));
+}
+
+// ================= COPY =================
+window.copy = function(){
+ let u=auth.currentUser;
+ if(!u) return alert("Login first");
+ navigator.clipboard.writeText(u.uid.substring(0,6));
+ alert("Copied ✅");
+}
+
+// ================= BUY =================
+window.buy = function(){
 
  let u=auth.currentUser;
  if(!u) return alert("Login first");
 
- let d=await db.collection("users").doc(u.uid).get();
+ let rzp=new Razorpay({
+  key:"rzp_test_123456",
+  amount:9900,
+  handler:async ()=>{
+   await updateDoc(doc(db,"users",u.uid),{premium:true});
+   alert("Premium Activated ✅");
+  }
+ });
 
- if(!d.data().isAdmin) return alert("Not admin ❌");
+ rzp.open();
+}
+
+// ================= ADMIN =================
+window.admin = async function(){
+
+ let u=auth.currentUser;
+ if(!u) return alert("Login first");
+
+ let snap=await getDoc(doc(db,"users",u.uid));
+
+ if(!snap.data().isAdmin) return alert("Not admin ❌");
 
  alert("Admin Access Granted ✅");
 }
 
 // ================= LEADERBOARD =================
 async function loadBoard(){
- let s=await db.collection("users")
- .orderBy("wallet","desc").limit(5).get();
+ let q=query(collection(db,"users"),orderBy("wallet","desc"),limit(5));
+ let snap=await getDocs(q);
 
  let h="";
- s.forEach(d=>h+=`<p>₹${d.data().wallet}</p>`);
+ snap.forEach(d=>h+=`<p>₹${d.data().wallet}</p>`);
  document.getElementById("leaderboard").innerHTML=h;
 }
 
 // ================= AUTH =================
-const emailEl=document.getElementById("email");
-const passwordEl=document.getElementById("password");
-
-auth.onAuthStateChanged(async u=>{
+onAuthStateChanged(auth, async u=>{
  if(u){
-  status.innerText="Logged In ✅";
-  let d=await db.collection("users").doc(u.uid).get();
-  wallet.innerText=d.data().wallet||0;
+  document.getElementById("status").innerText="Logged In ✅";
+  let snap=await getDoc(doc(db,"users",u.uid));
+  document.getElementById("wallet").innerText=snap.data().wallet||0;
  }else{
-  status.innerText="Not Logged ❌";
+  document.getElementById("status").innerText="Not Logged ❌";
  }
 });
 
