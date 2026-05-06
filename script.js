@@ -239,15 +239,52 @@ function copyID(id){
 }
 
 /* ================= PRINT ================= */
-function printAffidavit(){
-    window.print();
-}
-
-/* ================= DOWNLOAD ================= */
 function downloadPDF(){
-    if(!AGI.premium){
-        alert("Premium Required ❌");
+
+    let area = document.getElementById("previewArea");
+
+    if(!area || area.innerHTML.trim()===""){
+        alert("Generate affidavit first ❗");
         return;
     }
-    window.print();
+
+    let win = window.open("", "", "width=900,height=700");
+
+    win.document.write(`
+    <html>
+    <head>
+    <title>Affidavit</title>
+
+    <style>
+    body{
+        font-family:Arial;
+        padding:40px;
+        line-height:1.8;
+    }
+
+    h2{
+        text-align:center;
+    }
+
+    button{
+        display:none;
+    }
+    </style>
+
+    </head>
+    <body>
+
+    ${area.innerHTML}
+
+    <script>
+    window.onload=function(){
+        window.print();
+    }
+    <\/script>
+
+    </body>
+    </html>
+    `);
+
+    win.document.close();
 }
