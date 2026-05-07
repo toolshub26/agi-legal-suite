@@ -14,346 +14,317 @@
 
 <style>
 
-/* =========================================
-GLOBAL
-========================================= */
-
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-    background:#edf2f7;
-    font-family:'Inter',sans-serif;
-    color:#111827;
+background:#edf2f7;
+font-family:'Inter',sans-serif;
+color:#111827;
 }
 
-/* =========================================
-TOPBAR
-========================================= */
+/* TOPBAR */
 
 .topbar{
-    background:linear-gradient(135deg,#0f172a,#111827,#1e293b);
-    color:white;
-    padding:25px;
-    box-shadow:0 5px 25px rgba(0,0,0,.2);
+background:linear-gradient(135deg,#0f172a,#111827,#1e293b);
+color:white;
+padding:25px;
+box-shadow:0 5px 25px rgba(0,0,0,.2);
 }
 
 .top-inner{
-    max-width:1500px;
-    margin:auto;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:20px;
+max-width:1500px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:20px;
 }
 
 .logo h1{
-    font-size:34px;
-    font-weight:800;
+font-size:34px;
+font-weight:800;
 }
 
 .logo p{
-    opacity:.8;
-    margin-top:6px;
+opacity:.8;
+margin-top:6px;
 }
 
 .badge{
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.1);
-    padding:12px 18px;
-    border-radius:14px;
-    backdrop-filter:blur(10px);
-    font-weight:700;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.1);
+padding:12px 18px;
+border-radius:14px;
+font-weight:700;
 }
 
-/* =========================================
-LAYOUT
-========================================= */
+/* LAYOUT */
 
 .main{
-    max-width:1500px;
-    margin:30px auto;
-    display:grid;
-    grid-template-columns:380px 1fr;
-    gap:30px;
-    padding:0 20px;
+max-width:1500px;
+margin:30px auto;
+display:grid;
+grid-template-columns:380px 1fr;
+gap:30px;
+padding:0 20px;
 }
 
-/* =========================================
-SIDEBAR
-========================================= */
+/* SIDEBAR */
 
 .sidebar{
-    background:white;
-    border-radius:24px;
-    padding:28px;
-    box-shadow:0 10px 35px rgba(0,0,0,.08);
-    height:fit-content;
-    position:sticky;
-    top:20px;
+background:white;
+border-radius:24px;
+padding:28px;
+box-shadow:0 10px 35px rgba(0,0,0,.08);
+height:fit-content;
+position:sticky;
+top:20px;
 }
 
 .title{
-    font-size:22px;
-    font-weight:800;
-    margin-bottom:20px;
+font-size:22px;
+font-weight:800;
+margin-bottom:20px;
 }
 
 .label{
-    display:block;
-    margin-top:18px;
-    margin-bottom:8px;
-    font-size:14px;
-    font-weight:700;
+display:block;
+margin-top:18px;
+margin-bottom:8px;
+font-size:14px;
+font-weight:700;
 }
 
 .input,
 .select,
 .textarea{
-    width:100%;
-    border:1px solid #d1d5db;
-    background:#f9fafb;
-    border-radius:14px;
-    padding:14px;
-    font-size:15px;
-    transition:.25s;
+width:100%;
+border:1px solid #d1d5db;
+background:#f9fafb;
+border-radius:14px;
+padding:14px;
+font-size:15px;
+transition:.25s;
 }
 
 .input:focus,
 .select:focus,
 .textarea:focus{
-    outline:none;
-    border-color:#2563eb;
-    background:white;
-    box-shadow:0 0 0 4px rgba(37,99,235,.1);
+outline:none;
+border-color:#2563eb;
+background:white;
+box-shadow:0 0 0 4px rgba(37,99,235,.1);
 }
 
 .textarea{
-    min-height:90px;
-    resize:vertical;
+min-height:90px;
+resize:vertical;
 }
 
-/* =========================================
-BUTTONS
-========================================= */
+/* BUTTONS */
 
 .btn-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    margin-top:25px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:25px;
 }
 
 .btn{
-    border:none;
-    padding:14px;
-    border-radius:14px;
-    cursor:pointer;
-    font-weight:700;
-    transition:.25s;
+border:none;
+padding:14px;
+border-radius:14px;
+cursor:pointer;
+font-weight:700;
+transition:.25s;
 }
 
 .btn:hover{
-    transform:translateY(-2px);
+transform:translateY(-2px);
 }
 
 .primary{
-    background:#111827;
-    color:white;
+background:#111827;
+color:white;
 }
 
 .green{
-    background:#059669;
-    color:white;
+background:#059669;
+color:white;
 }
 
 .blue{
-    background:#2563eb;
-    color:white;
+background:#2563eb;
+color:white;
 }
 
 .orange{
-    background:#ea580c;
-    color:white;
+background:#ea580c;
+color:white;
 }
 
-/* =========================================
-PAPER
-========================================= */
+/* PAPER */
 
 .paper{
-    width:210mm;
-    min-height:297mm;
-    background:white;
-    margin:auto;
-    padding:70px;
-    box-shadow:0 15px 45px rgba(0,0,0,.15);
+width:210mm;
+min-height:297mm;
+background:white;
+margin:auto;
+padding:70px;
+box-shadow:0 15px 45px rgba(0,0,0,.15);
 }
 
 .paper-inner{
-    border:2px solid #d1d5db;
-    min-height:calc(297mm - 140px);
-    padding:60px;
-    position:relative;
+border:2px solid #d1d5db;
+min-height:calc(297mm - 140px);
+padding:60px;
+position:relative;
 }
 
-/* =========================================
-STAMP
-========================================= */
+/* STAMP */
 
 .stamp{
-    position:absolute;
-    top:20px;
-    right:20px;
-    width:110px;
-    height:110px;
-    border:3px solid #dc2626;
-    border-radius:50%;
-    color:#dc2626;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:800;
-    transform:rotate(-15deg);
-    font-size:20px;
+position:absolute;
+top:20px;
+right:20px;
+width:110px;
+height:110px;
+border:3px solid #dc2626;
+border-radius:50%;
+color:#dc2626;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:800;
+transform:rotate(-15deg);
+font-size:20px;
 }
 
-/* =========================================
-DOC
-========================================= */
+/* DOC */
 
 .doc-title{
-    text-align:center;
-    font-size:42px;
-    letter-spacing:3px;
-    font-family:'Cormorant Garamond',serif;
-    margin-top:25px;
+text-align:center;
+font-size:42px;
+letter-spacing:3px;
+font-family:'Cormorant Garamond',serif;
+margin-top:25px;
 }
 
 .doc-sub{
-    text-align:center;
-    margin-top:10px;
-    margin-bottom:50px;
-    font-size:14px;
-    letter-spacing:2px;
+text-align:center;
+margin-top:10px;
+margin-bottom:50px;
+font-size:14px;
+letter-spacing:2px;
 }
 
 .doc-content{
-    line-height:2;
-    font-size:18px;
+line-height:2;
+font-size:18px;
 }
 
 .doc-content p{
-    margin-bottom:24px;
-    text-align:justify;
+margin-bottom:24px;
+text-align:justify;
 }
 
 .doc-content ol{
-    padding-left:24px;
+padding-left:24px;
 }
 
 .doc-content li{
-    margin-bottom:18px;
+margin-bottom:18px;
 }
 
-/* =========================================
-SIGNATURE
-========================================= */
+/* SIGN */
 
 .signatures{
-    margin-top:120px;
-    display:flex;
-    justify-content:space-between;
-    gap:50px;
+margin-top:120px;
+display:flex;
+justify-content:space-between;
+gap:50px;
 }
 
 .sign{
-    width:240px;
-    text-align:center;
+width:240px;
+text-align:center;
 }
 
 .sign-line{
-    border-top:2px solid black;
-    padding-top:10px;
+border-top:2px solid black;
+padding-top:10px;
 }
 
-/* =========================================
-QR
-========================================= */
+/* QR */
 
 #qrCodeContainer{
-    margin-top:40px;
+margin-top:40px;
 }
 
-/* =========================================
-HISTORY
-========================================= */
+/* HISTORY */
 
 .history{
-    margin-top:35px;
+margin-top:35px;
 }
 
 .history-item{
-    background:#f3f4f6;
-    border-left:5px solid #111827;
-    border-radius:12px;
-    padding:12px;
-    margin-bottom:10px;
+background:#f3f4f6;
+border-left:5px solid #111827;
+border-radius:12px;
+padding:12px;
+margin-bottom:10px;
 }
 
-/* =========================================
-PRINT
-========================================= */
+/* PRINT */
 
 @media print{
 
-    body{
-        background:white;
-    }
+body{
+background:white;
+}
 
-    .sidebar,
-    .topbar{
-        display:none;
-    }
+.sidebar,
+.topbar{
+display:none;
+}
 
-    .main{
-        display:block;
-        margin:0;
-        padding:0;
-    }
+.main{
+display:block;
+margin:0;
+padding:0;
+}
 
-    .paper{
-        width:100%;
-        min-height:auto;
-        padding:0;
-        box-shadow:none;
-    }
+.paper{
+width:100%;
+min-height:auto;
+padding:0;
+box-shadow:none;
+}
 
 }
 
-/* =========================================
-MOBILE
-========================================= */
+/* MOBILE */
 
 @media(max-width:1100px){
 
-    .main{
-        grid-template-columns:1fr;
-    }
+.main{
+grid-template-columns:1fr;
+}
 
-    .paper{
-        width:100%;
-        min-height:auto;
-        padding:20px;
-    }
+.paper{
+width:100%;
+min-height:auto;
+padding:20px;
+}
 
-    .paper-inner{
-        padding:25px;
-    }
+.paper-inner{
+padding:25px;
+}
 
 }
 
@@ -361,10 +332,6 @@ MOBILE
 </head>
 
 <body>
-
-<!-- =========================================
-TOPBAR
-========================================= -->
 
 <div class="topbar">
 
@@ -376,21 +343,13 @@ TOPBAR
 </div>
 
 <div class="badge" id="premiumStatus">
-🔴 Free Mode
+🔴 Free Version
 </div>
 
 </div>
 </div>
-
-<!-- =========================================
-MAIN
-========================================= -->
 
 <div class="main">
-
-<!-- =========================================
-SIDEBAR
-========================================= -->
 
 <div class="sidebar">
 
@@ -451,23 +410,19 @@ Generate Legal Affidavit
 
 <div class="btn-grid">
 
-<button class="btn primary"
-onclick="generateAffidavit()">
+<button class="btn primary" onclick="generateAffidavit()">
 Generate
 </button>
 
-<button class="btn green"
-onclick="downloadPDF()">
+<button class="btn green" onclick="downloadPDF()">
 Print PDF
 </button>
 
-<button class="btn blue"
-onclick="activatePremiumManually()">
+<button class="btn blue" onclick="activatePremiumManually()">
 Enter Code
 </button>
 
-<button class="btn orange"
-onclick="unlockPremium()">
+<button class="btn orange" onclick="unlockPremium()">
 Buy Premium
 </button>
 
@@ -484,10 +439,6 @@ Recent Documents
 </div>
 
 </div>
-
-<!-- =========================================
-PAPER
-========================================= -->
 
 <div class="paper">
 
@@ -508,8 +459,7 @@ BEFORE THE NOTARY PUBLIC
 <div class="doc-content">
 
 <p>
-Your professional affidavit preview
-will appear here.
+Your professional affidavit preview will appear here.
 </p>
 
 </div>
@@ -522,9 +472,7 @@ will appear here.
 
 <script>
 
-/* =========================================
-AGI SYSTEM
-========================================= */
+/* AGI SYSTEM */
 
 const AGI = {
 
@@ -536,9 +484,7 @@ domain:location.origin
 
 };
 
-/* =========================================
-INIT
-========================================= */
+/* INIT */
 
 (function(){
 
@@ -559,9 +505,7 @@ loadHistory();
 
 })();
 
-/* =========================================
-PREMIUM
-========================================= */
+/* PREMIUM */
 
 function unlockPremium(){
 
@@ -604,34 +548,26 @@ alert("Invalid Code ❌");
 
 }
 
-/* =========================================
-UI
-========================================= */
+/* UI */
 
 function updateUI(){
 
 let box =
-document.getElementById(
-"premiumStatus"
-);
+document.getElementById("premiumStatus");
 
 if(AGI.premium){
 
-box.innerHTML =
-"🟢 Premium Active";
+box.innerHTML = "🟢 Premium Active";
 
 }else{
 
-box.innerHTML =
-"🔴 Free Version";
+box.innerHTML = "🔴 Free Version";
 
 }
 
 }
 
-/* =========================================
-DRAFT
-========================================= */
+/* DRAFT */
 
 const fields = [
 
@@ -651,17 +587,15 @@ function restoreDraft(){
 
 fields.forEach(id=>{
 
-let el =
-document.getElementById(id);
+let el = document.getElementById(id);
 
 if(!el) return;
 
-let val =
-localStorage.getItem(
-"agi_"+id
-);
+let val = localStorage.getItem("agi_"+id);
 
-if(val) el.value = val;
+if(val){
+el.value = val;
+}
 
 el.oninput = ()=>{
 
@@ -676,9 +610,7 @@ el.value
 
 }
 
-/* =========================================
-DOC ID
-========================================= */
+/* DOC ID */
 
 function generateDocID(){
 
@@ -698,9 +630,7 @@ return `${AGI.docPrefix}${d}-${r}`;
 
 }
 
-/* =========================================
-LANGUAGE TEXTS
-========================================= */
+/* LANGUAGE */
 
 const LANG = {
 
@@ -736,11 +666,9 @@ declare:"Je déclare solennellement ce qui suit:"
 
 };
 
-/* =========================================
-AUTO PURPOSE
-========================================= */
+/* PURPOSE */
 
-function getPurposeText(type){
+function getPurposeText(type,customDetails){
 
 const map = {
 
@@ -781,7 +709,7 @@ const map = {
 "That this affidavit certifies vehicle ownership.",
 
 "Custom Purpose":
-details.value || "Custom declaration."
+customDetails || "Custom declaration."
 
 };
 
@@ -789,9 +717,45 @@ return map[type];
 
 }
 
-/* =========================================
-SAVE HISTORY
-========================================= */
+/* VALIDATION */
+
+function validateForm(data){
+
+if(!data.name?.trim()){
+alert("Enter Full Name");
+return false;
+}
+
+if(!data.father?.trim()){
+alert("Enter Father / Parent Name");
+return false;
+}
+
+if(!data.age?.trim()){
+alert("Enter Age");
+return false;
+}
+
+if(!data.address?.trim()){
+alert("Enter Address");
+return false;
+}
+
+if(!data.place?.trim()){
+alert("Enter Place");
+return false;
+}
+
+if(!data.date?.trim()){
+alert("Select Date");
+return false;
+}
+
+return true;
+
+}
+
+/* HISTORY */
 
 function saveHistory(id,data){
 
@@ -818,10 +782,6 @@ JSON.stringify(history)
 );
 
 }
-
-/* =========================================
-LOAD HISTORY
-========================================= */
 
 function loadHistory(){
 
@@ -860,9 +820,7 @@ ${item.id}
 
 }
 
-/* =========================================
-MAIN GENERATOR
-========================================= */
+/* MAIN */
 
 function generateAffidavit(){
 
@@ -880,32 +838,16 @@ date:date.value
 
 };
 
-if(
-!data.name ||
-!data.father ||
-!data.age ||
-!data.address ||
-!data.place ||
-!data.date
-){
+if(!validateForm(data)) return;
 
-alert(
-"Fill all required fields ❗"
-);
+let txt = LANG[data.lang];
 
-return;
-
-}
-
-let txt =
-LANG[data.lang];
-
-let docID =
-generateDocID();
+let docID = generateDocID();
 
 let purposeText =
 getPurposeText(
-data.purposeType
+data.purposeType,
+data.details
 );
 
 let qrHTML = "";
@@ -969,23 +911,31 @@ ${txt.declare}
 <ol>
 
 <li>
-That the deponent is
-a law abiding citizen.
+That the deponent is a law abiding citizen.
 </li>
 
 <li>
 ${purposeText}
 </li>
 
+${
+data.details.trim()
+?
+`
 <li>
-That the information
-provided herein is true
-and correct.
+${data.details}
+</li>
+`
+:
+""
+}
+
+<li>
+That the information provided herein is true and correct.
 </li>
 
 <li>
-That no material facts
-have been concealed.
+That no material facts have been concealed.
 </li>
 
 </ol>
@@ -1055,9 +1005,7 @@ loadHistory();
 
 }
 
-/* =========================================
-PRINT
-========================================= */
+/* PRINT */
 
 function downloadPDF(){
 
