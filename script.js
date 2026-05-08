@@ -1,6 +1,6 @@
 /* =========================================
-   AGI – ULTRA PRO ENGINE v10 🚀
-   Stable + Mobile Fix + PDF Fix + Final
+   AGI – ULTRA PRO ENGINE v11 🚀
+   FINAL STABLE BUILD
 ========================================= */
 
 const AGI = {
@@ -22,6 +22,7 @@ function getVal(id){
     if(!el) return "";
 
     return String(el.value || "").trim();
+
 }
 
 /* =========================================
@@ -32,23 +33,32 @@ function getVal(id){
 
     try{
 
-        let p = localStorage.getItem("agiPremium");
-        let exp = parseInt(
-            localStorage.getItem("agiExpiry") || "0"
+        let p =
+        localStorage.getItem("agiPremium");
+
+        let exp =
+        parseInt(
+            localStorage.getItem("agiExpiry")
+            || "0"
         );
 
-        AGI.premium = (
+        AGI.premium =
+        (
             p === "true" &&
             exp &&
             Date.now() < exp
         );
 
     }catch(err){
+
         console.log(err);
+
     }
 
     restoreDraft();
+
     updateUI();
+
     loadHistory();
 
 })();
@@ -59,19 +69,22 @@ function getVal(id){
 
 function unlockPremium(){
 
-    /* CHANGE THIS LINK */
+    /* CHANGE THIS URL */
+
     let paymentURL =
     "https://yourwebsite.com/premium";
 
-    window.open(paymentURL,"_blank");
+    window.open(
+        paymentURL,
+        "_blank"
+    );
 
 }
 
 function activatePremiumManually(){
 
-    let code = prompt(
-        "Enter Premium Code:"
-    );
+    let code =
+    prompt("Enter Premium Code:");
 
     if(!code) return;
 
@@ -97,11 +110,15 @@ function activatePremiumManually(){
 
         updateUI();
 
-        alert("Premium Activated ✔");
+        alert(
+            "Premium Activated ✔"
+        );
 
     }else{
 
-        alert("Invalid Code ❌");
+        alert(
+            "Invalid Code ❌"
+        );
 
     }
 
@@ -139,18 +156,17 @@ function updateUI(){
 ========================================= */
 
 const fieldIDs = [
+
     "lang",
-    "template",
-    "gender",
     "name",
     "father",
     "age",
     "address",
-    "purpose",
-    "state",
-    "stamp",
+    "details",
     "place",
-    "date"
+    "date",
+    "purposeType"
+
 ];
 
 function restoreDraft(){
@@ -168,16 +184,20 @@ function restoreDraft(){
         );
 
         if(val){
+
             el.value = val;
+
         }
 
         el.addEventListener(
             "input",
             ()=>{
+
                 localStorage.setItem(
                     "agi_" + id,
                     el.value
                 );
+
             }
         );
 
@@ -208,37 +228,6 @@ function generateDocID(){
 }
 
 /* =========================================
-   QR
-========================================= */
-
-function generateQR(docID){
-
-    if(!AGI.premium) return;
-
-    if(typeof QRCode === "undefined"){
-        console.warn("QR library missing");
-        return;
-    }
-
-    let box =
-    document.getElementById(
-        "qrCodeContainer"
-    );
-
-    if(!box) return;
-
-    box.innerHTML = "";
-
-    new QRCode(box,{
-        text:
-        `${AGI.domain}/verify.html?id=${docID}`,
-        width:110,
-        height:110
-    });
-
-}
-
-/* =========================================
    HISTORY
 ========================================= */
 
@@ -256,9 +245,11 @@ function saveDoc(docID,data){
     );
 
     history.unshift({
+
         id:docID,
         name:data.name,
         date:data.date
+
     });
 
     history = history.slice(0,10);
@@ -273,7 +264,9 @@ function saveDoc(docID,data){
 function loadHistory(){
 
     let box =
-    document.getElementById("history");
+    document.getElementById(
+        "history"
+    );
 
     if(!box) return;
 
@@ -296,11 +289,17 @@ function loadHistory(){
     history.forEach(item=>{
 
         html += `
+
         <div class="history-item">
+
             <b>${item.name}</b><br>
+
             ${item.date}<br>
+
             ${item.id}
+
         </div>
+
         `;
 
     });
@@ -316,13 +315,14 @@ function loadHistory(){
 function validateRequired(data){
 
     let required = [
+
         "name",
         "father",
         "age",
         "address",
-        "purpose",
         "place",
         "date"
+
     ];
 
     for(let key of required){
@@ -337,11 +337,13 @@ function validateRequired(data){
             );
 
             return false;
+
         }
 
     }
 
     return true;
+
 }
 
 /* =========================================
@@ -356,44 +358,41 @@ function generateAffidavit(){
     );
 
     if(!preview){
-        alert("Preview area missing");
+
+        alert(
+            "Preview area missing ❌"
+        );
+
         return;
     }
 
     let data = {
 
         lang:getVal("lang"),
-        template:getVal("template") || "general",
-        gender:getVal("gender"),
+
         name:getVal("name"),
+
         father:getVal("father"),
+
         age:getVal("age"),
+
         address:getVal("address"),
-        purpose:getVal("purpose"),
-        state:getVal("state"),
-        stamp:getVal("stamp") || "10",
+
+        details:getVal("details"),
+
+        purposeType:getVal("purposeType"),
+
         place:getVal("place"),
-        date:getVal("date")
+
+        date:getVal("date"),
+
+        stamp:"10"
 
     };
 
-    /* VALIDATION */
+    /* REQUIRED CHECK */
 
     if(!validateRequired(data)){
-        return;
-    }
-
-    /* FREE TEMPLATE BLOCK */
-
-    if(
-        !AGI.premium &&
-        data.template !== "general"
-    ){
-
-        alert(
-            "Premium Template ❌"
-        );
-
         return;
     }
 
@@ -403,6 +402,7 @@ function generateAffidavit(){
     /* BUILD HTML */
 
     let html = `
+
     <div style="
         border:2px solid #d1d5db;
         padding:50px;
@@ -434,6 +434,7 @@ function generateAffidavit(){
             text-align:center;
             margin-top:40px;
             letter-spacing:3px;
+            font-size:42px;
         ">
             AFFIDAVIT
         </h1>
@@ -441,6 +442,7 @@ function generateAffidavit(){
         <p style="
             text-align:center;
             margin-bottom:40px;
+            letter-spacing:2px;
         ">
             BEFORE THE NOTARY PUBLIC
         </p>
@@ -467,28 +469,49 @@ function generateAffidavit(){
         ">
 
             <p>
+
             I,
             <b>${data.name}</b>,
+
             S/o
             <b>${data.father}</b>,
+
             aged about
             <b>${data.age}</b>
             years,
+
             resident of
             <b>${data.address}</b>.
+
             </p>
 
-            <p>
-            This affidavit is submitted for:
-            <b>${data.purpose}</b>.
-            </p>
+            <ol>
 
-            <p>
-            The statements above are true
-            and correct to the best of my knowledge.
-            </p>
+                <li>
+                This affidavit is submitted for
+                <b>${data.purposeType}</b>.
+                </li>
 
-            <br><br>
+                ${
+                    data.details
+                    ?
+                    `
+                    <li>
+                    ${data.details}
+                    </li>
+                    `
+                    :
+                    ""
+                }
+
+                <li>
+                The above information is true
+                and correct.
+                </li>
+
+            </ol>
+
+            <br>
 
             <p>
             Place:
@@ -500,36 +523,7 @@ function generateAffidavit(){
             <b>${data.date}</b>
             </p>
 
-            ${
-                AGI.premium
-                ?
-                `
-                <br>
-
-                <p>
-                <b>ID:</b> ${docID}
-                </p>
-
-                <div id="qrCodeContainer"></div>
-
-                <br>
-
-                <button
-                onclick="copyID('${docID}')"
-                style="
-                    padding:10px 18px;
-                    border:none;
-                    background:black;
-                    color:white;
-                    border-radius:8px;
-                    cursor:pointer;
-                ">
-                    Copy ID
-                </button>
-                `
-                :
-                ""
-            }
+            <br><br>
 
             <div style="
                 margin-top:120px;
@@ -552,39 +546,28 @@ function generateAffidavit(){
         </div>
 
     </div>
+
     `;
 
-    preview.innerHTML = html;
+    /* RENDER FIX */
 
-    /* QR FIX */
+    preview.innerHTML = "";
 
-    if(AGI.premium){
+    setTimeout(()=>{
 
-        setTimeout(()=>{
-            generateQR(docID);
-        },300);
+        preview.innerHTML = html;
 
-    }
+    },100);
+
+    /* SAVE */
 
     saveDoc(docID,data);
 
     loadHistory();
 
-    /* SUCCESS */
-
-    alert("Affidavit Generated ✔");
-
-}
-
-/* =========================================
-   COPY ID
-========================================= */
-
-function copyID(id){
-
-    navigator.clipboard.writeText(id);
-
-    alert("Copied ✔");
+    alert(
+        "Affidavit Generated ✔"
+    );
 
 }
 
@@ -611,6 +594,7 @@ function downloadPDF(){
         );
 
         return;
+
     }
 
     let printWindow =
@@ -627,6 +611,7 @@ function downloadPDF(){
         );
 
         return;
+
     }
 
     printWindow.document.write(`
@@ -640,22 +625,17 @@ function downloadPDF(){
     <style>
 
     body{
+
         margin:0;
         padding:25px;
         background:white;
         font-family:Arial;
+
     }
 
     button{
+
         display:none;
-    }
-
-    @media print{
-
-        body{
-            margin:0;
-            padding:0;
-        }
 
     }
 
@@ -689,4 +669,4 @@ function downloadPDF(){
 
     printWindow.document.close();
 
-}
+    }
