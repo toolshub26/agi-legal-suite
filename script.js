@@ -1,6 +1,6 @@
 /* =========================================
-   AGI – ULTRA PRO ENGINE v9 🚀
-   Clean + Stable + No Bugs + Final Build
+   AGI – ULTRA PRO ENGINE v10 🚀
+   Stable + Mobile Fix + PDF Fix + Final
 ========================================= */
 
 const AGI = {
@@ -11,19 +11,41 @@ const AGI = {
     domain:location.origin
 };
 
-/* ================= SAFE GET ================= */
+/* =========================================
+   SAFE GET
+========================================= */
+
 function getVal(id){
+
     let el = document.getElementById(id);
-    return el ? el.value : "";
+
+    if(!el) return "";
+
+    return String(el.value || "").trim();
 }
 
-/* ================= INIT ================= */
+/* =========================================
+   INIT
+========================================= */
+
 (function initAGI(){
 
-    let p = localStorage.getItem("agiPremium");
-    let exp = parseInt(localStorage.getItem("agiExpiry") || "0");
+    try{
 
-    AGI.premium = (p==="true" && exp && Date.now()<exp);
+        let p = localStorage.getItem("agiPremium");
+        let exp = parseInt(
+            localStorage.getItem("agiExpiry") || "0"
+        );
+
+        AGI.premium = (
+            p === "true" &&
+            exp &&
+            Date.now() < exp
+        );
+
+    }catch(err){
+        console.log(err);
+    }
 
     restoreDraft();
     updateUI();
@@ -31,158 +53,317 @@ function getVal(id){
 
 })();
 
-/* ================= PREMIUM ================= */
+/* =========================================
+   PREMIUM
+========================================= */
+
 function unlockPremium(){
-    window.open("https://rzp.io/l/YOUR_PAYMENT_LINK","_blank");
+
+    /* CHANGE THIS LINK */
+    let paymentURL =
+    "https://yourwebsite.com/premium";
+
+    window.open(paymentURL,"_blank");
+
 }
 
 function activatePremiumManually(){
-    let code = prompt("Enter Premium Code:");
+
+    let code = prompt(
+        "Enter Premium Code:"
+    );
+
+    if(!code) return;
+
+    code = code.trim();
 
     if(code === AGI.premiumCode){
 
-        let expiry = Date.now() + (AGI.premiumDays*86400000);
+        let expiry =
+        Date.now() +
+        (AGI.premiumDays * 86400000);
 
-        localStorage.setItem("agiPremium","true");
-        localStorage.setItem("agiExpiry",expiry);
+        localStorage.setItem(
+            "agiPremium",
+            "true"
+        );
+
+        localStorage.setItem(
+            "agiExpiry",
+            expiry
+        );
+
+        AGI.premium = true;
+
+        updateUI();
 
         alert("Premium Activated ✔");
-        location.reload();
 
-    } else {
+    }else{
+
         alert("Invalid Code ❌");
+
     }
+
 }
 
-/* ================= UI ================= */
+/* =========================================
+   UI
+========================================= */
+
 function updateUI(){
 
-    let badge = document.getElementById("premiumStatus");
-    let btn = document.getElementById("downloadBtn");
+    let badge =
+    document.getElementById(
+        "premiumStatus"
+    );
+
+    if(!badge) return;
 
     if(AGI.premium){
-        if(badge) badge.innerHTML = "🟢 Premium Active";
-        if(btn) btn.classList.remove("locked");
-    } else {
-        if(badge) badge.innerHTML = "🔴 Free Mode";
-        if(btn) btn.classList.add("locked");
+
+        badge.innerHTML =
+        "🟢 Premium Active";
+
+    }else{
+
+        badge.innerHTML =
+        "🔴 Free Version";
+
     }
+
 }
 
-/* ================= DRAFT ================= */
-const fieldIDs = ["lang","template","gender","name","father","age","address","purpose","state","stamp","place","date"];
+/* =========================================
+   AUTO SAVE
+========================================= */
+
+const fieldIDs = [
+    "lang",
+    "template",
+    "gender",
+    "name",
+    "father",
+    "age",
+    "address",
+    "purpose",
+    "state",
+    "stamp",
+    "place",
+    "date"
+];
 
 function restoreDraft(){
+
     fieldIDs.forEach(id=>{
-        let el=document.getElementById(id);
+
+        let el =
+        document.getElementById(id);
+
         if(!el) return;
 
-        let val=localStorage.getItem("agi_"+id);
-        if(val) el.value=val;
+        let val =
+        localStorage.getItem(
+            "agi_" + id
+        );
 
-        el.oninput = ()=> {
-            localStorage.setItem("agi_"+id,el.value);
-        };
+        if(val){
+            el.value = val;
+        }
+
+        el.addEventListener(
+            "input",
+            ()=>{
+                localStorage.setItem(
+                    "agi_" + id,
+                    el.value
+                );
+            }
+        );
+
     });
+
 }
 
-/* ================= DOC ID ================= */
+/* =========================================
+   DOC ID
+========================================= */
+
 function generateDocID(){
-    let d=new Date().toISOString().slice(0,10).replace(/-/g,"");
-    let r=Math.random().toString(36).substring(2,6).toUpperCase();
+
+    let d =
+    new Date()
+    .toISOString()
+    .slice(0,10)
+    .replace(/-/g,"");
+
+    let r =
+    Math.random()
+    .toString(36)
+    .substring(2,7)
+    .toUpperCase();
+
     return `${AGI.docPrefix}${d}-${r}`;
+
 }
 
-/* ================= QR ================= */
+/* =========================================
+   QR
+========================================= */
+
 function generateQR(docID){
 
     if(!AGI.premium) return;
 
-    let box=document.getElementById("qrCodeContainer");
-    if(!box) return;
-
-    box.innerHTML="";
-
     if(typeof QRCode === "undefined"){
-        console.warn("QR lib missing");
+        console.warn("QR library missing");
         return;
     }
 
+    let box =
+    document.getElementById(
+        "qrCodeContainer"
+    );
+
+    if(!box) return;
+
+    box.innerHTML = "";
+
     new QRCode(box,{
-        text:`${AGI.domain}/verify.html?id=${docID}`,
-        width:120,
-        height:120
+        text:
+        `${AGI.domain}/verify.html?id=${docID}`,
+        width:110,
+        height:110
     });
+
 }
 
-/* ================= SAVE ================= */
+/* =========================================
+   HISTORY
+========================================= */
+
 function saveDoc(docID,data){
 
-    localStorage.setItem("doc_"+docID, JSON.stringify(data));
+    localStorage.setItem(
+        "doc_" + docID,
+        JSON.stringify(data)
+    );
 
-    let history = JSON.parse(localStorage.getItem("agiHistory")||"[]");
+    let history =
+    JSON.parse(
+        localStorage.getItem("agiHistory")
+        || "[]"
+    );
 
     history.unshift({
         id:docID,
-        name:data.name || "Unknown",
-        date:data.date || "-"
+        name:data.name,
+        date:data.date
     });
 
-    // limit history (performance fix)
-    history = history.slice(0,20);
+    history = history.slice(0,10);
 
-    localStorage.setItem("agiHistory", JSON.stringify(history));
+    localStorage.setItem(
+        "agiHistory",
+        JSON.stringify(history)
+    );
+
 }
 
-/* ================= HISTORY ================= */
 function loadHistory(){
 
-    let box = document.getElementById("history");
+    let box =
+    document.getElementById("history");
+
     if(!box) return;
 
-    let history = JSON.parse(localStorage.getItem("agiHistory")||"[]");
+    let history =
+    JSON.parse(
+        localStorage.getItem("agiHistory")
+        || "[]"
+    );
 
     if(history.length===0){
-        box.innerHTML="No History";
+
+        box.innerHTML =
+        "No documents yet.";
+
         return;
     }
 
-    let html="";
+    let html = "";
 
-    history.slice(0,5).forEach(item=>{
-        html+=`
-        <div>
-        ${item.name} (${item.date})<br>
-        ID: ${item.id}
-        </div><hr>`;
+    history.forEach(item=>{
+
+        html += `
+        <div class="history-item">
+            <b>${item.name}</b><br>
+            ${item.date}<br>
+            ${item.id}
+        </div>
+        `;
+
     });
 
-    box.innerHTML=html;
+    box.innerHTML = html;
+
 }
 
-/* ================= VALIDATION ================= */
+/* =========================================
+   VALIDATION
+========================================= */
+
 function validateRequired(data){
 
-    let req=["name","father","age","address","purpose","place","date"];
+    let required = [
+        "name",
+        "father",
+        "age",
+        "address",
+        "purpose",
+        "place",
+        "date"
+    ];
 
-    for(let k of req){
-        if(!data[k] || String(data[k]).trim()===""){
-            alert("Fill all required fields ❗");
+    for(let key of required){
+
+        if(
+            !data[key] ||
+            String(data[key]).trim()===""
+        ){
+
+            alert(
+                "Fill all required fields ❗"
+            );
+
             return false;
         }
+
     }
+
     return true;
 }
 
-/* ================= MAIN ================= */
+/* =========================================
+   MAIN GENERATOR
+========================================= */
+
 function generateAffidavit(){
 
-    let preview=document.getElementById("previewArea");
-    if(!preview) return;
+    let preview =
+    document.getElementById(
+        "previewArea"
+    );
 
-    let data={
+    if(!preview){
+        alert("Preview area missing");
+        return;
+    }
+
+    let data = {
+
         lang:getVal("lang"),
-        template:getVal("template"),
+        template:getVal("template") || "general",
         gender:getVal("gender"),
         name:getVal("name"),
         father:getVal("father"),
@@ -190,101 +371,322 @@ function generateAffidavit(){
         address:getVal("address"),
         purpose:getVal("purpose"),
         state:getVal("state"),
-        stamp:getVal("stamp"),
+        stamp:getVal("stamp") || "10",
         place:getVal("place"),
         date:getVal("date")
+
     };
 
-    if(!validateRequired(data)) return;
+    /* VALIDATION */
 
-    if(!AGI.premium && data.template!=="general"){
-        alert("Premium Template ❌");
+    if(!validateRequired(data)){
         return;
     }
 
-    let docID=generateDocID();
+    /* FREE TEMPLATE BLOCK */
 
-    let content = AGI.premium ? "" : `<div style="color:red">FREE VERSION</div>`;
+    if(
+        !AGI.premium &&
+        data.template !== "general"
+    ){
 
-    content+=`
-    <h2>AFFIDAVIT</h2>
-    <p>I ${data.name}, S/o ${data.father}, age ${data.age}, resident ${data.address}</p>
-    <p>Purpose: ${data.purpose}</p>
-    <p>Place: ${data.place}</p>
-    <p>Date: ${data.date}</p>
-    `;
+        alert(
+            "Premium Template ❌"
+        );
 
-    if(AGI.premium){
-        content+=`
-        <p><b>ID:</b> ${docID}</p>
-        <div id="qrCodeContainer"></div>
-        <button onclick="copyID('${docID}')">Copy ID</button>
-        `;
+        return;
     }
 
-    preview.innerHTML=content;
+    let docID =
+    generateDocID();
+
+    /* BUILD HTML */
+
+    let html = `
+    <div style="
+        border:2px solid #d1d5db;
+        padding:50px;
+        min-height:1000px;
+        position:relative;
+        background:white;
+        font-family:Arial;
+    ">
+
+        <div style="
+            position:absolute;
+            top:25px;
+            right:25px;
+            width:90px;
+            height:90px;
+            border:3px solid #dc2626;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#dc2626;
+            font-weight:bold;
+            transform:rotate(-15deg);
+        ">
+            ₹${data.stamp}
+        </div>
+
+        <h1 style="
+            text-align:center;
+            margin-top:40px;
+            letter-spacing:3px;
+        ">
+            AFFIDAVIT
+        </h1>
+
+        <p style="
+            text-align:center;
+            margin-bottom:40px;
+        ">
+            BEFORE THE NOTARY PUBLIC
+        </p>
+
+        ${
+            !AGI.premium
+            ?
+            `
+            <div style="
+                color:red;
+                font-weight:bold;
+                margin-bottom:20px;
+            ">
+                FREE VERSION
+            </div>
+            `
+            :
+            ""
+        }
+
+        <div style="
+            line-height:2;
+            font-size:18px;
+        ">
+
+            <p>
+            I,
+            <b>${data.name}</b>,
+            S/o
+            <b>${data.father}</b>,
+            aged about
+            <b>${data.age}</b>
+            years,
+            resident of
+            <b>${data.address}</b>.
+            </p>
+
+            <p>
+            This affidavit is submitted for:
+            <b>${data.purpose}</b>.
+            </p>
+
+            <p>
+            The statements above are true
+            and correct to the best of my knowledge.
+            </p>
+
+            <br><br>
+
+            <p>
+            Place:
+            <b>${data.place}</b>
+            </p>
+
+            <p>
+            Date:
+            <b>${data.date}</b>
+            </p>
+
+            ${
+                AGI.premium
+                ?
+                `
+                <br>
+
+                <p>
+                <b>ID:</b> ${docID}
+                </p>
+
+                <div id="qrCodeContainer"></div>
+
+                <br>
+
+                <button
+                onclick="copyID('${docID}')"
+                style="
+                    padding:10px 18px;
+                    border:none;
+                    background:black;
+                    color:white;
+                    border-radius:8px;
+                    cursor:pointer;
+                ">
+                    Copy ID
+                </button>
+                `
+                :
+                ""
+            }
+
+            <div style="
+                margin-top:120px;
+                display:flex;
+                justify-content:space-between;
+            ">
+
+                <div>
+                    ___________________<br>
+                    DEPONENT
+                </div>
+
+                <div>
+                    ___________________<br>
+                    NOTARY PUBLIC
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    `;
+
+    preview.innerHTML = html;
+
+    /* QR FIX */
 
     if(AGI.premium){
-        setTimeout(()=>generateQR(docID),100); // fix render bug
+
+        setTimeout(()=>{
+            generateQR(docID);
+        },300);
+
     }
 
     saveDoc(docID,data);
+
     loadHistory();
+
+    /* SUCCESS */
+
+    alert("Affidavit Generated ✔");
+
 }
 
-/* ================= COPY ================= */
+/* =========================================
+   COPY ID
+========================================= */
+
 function copyID(id){
-    navigator.clipboard.writeText(id || "");
+
+    navigator.clipboard.writeText(id);
+
     alert("Copied ✔");
+
 }
 
-/* ================= PRINT ================= */
+/* =========================================
+   PDF / PRINT FIX
+========================================= */
+
 function downloadPDF(){
 
-    let area = document.getElementById("previewArea");
+    let area =
+    document.getElementById(
+        "previewArea"
+    );
 
-    if(!area || area.innerHTML.trim()===""){
-        alert("Generate affidavit first ❗");
+    if(
+        !area ||
+        area.innerHTML.includes(
+            "Your professional affidavit preview"
+        )
+    ){
+
+        alert(
+            "Generate affidavit first ❗"
+        );
+
         return;
     }
 
-    let win = window.open("", "", "width=900,height=700");
+    let printWindow =
+    window.open(
+        "",
+        "_blank",
+        "width=1000,height=900"
+    );
 
-    win.document.write(`
-    <html>
-    <head>
-    <title>Affidavit</title>
+    if(!printWindow){
 
-    <style>
-    body{
-        font-family:Arial;
-        padding:40px;
-        line-height:1.8;
+        alert(
+            "Popup blocked ❌"
+        );
+
+        return;
     }
 
-    h2{
-        text-align:center;
+    printWindow.document.write(`
+
+    <html>
+
+    <head>
+
+    <title>Affidavit PDF</title>
+
+    <style>
+
+    body{
+        margin:0;
+        padding:25px;
+        background:white;
+        font-family:Arial;
     }
 
     button{
         display:none;
     }
+
+    @media print{
+
+        body{
+            margin:0;
+            padding:0;
+        }
+
+    }
+
     </style>
 
     </head>
+
     <body>
 
     ${area.innerHTML}
 
     <script>
+
     window.onload=function(){
-        window.print();
+
+        setTimeout(function(){
+
+            window.print();
+
+        },500);
+
     }
+
     <\/script>
 
     </body>
+
     </html>
+
     `);
 
-    win.document.close();
+    printWindow.document.close();
+
 }
