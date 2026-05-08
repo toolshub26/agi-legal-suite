@@ -56,9 +56,7 @@ function getVal(id){
     }
 
     restoreDraft();
-
     updateUI();
-
     loadHistory();
 
 })();
@@ -141,6 +139,14 @@ function updateUI(){
 
         badge.innerHTML =
         "🟢 Premium Active";
+
+    }else{
+
+        badge.innerHTML =
+        "🔴 Free Version";
+
+    }
+
 }
 
 /* =========================================
@@ -398,7 +404,7 @@ function generateAffidavit(){
     <div style="
         border:2px solid #d1d5db;
         padding:50px;
-        min-height:1000px;
+        min-height:auto;
         position:relative;
         background:white;
         font-family:Arial;
@@ -438,22 +444,6 @@ function generateAffidavit(){
         ">
             BEFORE THE NOTARY PUBLIC
         </p>
-
-        ${
-            !AGI.premium
-            ?
-            `
-            <div style="
-                color:red;
-                font-weight:bold;
-                margin-bottom:20px;
-            ">
-                FREE VERSION
-            </div>
-            `
-            :
-            ""
-        }
 
         <div style="
             line-height:2;
@@ -518,7 +508,7 @@ function generateAffidavit(){
             <br><br>
 
             <div style="
-                margin-top:120px;
+                margin-top:80px;
                 display:flex;
                 justify-content:space-between;
             ">
@@ -541,15 +531,9 @@ function generateAffidavit(){
 
     `;
 
-    /* RENDER FIX */
+    /* RENDER */
 
-    preview.innerHTML = "";
-
-    setTimeout(()=>{
-
-        preview.innerHTML = html;
-
-    },100);
+    preview.innerHTML = html;
 
     /* SAVE */
 
@@ -617,17 +601,26 @@ function downloadPDF(){
     <style>
 
     body{
-
         margin:0;
-        padding:25px;
+        padding:20px;
         background:white;
         font-family:Arial;
-
     }
 
     button{
-
         display:none;
+    }
+
+    @media print{
+
+        body{
+            margin:0;
+            padding:0;
+        }
+
+        div{
+            page-break-inside:avoid;
+        }
 
     }
 
@@ -661,4 +654,4 @@ function downloadPDF(){
 
     printWindow.document.close();
 
-    }
+}
