@@ -141,14 +141,6 @@ function updateUI(){
 
         badge.innerHTML =
         "🟢 Premium Active";
-
-    }else{
-
-        badge.innerHTML =
-        "🔴 Free Version";
-
-    }
-
 }
 
 /* =========================================
