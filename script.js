@@ -1,6 +1,5 @@
 /* =========================================
-   AGI – ULTRA PRO ENGINE v11 🚀
-   FINAL STABLE BUILD
+   AGI – ULTRA PRO ENGINE v15 🚀
 ========================================= */
 
 const AGI = {
@@ -12,16 +11,96 @@ const AGI = {
 };
 
 /* =========================================
+   SMART TEMPLATES
+========================================= */
+
+const affidavitTemplates = {
+
+    "Name Change":[
+        "I hereby declare that I have changed my name for official purposes.",
+        "My old and new names belong to the same person.",
+        "All future records may use my updated name."
+    ],
+
+    "Address Proof":[
+        "I currently reside at the mentioned address.",
+        "This affidavit is submitted as address proof.",
+        "The information provided is true."
+    ],
+
+    "Birth Affidavit":[
+        "This affidavit confirms birth details.",
+        "All information is true and correct."
+    ],
+
+    "Income Proof":[
+        "This affidavit declares income information.",
+        "The stated information is accurate."
+    ],
+
+    "Marriage Affidavit":[
+        "We are legally married.",
+        "Marriage was conducted willingly.",
+        "This affidavit is submitted as proof of marriage."
+    ],
+
+    "Single Status":[
+        "I am currently unmarried.",
+        "This declaration is true."
+    ],
+
+    "Nationality":[
+        "I am a citizen of India.",
+        "This affidavit is submitted for nationality verification."
+    ],
+
+    "Gap Certificate":[
+        "There was an educational gap due to personal reasons.",
+        "The gap period was lawful and genuine."
+    ],
+
+    "Property Declaration":[
+        "The mentioned property belongs to me.",
+        "This declaration is legally valid."
+    ],
+
+    "Bank Verification":[
+        "This affidavit is submitted for bank verification.",
+        "The information matches official records."
+    ],
+
+    "Lost Document":[
+        "I have lost my original document.",
+        "Despite careful search it could not be found.",
+        "If found I will surrender it immediately."
+    ],
+
+    "Vehicle Ownership":[
+        "The mentioned vehicle belongs to me.",
+        "This affidavit confirms ownership declaration."
+    ],
+
+    "Custom Purpose":[
+        "This affidavit is submitted for official purposes.",
+        "All information provided is true."
+    ]
+
+};
+
+/* =========================================
    SAFE GET
 ========================================= */
 
 function getVal(id){
 
-    let el = document.getElementById(id);
+    let el =
+    document.getElementById(id);
 
     if(!el) return "";
 
-    return String(el.value || "").trim();
+    return String(
+        el.value || ""
+    ).trim();
 
 }
 
@@ -34,12 +113,15 @@ function getVal(id){
     try{
 
         let p =
-        localStorage.getItem("agiPremium");
+        localStorage.getItem(
+            "agiPremium"
+        );
 
         let exp =
         parseInt(
-            localStorage.getItem("agiExpiry")
-            || "0"
+            localStorage.getItem(
+                "agiExpiry"
+            ) || "0"
         );
 
         AGI.premium =
@@ -59,6 +141,20 @@ function getVal(id){
     updateUI();
     loadHistory();
 
+    /* DARK MODE */
+
+    if(
+        localStorage.getItem(
+            "agiDarkMode"
+        ) === "true"
+    ){
+
+        document.body.classList.add(
+            "dark-mode"
+        );
+
+    }
+
 })();
 
 /* =========================================
@@ -67,13 +163,8 @@ function getVal(id){
 
 function unlockPremium(){
 
-    /* CHANGE THIS URL */
-
-    let paymentURL =
-    "https://yourwebsite.com/premium";
-
     window.open(
-        paymentURL,
+        "https://yourwebsite.com/premium",
         "_blank"
     );
 
@@ -135,17 +226,31 @@ function updateUI(){
 
     if(!badge) return;
 
-    if(AGI.premium){
+    badge.innerHTML =
+    AGI.premium
+    ?
+    "🟢 Premium Active"
+    :
+    "🔴 Free Version";
 
-        badge.innerHTML =
-        "🟢 Premium Active";
+}
 
-    }else{
+/* =========================================
+   DARK MODE
+========================================= */
 
-        badge.innerHTML =
-        "🔴 Free Version";
+function toggleDarkMode(){
 
-    }
+    document.body.classList.toggle(
+        "dark-mode"
+    );
+
+    localStorage.setItem(
+        "agiDarkMode",
+        document.body.classList.contains(
+            "dark-mode"
+        )
+    );
 
 }
 
@@ -197,6 +302,7 @@ function restoreDraft(){
                 );
 
             }
+
         );
 
     });
@@ -238,8 +344,9 @@ function saveDoc(docID,data){
 
     let history =
     JSON.parse(
-        localStorage.getItem("agiHistory")
-        || "[]"
+        localStorage.getItem(
+            "agiHistory"
+        ) || "[]"
     );
 
     history.unshift({
@@ -250,7 +357,12 @@ function saveDoc(docID,data){
 
     });
 
-    history = history.slice(0,10);
+    if(!AGI.premium){
+
+        history =
+        history.slice(0,10);
+
+    }
 
     localStorage.setItem(
         "agiHistory",
@@ -270,8 +382,9 @@ function loadHistory(){
 
     let history =
     JSON.parse(
-        localStorage.getItem("agiHistory")
-        || "[]"
+        localStorage.getItem(
+            "agiHistory"
+        ) || "[]"
     );
 
     if(history.length===0){
@@ -280,6 +393,7 @@ function loadHistory(){
         "No documents yet.";
 
         return;
+
     }
 
     let html = "";
@@ -294,7 +408,7 @@ function loadHistory(){
 
             ${item.date}<br>
 
-            ${item.id}
+            <small>${item.id}</small>
 
         </div>
 
@@ -325,10 +439,7 @@ function validateRequired(data){
 
     for(let key of required){
 
-        if(
-            !data[key] ||
-            String(data[key]).trim()===""
-        ){
+        if(!data[key]){
 
             alert(
                 "Fill all required fields ❗"
@@ -341,6 +452,50 @@ function validateRequired(data){
     }
 
     return true;
+
+}
+
+/* =========================================
+   AI DRAFT
+========================================= */
+
+function aiDraft(){
+
+    if(!AGI.premium){
+
+        alert(
+            "AI Draft is Premium 🔒"
+        );
+
+        return;
+
+    }
+
+    let purpose =
+    getVal("purposeType");
+
+    let detailsBox =
+    document.getElementById(
+        "details"
+    );
+
+    const aiMap = {
+
+        "Name Change":
+        "This affidavit is submitted for official name correction purposes.",
+
+        "Lost Document":
+        "The original document has been lost despite careful search.",
+
+        "Marriage Affidavit":
+        "This affidavit confirms legal marital status."
+
+    };
+
+    detailsBox.value =
+    aiMap[purpose]
+    ||
+    "Professional affidavit declaration.";
 
 }
 
@@ -362,6 +517,7 @@ function generateAffidavit(){
         );
 
         return;
+
     }
 
     let data = {
@@ -388,8 +544,6 @@ function generateAffidavit(){
 
     };
 
-    /* REQUIRED CHECK */
-
     if(!validateRequired(data)){
         return;
     }
@@ -397,133 +551,159 @@ function generateAffidavit(){
     let docID =
     generateDocID();
 
-    /* BUILD HTML */
+    /* TEMPLATE */
+
+    let templateLines =
+    affidavitTemplates[data.purposeType]
+    ||
+    affidavitTemplates["Custom Purpose"];
+
+    let templateHTML = "";
+
+    templateLines.forEach(line=>{
+
+        templateHTML += `
+        <li>${line}</li>
+        `;
+
+    });
+
+    if(data.details){
+
+        templateHTML += `
+        <li>${data.details}</li>
+        `;
+
+    }
+
+    /* SIGNATURE */
+
+    let signatureInput =
+    document.getElementById(
+        "signatureUpload"
+    );
+
+    let signatureURL = "";
+
+    if(
+        signatureInput &&
+        signatureInput.files[0]
+    ){
+
+        signatureURL =
+        URL.createObjectURL(
+            signatureInput.files[0]
+        );
+
+    }
+
+    /* BUILD */
 
     let html = `
 
+    <div class="stamp">
+        ₹${data.stamp}
+    </div>
+
     <div style="
-        border:2px solid #d1d5db;
-        padding:50px;
-        min-height:auto;
-        position:relative;
-        background:white;
-        font-family:Arial;
+        position:absolute;
+        top:20px;
+        left:20px;
+        font-size:12px;
+        color:#6b7280;
     ">
+        ${docID}
+    </div>
 
-        <div style="
-            position:absolute;
-            top:25px;
-            right:25px;
-            width:90px;
-            height:90px;
-            border:3px solid #dc2626;
-            border-radius:50%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            color:#dc2626;
-            font-weight:bold;
-            transform:rotate(-15deg);
-        ">
-            ₹${data.stamp}
-        </div>
+    <div class="doc-title">
+        AFFIDAVIT
+    </div>
 
-        <h1 style="
-            text-align:center;
-            margin-top:40px;
-            letter-spacing:3px;
-            font-size:42px;
-        ">
-            AFFIDAVIT
-        </h1>
+    <div class="doc-sub">
+        BEFORE THE NOTARY PUBLIC
+    </div>
 
-        <p style="
-            text-align:center;
-            margin-bottom:40px;
-            letter-spacing:2px;
-        ">
-            BEFORE THE NOTARY PUBLIC
+    <div class="doc-content">
+
+        <p>
+
+        I,
+        <b>${data.name}</b>,
+
+        S/o
+        <b>${data.father}</b>,
+
+        aged about
+        <b>${data.age}</b>
+        years,
+
+        resident of
+        <b>${data.address}</b>.
+
         </p>
 
+        <ol>
+
+            ${templateHTML}
+
+        </ol>
+
+        <br>
+
+        <p>
+        Place:
+        <b>${data.place}</b>
+        </p>
+
+        <p>
+        Date:
+        <b>${data.date}</b>
+        </p>
+
+        ${
+            signatureURL
+            ?
+            `
+            <div style="margin-top:30px;">
+            <img
+            src="${signatureURL}"
+            style="height:80px;">
+            </div>
+            `
+            :
+            ""
+        }
+
+        <div class="signatures">
+
+            <div class="sign">
+                <div class="sign-line">
+                DEPONENT
+                </div>
+            </div>
+
+            <div class="sign">
+                <div class="sign-line">
+                NOTARY PUBLIC
+                </div>
+            </div>
+
+        </div>
+
         <div style="
-            line-height:2;
-            font-size:18px;
+            margin-top:40px;
+            text-align:center;
+            font-size:12px;
+            color:#6b7280;
         ">
 
-            <p>
-
-            I,
-            <b>${data.name}</b>,
-
-            S/o
-            <b>${data.father}</b>,
-
-            aged about
-            <b>${data.age}</b>
-            years,
-
-            resident of
-            <b>${data.address}</b>.
-
-            </p>
-
-            <ol>
-
-                <li>
-                This affidavit is submitted for
-                <b>${data.purposeType}</b>.
-                </li>
-
-                ${
-                    data.details
-                    ?
-                    `
-                    <li>
-                    ${data.details}
-                    </li>
-                    `
-                    :
-                    ""
-                }
-
-                <li>
-                The above information is true
-                and correct.
-                </li>
-
-            </ol>
-
-            <br>
-
-            <p>
-            Place:
-            <b>${data.place}</b>
-            </p>
-
-            <p>
-            Date:
-            <b>${data.date}</b>
-            </p>
-
-            <br><br>
-
-            <div style="
-                margin-top:80px;
-                display:flex;
-                justify-content:space-between;
-            ">
-
-                <div>
-                    ___________________<br>
-                    DEPONENT
-                </div>
-
-                <div>
-                    ___________________<br>
-                    NOTARY PUBLIC
-                </div>
-
-            </div>
+            ${
+                !AGI.premium
+                ?
+                "Generated by AGI Legal Suite"
+                :
+                ""
+            }
 
         </div>
 
@@ -531,11 +711,7 @@ function generateAffidavit(){
 
     `;
 
-    /* RENDER */
-
     preview.innerHTML = html;
-
-    /* SAVE */
 
     saveDoc(docID,data);
 
@@ -548,20 +724,74 @@ function generateAffidavit(){
 }
 
 /* =========================================
-   PDF / PRINT FIX
+   QR CODE
+========================================= */
+
+function generateQRCode(){
+
+    if(!AGI.premium){
+
+        alert(
+            "QR Verification is Premium 🔒"
+        );
+
+        return;
+
+    }
+
+    let qrBox =
+    document.getElementById(
+        "qrBox"
+    );
+
+    qrBox.innerHTML = "";
+
+    new QRCode(qrBox,{
+
+        text:
+        document.getElementById(
+            "previewArea"
+        ).innerText,
+
+        width:180,
+        height:180
+
+    });
+
+}
+
+/* =========================================
+   WHATSAPP
+========================================= */
+
+function shareWhatsApp(){
+
+    let text =
+    document.getElementById(
+        "previewArea"
+    ).innerText;
+
+    let url =
+    `https://wa.me/?text=${encodeURIComponent(text)}`;
+
+    window.open(
+        url,
+        "_blank"
+    );
+
+}
+
+/* =========================================
+   PDF
 ========================================= */
 
 function downloadPDF(){
 
-    let area =
-    document.getElementById(
-        "previewArea"
-    );
-
     if(
-        !area ||
-        area.innerHTML.includes(
-            "Your professional affidavit preview"
+        document.getElementById(
+            "previewArea"
+        ).innerText.includes(
+            "preview will appear here"
         )
     ){
 
@@ -573,85 +803,6 @@ function downloadPDF(){
 
     }
 
-    let printWindow =
-    window.open(
-        "",
-        "_blank",
-        "width=1000,height=900"
-    );
-
-    if(!printWindow){
-
-        alert(
-            "Popup blocked ❌"
-        );
-
-        return;
-
-    }
-
-    printWindow.document.write(`
-
-    <html>
-
-    <head>
-
-    <title>Affidavit PDF</title>
-
-    <style>
-
-    body{
-        margin:0;
-        padding:20px;
-        background:white;
-        font-family:Arial;
-    }
-
-    button{
-        display:none;
-    }
-
-    @media print{
-
-        body{
-            margin:0;
-            padding:0;
-        }
-
-        div{
-            page-break-inside:avoid;
-        }
-
-    }
-
-    </style>
-
-    </head>
-
-    <body>
-
-    ${area.innerHTML}
-
-    <script>
-
-    window.onload=function(){
-
-        setTimeout(function(){
-
-            window.print();
-
-        },500);
-
-    }
-
-    <\/script>
-
-    </body>
-
-    </html>
-
-    `);
-
-    printWindow.document.close();
+    window.print();
 
 }
