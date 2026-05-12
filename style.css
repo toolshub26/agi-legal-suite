@@ -1,5 +1,15 @@
 /* =========================================
-   AGI ULTRA PRO v15 - AI 🚀
+   AGI ULTRA PRO v16 AI 🚀
+   ULTIMATE LEGAL SAAS STYLE
+========================================= */
+
+/* =========================================
+   GOOGLE FONT
+========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;700&display=swap');
+
+/* =========================================
    GLOBAL RESET
 ========================================= */
 
@@ -14,12 +24,28 @@ scroll-behavior:smooth;
 }
 
 body{
+
 font-family:"Inter",sans-serif;
-background:#eef2f7;
+
+background:
+linear-gradient(
+135deg,
+#eef2f7,
+#dbeafe
+);
+
 color:#111827;
+
 line-height:1.6;
+
 transition:.3s ease;
+
 overflow-x:hidden;
+
+padding:20px;
+
+min-height:100vh;
+
 }
 
 /* =========================================
@@ -27,47 +53,59 @@ overflow-x:hidden;
 ========================================= */
 
 .dark-mode{
-background:#020617;
+
+background:
+linear-gradient(
+135deg,
+#020617,
+#111827
+);
+
 color:white;
+
 }
 
 .dark-mode .form-section,
 .dark-mode .preview-section,
-.dark-mode .history-box{
+.dark-mode .history-box,
+.dark-mode .analytics-box,
+.dark-mode .legal-ai-box{
+
 background:#111827;
 color:white;
+
 }
 
 .dark-mode input,
 .dark-mode select,
-.dark-mode textarea{
+.dark-mode textarea,
+.dark-mode canvas{
+
 background:#1f2937;
 color:white;
 border-color:#374151;
+
 }
 
 .dark-mode .tagline,
-.dark-mode .doc-id{
+.dark-mode .doc-id,
+.dark-mode .subtitle{
+
 color:#d1d5db;
+
 }
 
 .dark-mode .watermark{
+
 color:rgba(255,255,255,0.05);
+
 }
 
-/* =========================================
-   MAIN LAYOUT
-========================================= */
+.dark-mode .history-item{
 
-.container{
-max-width:1500px;
-margin:auto;
-padding:25px;
-display:flex;
-flex-wrap:wrap;
-gap:30px;
-justify-content:center;
-align-items:flex-start;
+background:#1f2937;
+border-left:5px solid #3b82f6;
+
 }
 
 /* =========================================
@@ -75,27 +113,44 @@ align-items:flex-start;
 ========================================= */
 
 header{
-width:100%;
+
 text-align:center;
-margin-bottom:10px;
+
+margin-bottom:30px;
+
+animation:fadeIn .7s ease;
+
 }
 
 header h1{
-font-size:34px;
+
+font-size:42px;
+
 font-weight:800;
-margin-bottom:6px;
-background:linear-gradient(
+
+margin-bottom:10px;
+
+background:
+linear-gradient(
 90deg,
 #111827,
-#2563eb
+#2563eb,
+#7c3aed
 );
+
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
+
 }
 
 .tagline{
-font-size:15px;
+
+font-size:16px;
+
 color:#4b5563;
+
+font-weight:500;
+
 }
 
 /* =========================================
@@ -103,29 +158,53 @@ color:#4b5563;
 ========================================= */
 
 .premium-active{
-background:linear-gradient(
+
+display:inline-block;
+
+padding:12px 22px;
+
+border-radius:40px;
+
+font-size:14px;
+
+font-weight:700;
+
+background:
+linear-gradient(
 135deg,
 #059669,
 #10b981
 );
-color:#fff;
-padding:8px 14px;
-font-size:13px;
-border-radius:30px;
-margin-bottom:15px;
-display:inline-block;
-font-weight:700;
-box-shadow:0 4px 10px rgba(0,0,0,.1);
+
+color:white;
+
+box-shadow:
+0 8px 25px rgba(16,185,129,.25);
+
+margin-top:10px;
+
 }
 
 /* =========================================
-   LOCKED PREMIUM
+   MAIN CONTAINER
 ========================================= */
 
-.locked{
-opacity:0.55;
-pointer-events:none;
-filter:blur(.3px);
+.container{
+
+max-width:1600px;
+
+margin:auto;
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:35px;
+
+align-items:flex-start;
+
+justify-content:center;
+
 }
 
 /* =========================================
@@ -133,32 +212,58 @@ filter:blur(.3px);
 ========================================= */
 
 .form-section{
-background:#fff;
-padding:28px;
-width:360px;
-border-radius:22px;
-box-shadow:0 10px 35px rgba(0,0,0,0.08);
+
+background:white;
+
+width:370px;
+
+padding:30px;
+
+border-radius:24px;
+
+box-shadow:
+0 15px 45px rgba(0,0,0,.08);
+
 position:sticky;
+
 top:20px;
-transition:.3s;
+
+transition:.3s ease;
+
+backdrop-filter:blur(12px);
+
 }
 
 .form-section:hover{
-transform:translateY(-2px);
+
+transform:translateY(-3px);
+
 }
 
 .form-section h2{
-margin-bottom:20px;
-font-size:24px;
+
+font-size:26px;
+
 font-weight:800;
+
+margin-bottom:20px;
+
 }
 
+/* =========================================
+   LABELS
+========================================= */
+
 .form-section label{
+
 display:block;
-margin-top:14px;
-font-weight:700;
+
+margin-top:15px;
+margin-bottom:7px;
+
 font-size:14px;
-color:#111827;
+font-weight:700;
+
 }
 
 /* =========================================
@@ -168,37 +273,62 @@ color:#111827;
 .form-section input,
 .form-section select,
 .form-section textarea{
+
 width:100%;
-padding:13px;
-margin-top:6px;
+
+padding:14px;
+
 border:1px solid #d1d5db;
-border-radius:14px;
+
+border-radius:16px;
+
 font-size:14px;
+
 background:#f9fafb;
-transition:.25s;
+
+transition:.25s ease;
+
 font-family:inherit;
+
 }
 
 .form-section input:focus,
 .form-section select:focus,
 .form-section textarea:focus{
+
 outline:none;
+
 border-color:#2563eb;
+
 background:white;
-box-shadow:0 0 0 4px rgba(37,99,235,.1);
+
+box-shadow:
+0 0 0 5px rgba(37,99,235,.12);
+
 }
 
 .form-section textarea{
-min-height:90px;
+
+min-height:100px;
+
 resize:vertical;
+
 }
 
 /* =========================================
-   TOGGLE
+   SIGNATURE PAD
 ========================================= */
 
-.toggle-group{
-margin-top:15px;
+#signaturePad{
+
+margin-top:10px;
+
+border:2px dashed #cbd5e1;
+
+border-radius:16px;
+
+background:white;
+
 }
 
 /* =========================================
@@ -206,28 +336,58 @@ margin-top:15px;
 ========================================= */
 
 .button-group{
-margin-top:18px;
+
+margin-top:22px;
+
 display:grid;
+
 grid-template-columns:1fr 1fr;
-gap:12px;
+
+gap:14px;
+
 }
 
 button{
-padding:13px;
+
+padding:14px;
+
 border:none;
-background:#111827;
-color:#fff;
-cursor:pointer;
+
+border-radius:16px;
+
 font-size:14px;
-border-radius:14px;
-transition:.25s ease;
+
 font-weight:700;
+
+cursor:pointer;
+
+transition:.25s ease;
+
 font-family:inherit;
+
+background:#111827;
+
+color:white;
+
+box-shadow:
+0 6px 16px rgba(0,0,0,.08);
+
 }
 
 button:hover{
-transform:translateY(-2px);
+
+transform:
+translateY(-2px)
+scale(1.02);
+
 opacity:.95;
+
+}
+
+button:active{
+
+transform:scale(.98);
+
 }
 
 .btn-green{
@@ -247,59 +407,199 @@ background:#7c3aed;
 }
 
 /* =========================================
+   QR BOX
+========================================= */
+
+#qrBox{
+
+margin-top:25px;
+
+text-align:center;
+
+padding:15px;
+
+border-radius:18px;
+
+background:#f8fafc;
+
+}
+
+/* =========================================
+   HISTORY BOX
+========================================= */
+
+.history-box,
+.analytics-box{
+
+margin-top:25px;
+
+background:#fff;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:
+0 8px 24px rgba(0,0,0,.06);
+
+}
+
+.history-box h3,
+.analytics-box h3{
+
+margin-bottom:16px;
+
+font-size:20px;
+
+font-weight:800;
+
+}
+
+.history-item{
+
+background:#f3f4f6;
+
+padding:14px;
+
+border-radius:14px;
+
+margin-bottom:12px;
+
+border-left:5px solid #2563eb;
+
+font-size:13px;
+
+overflow-wrap:break-word;
+
+transition:.25s;
+
+}
+
+.history-item:hover{
+
+transform:translateX(3px);
+
+}
+
+/* =========================================
    PREVIEW SECTION
 ========================================= */
 
 .preview-section{
-background:#fff;
+
+background:white;
+
 width:210mm;
+
 min-height:297mm;
+
 padding:25mm 20mm;
-box-shadow:0 15px 45px rgba(0,0,0,0.12);
+
+border-radius:22px;
+
 position:relative;
+
 overflow:hidden;
-border-radius:18px;
+
+box-shadow:
+0 20px 55px rgba(0,0,0,.12);
+
 }
 
 /* =========================================
-   DOCUMENT
+   DOCUMENT PREVIEW
 ========================================= */
 
 .document-preview{
-font-size:15px;
-text-align:left;
+
 position:relative;
+
 z-index:2;
+
+font-size:15px;
+
 }
 
 .document-preview p{
-margin-bottom:14px;
+
+margin-bottom:16px;
+
+text-align:justify;
+
 }
 
-.title{
+/* =========================================
+   MEEZAN LOGO
+========================================= */
+
+.meezan-logo{
+
 text-align:center;
-font-size:38px;
-font-weight:700;
+
+font-size:15px;
+
+font-weight:800;
+
+letter-spacing:2px;
+
+margin-bottom:25px;
+
+color:#2563eb;
+
+}
+
+/* =========================================
+   TITLE
+========================================= */
+
+.title{
+
+text-align:center;
+
+font-size:44px;
+
+letter-spacing:5px;
+
 margin-bottom:12px;
-letter-spacing:4px;
-font-family:"Cormorant Garamond",serif;
+
+font-family:
+"Cormorant Garamond",
+serif;
+
+font-weight:700;
+
 }
 
 .subtitle{
+
 text-align:center;
+
 font-size:14px;
+
 letter-spacing:2px;
-margin-bottom:40px;
+
+margin-bottom:45px;
+
 color:#4b5563;
+
 }
 
+/* =========================================
+   LISTS
+========================================= */
+
 .document-preview ol{
-padding-left:24px;
-margin-top:15px;
+
+padding-left:28px;
+
+margin-top:14px;
+
 }
 
 .document-preview li{
-margin-bottom:14px;
+
+margin-bottom:15px;
+
 }
 
 /* =========================================
@@ -307,21 +607,62 @@ margin-bottom:14px;
 ========================================= */
 
 .stamp{
+
 position:absolute;
+
 top:30px;
 right:30px;
-width:90px;
-height:90px;
-border:3px solid #dc2626;
+
+width:95px;
+height:95px;
+
+border:4px solid #dc2626;
+
 border-radius:50%;
+
 display:flex;
+
 align-items:center;
 justify-content:center;
-font-size:20px;
+
+font-size:22px;
 font-weight:800;
+
 color:#dc2626;
+
 transform:rotate(-15deg);
+
 z-index:3;
+
+background:white;
+
+}
+
+/* =========================================
+   NOTARY SEAL
+========================================= */
+
+.notary-seal{
+
+position:absolute;
+
+bottom:120px;
+right:40px;
+
+padding:12px 18px;
+
+border:2px dashed #111827;
+
+border-radius:14px;
+
+font-size:12px;
+
+font-weight:800;
+
+transform:rotate(-8deg);
+
+opacity:.75;
+
 }
 
 /* =========================================
@@ -329,24 +670,39 @@ z-index:3;
 ========================================= */
 
 .signature-section{
+
 display:flex;
+
 justify-content:space-between;
+
 gap:40px;
+
 margin-top:80px;
+
 flex-wrap:wrap;
+
 }
 
 .signature-block{
+
 width:220px;
+
 text-align:center;
+
 }
 
 .signature-line{
+
 border-top:2px solid #000;
-margin-top:40px;
+
+margin-top:45px;
+
 padding-top:8px;
+
 font-size:13px;
+
 font-weight:700;
+
 }
 
 /* =========================================
@@ -354,21 +710,17 @@ font-weight:700;
 ========================================= */
 
 .doc-id{
+
+margin-top:40px;
+
 text-align:center;
+
 font-size:12px;
-margin-top:35px;
+
 color:#6b7280;
-}
 
-/* =========================================
-   QR CODE
-========================================= */
+font-weight:600;
 
-#qrCodeContainer{
-position:absolute;
-bottom:30px;
-right:30px;
-z-index:3;
 }
 
 /* =========================================
@@ -376,45 +728,30 @@ z-index:3;
 ========================================= */
 
 .watermark{
+
 position:absolute;
+
 top:50%;
 left:50%;
+
 transform:
 translate(-50%,-50%)
 rotate(-30deg);
-font-size:90px;
-color:rgba(0,0,0,0.04);
+
+font-size:95px;
+
 font-weight:800;
-pointer-events:none;
+
+color:rgba(0,0,0,.04);
+
 white-space:nowrap;
-z-index:1;
+
+pointer-events:none;
+
 user-select:none;
-}
 
-/* =========================================
-   HISTORY BOX
-========================================= */
+z-index:1;
 
-.history-box{
-margin-top:20px;
-background:#fff;
-padding:18px;
-border-radius:16px;
-box-shadow:0 6px 18px rgba(0,0,0,.06);
-}
-
-.history-box h3{
-margin-bottom:14px;
-font-size:18px;
-}
-
-.history-item{
-background:#f3f4f6;
-padding:12px;
-border-radius:12px;
-margin-bottom:10px;
-border-left:5px solid #2563eb;
-font-size:13px;
 }
 
 /* =========================================
@@ -422,50 +759,179 @@ font-size:13px;
 ========================================= */
 
 [dir="rtl"]{
+
 text-align:right;
+
 font-family:
 "Noto Nastaliq Urdu",
 "Arial",
 serif;
+
 }
 
 /* =========================================
-   MOBILE
+   AI GLOW EFFECT
+========================================= */
+
+.ai-glow{
+
+animation:aiGlow 2s infinite alternate;
+
+}
+
+@keyframes aiGlow{
+
+from{
+
+box-shadow:
+0 0 0 rgba(37,99,235,.1);
+
+}
+
+to{
+
+box-shadow:
+0 0 28px rgba(37,99,235,.35);
+
+}
+
+}
+
+/* =========================================
+   FADE ANIMATION
+========================================= */
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(10px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+/* =========================================
+   LEGAL AI CHATBOX
+========================================= */
+
+.legal-ai-box{
+
+position:fixed;
+
+bottom:20px;
+right:20px;
+
+width:320px;
+
+background:white;
+
+padding:20px;
+
+border-radius:22px;
+
+box-shadow:
+0 15px 40px rgba(0,0,0,.15);
+
+z-index:9999;
+
+}
+
+/* =========================================
+   ANALYTICS
+========================================= */
+
+.analytics-box p{
+
+margin-bottom:10px;
+
+font-size:14px;
+
+font-weight:600;
+
+}
+
+/* =========================================
+   MOBILE RESPONSIVE
 ========================================= */
 
 @media(max-width:1100px){
 
 .container{
+
 flex-direction:column;
+
 align-items:center;
+
 }
 
 .form-section{
+
 width:100%;
+
 position:relative;
+
 top:auto;
+
 }
 
 .preview-section{
+
 width:100%;
+
 min-height:auto;
+
 padding:20px;
+
 }
 
 .button-group{
+
 grid-template-columns:1fr;
+
 }
 
 .title{
-font-size:30px;
+
+font-size:32px;
+
+}
+
+.subtitle{
+
+font-size:12px;
+
+}
+
+.document-preview{
+
+font-size:14px;
+
+}
+
+.stamp{
+
+width:75px;
+height:75px;
+
+font-size:16px;
+
 }
 
 .signature-section{
+
 gap:20px;
+
 }
 
 .signature-block{
+
 width:45%;
+
 }
 
 }
@@ -475,65 +941,84 @@ width:45%;
 ========================================= */
 
 @page{
+
 size:A4;
+
 margin:15mm;
+
 }
 
 @media print{
 
 body{
+
 background:#fff;
-margin:0;
+
 padding:0;
+margin:0;
+
 }
 
-.form-section,
 header,
-footer,
+.form-section,
+.history-box,
+.analytics-box,
 .button-group,
-.history-box{
+#qrBox,
+.legal-ai-box{
+
 display:none !important;
+
 }
 
 .preview-section{
+
 width:180mm;
+
 min-height:auto;
+
 margin:0 auto;
+
 padding:0;
+
 box-shadow:none;
+
 border-radius:0;
-}
 
-button{
-display:none !important;
-}
-
-.signature-section{
-page-break-inside:avoid;
 }
 
 .watermark{
+
 opacity:.08;
+
+}
+
+button{
+
+display:none !important;
+
 }
 
 }
 
 /* =========================================
-   AI GLOW EFFECT
+   SCROLLBAR
 ========================================= */
 
-.ai-glow{
-animation:aiGlow 2s infinite alternate;
+::-webkit-scrollbar{
+width:10px;
 }
 
-@keyframes aiGlow{
+::-webkit-scrollbar-thumb{
 
-from{
-box-shadow:0 0 0 rgba(37,99,235,.1);
+background:#2563eb;
+
+border-radius:10px;
+
 }
 
-to{
-box-shadow:0 0 25px rgba(37,99,235,.3);
-}
+::-webkit-scrollbar-track{
+
+background:#dbeafe;
 
 }
