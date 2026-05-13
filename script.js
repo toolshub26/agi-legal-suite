@@ -1344,3 +1344,29 @@ alert(
 reader.readAsText(file);
 
 }
+/* =========================================
+   EXTRA FUNCTIONS
+========================================= */
+
+function clearSignaturePad(){
+
+if(window.signaturePad){
+signaturePad.clear();
+}
+
+}
+
+function verifyDocument(){
+
+alert("Verification system coming soon");
+
+}
+
+function bookNotary(){
+
+window.open(
+"https://wa.me/911234567890",
+"_blank"
+);
+
+}
