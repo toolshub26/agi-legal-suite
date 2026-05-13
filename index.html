@@ -24,25 +24,18 @@ rel="stylesheet">
 <link rel="stylesheet"
 href="style.css">
 
-<!-- QR -->
-
+<!-- QR CODE -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <!-- REAL PDF -->
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <!-- SIGNATURE PAD -->
-
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 
 </head>
 
 <body>
-
-<!-- =========================================
-TOP HEADER
-========================================= -->
 
 <header>
 
@@ -65,25 +58,13 @@ class="premium-active">
 
 </header>
 
-<!-- =========================================
-MAIN CONTAINER
-========================================= -->
-
 <div class="container">
-
-<!-- =========================================
-FORM SECTION
-========================================= -->
 
 <div class="form-section ai-glow">
 
 <h2>
 Generate Affidavit
 </h2>
-
-<!-- =========================================
-AI ASSISTANT
-========================================= -->
 
 <label>
 AI Quick Prompt
@@ -101,10 +82,6 @@ onclick="generateAIQuickAffidavit()">
 
 </button>
 
-<!-- =========================================
-VOICE INPUT
-========================================= -->
-
 <button
 class="btn-blue"
 onclick="startVoiceInput()">
@@ -113,10 +90,6 @@ onclick="startVoiceInput()">
 
 </button>
 
-<!-- =========================================
-LANGUAGE
-========================================= -->
-
 <label>
 Language
 </label>
@@ -124,20 +97,12 @@ Language
 <select id="lang">
 
 <option>English</option>
-
 <option>Urdu</option>
-
 <option>Hindi</option>
-
 <option>Arabic</option>
-
 <option>French</option>
 
 </select>
-
-<!-- =========================================
-COUNTRY
-========================================= -->
 
 <label>
 Country Format
@@ -146,22 +111,13 @@ Country Format
 <select id="countryFormat">
 
 <option>India</option>
-
 <option>Pakistan</option>
-
 <option>UAE</option>
-
 <option>Saudi Arabia</option>
-
 <option>United Kingdom</option>
-
 <option>United States</option>
 
 </select>
-
-<!-- =========================================
-PURPOSE
-========================================= -->
 
 <label>
 Affidavit Purpose
@@ -170,40 +126,22 @@ Affidavit Purpose
 <select id="purposeType">
 
 <option>Name Change</option>
-
 <option>Address Proof</option>
-
 <option>Birth Affidavit</option>
-
 <option>Income Proof</option>
-
 <option>Marriage Affidavit</option>
-
 <option>Single Status</option>
-
 <option>Nationality</option>
-
 <option>Gap Certificate</option>
-
 <option>Property Declaration</option>
-
 <option>Bank Verification</option>
-
 <option>Lost Document</option>
-
 <option>Vehicle Ownership</option>
-
 <option>Embassy Affidavit</option>
-
 <option>Visa Affidavit</option>
-
 <option>Custom Purpose</option>
 
 </select>
-
-<!-- =========================================
-NAME
-========================================= -->
 
 <label>
 Full Name
@@ -214,10 +152,6 @@ type="text"
 id="name"
 placeholder="Enter full name">
 
-<!-- =========================================
-FATHER
-========================================= -->
-
 <label>
 Father / Parent Name
 </label>
@@ -226,10 +160,6 @@ Father / Parent Name
 type="text"
 id="father"
 placeholder="Enter parent name">
-
-<!-- =========================================
-AGE
-========================================= -->
 
 <label>
 Age
@@ -240,10 +170,6 @@ type="number"
 id="age"
 placeholder="Enter age">
 
-<!-- =========================================
-ADDRESS
-========================================= -->
-
 <label>
 Address
 </label>
@@ -251,10 +177,6 @@ Address
 <textarea
 id="address"
 placeholder="Enter address"></textarea>
-
-<!-- =========================================
-DETAILS
-========================================= -->
 
 <label>
 Additional Details
@@ -264,10 +186,6 @@ Additional Details
 id="details"
 placeholder="Optional additional details"></textarea>
 
-<!-- =========================================
-TONE
-========================================= -->
-
 <label>
 Legal Tone
 </label>
@@ -275,18 +193,11 @@ Legal Tone
 <select id="tone">
 
 <option>Formal</option>
-
 <option>Court Style</option>
-
 <option>Embassy Style</option>
-
 <option>Simple</option>
 
 </select>
-
-<!-- =========================================
-STAMP
-========================================= -->
 
 <label>
 Stamp Value
@@ -295,18 +206,11 @@ Stamp Value
 <select id="stampValue">
 
 <option>₹10</option>
-
 <option>₹20</option>
-
 <option>₹50</option>
-
 <option>₹100</option>
 
 </select>
-
-<!-- =========================================
-PLACE
-========================================= -->
 
 <label>
 Place
@@ -317,10 +221,6 @@ type="text"
 id="place"
 placeholder="Enter place">
 
-<!-- =========================================
-DATE
-========================================= -->
-
 <label>
 Date
 </label>
@@ -328,10 +228,6 @@ Date
 <input
 type="date"
 id="date">
-
-<!-- =========================================
-SIGNATURE UPLOAD
-========================================= -->
 
 <label>
 Upload Signature
@@ -341,10 +237,6 @@ Upload Signature
 type="file"
 id="signatureUpload"
 accept="image/*">
-
-<!-- =========================================
-DIGITAL SIGNATURE PAD
-========================================= -->
 
 <label>
 Digital Signature Pad
@@ -370,10 +262,6 @@ Clear Signature
 
 </button>
 
-<!-- =========================================
-OCR UPLOAD
-========================================= -->
-
 <label>
 Scan Aadhaar / Passport
 </label>
@@ -383,112 +271,79 @@ type="file"
 id="ocrUpload"
 accept="image/*,.pdf">
 
-<!-- =========================================
-BUTTONS
-========================================= -->
-
 <div class="button-group">
 
-<button
-onclick="generateAffidavit()">
-
+<button onclick="generateAffidavit()">
 Generate
-
 </button>
 
 <button
 class="btn-green"
 onclick="downloadPDF()">
-
 Download PDF
-
 </button>
 
 <button
 class="btn-blue"
 onclick="activatePremiumManually()">
-
 Enter Code
-
 </button>
 
 <button
 class="btn-orange"
 onclick="unlockPremium()">
-
 Unlock PRO 🚀
-
 </button>
 
 <button
 class="btn-purple"
 onclick="aiDraft()">
-
 AI Draft
-
 </button>
 
 <button
 class="btn-green"
 onclick="generateQRCode()">
-
 Generate QR
-
 </button>
 
 <button
 class="btn-blue"
 onclick="shareWhatsApp()">
-
 WhatsApp
-
 </button>
 
 <button
 class="btn-orange"
 onclick="toggleDarkMode()">
-
 Dark Mode
-
 </button>
 
 <button
 class="btn-purple"
 onclick="emailPDF()">
-
 Email PDF
-
 </button>
 
 <button
 class="btn-green"
 onclick="verifyDocument()">
-
 Verify QR
-
 </button>
 
 <button
 class="btn-blue"
 onclick="openLegalAI()">
-
 Legal AI
-
 </button>
 
 <button
 class="btn-orange"
 onclick="bookNotary()">
-
 Book Notary
-
 </button>
 
 </div>
-
-<!-- =========================================
-AI STATUS
-========================================= -->
 
 <div id="aiStatus"
 style="
@@ -499,15 +354,7 @@ color:#2563eb;
 ">
 </div>
 
-<!-- =========================================
-QR BOX
-========================================= -->
-
 <div id="qrBox"></div>
-
-<!-- =========================================
-HISTORY
-========================================= -->
 
 <div class="history-box">
 
@@ -516,16 +363,10 @@ Recent Documents
 </h3>
 
 <div id="history">
-
 No documents yet.
-
 </div>
 
 </div>
-
-<!-- =========================================
-ANALYTICS
-========================================= -->
 
 <div class="history-box">
 
@@ -551,25 +392,15 @@ Premium Users:
 
 </div>
 
-<!-- =========================================
-PREVIEW SECTION
-========================================= -->
-
 <div class="preview-section">
-
-<!-- WATERMARK -->
 
 <div class="watermark">
 AGI ULTRA PRO
 </div>
 
-<!-- DOCUMENT -->
-
 <div
 class="document-preview"
 id="previewArea">
-
-<!-- DOC ID -->
 
 <div
 style="
@@ -584,58 +415,35 @@ IND-AFF-2026
 
 </div>
 
-<!-- STAMP -->
-
 <div class="stamp">
 ₹10
 </div>
 
-<!-- MEEZAN -->
-
 <div class="meezan-logo">
-
 ⚖️ MEEZAN LEGAL SERVICES
-
 </div>
-
-<!-- TITLE -->
 
 <div class="title">
 AFFIDAVIT
 </div>
 
-<!-- SUBTITLE -->
-
 <div class="subtitle">
 BEFORE THE NOTARY PUBLIC
 </div>
 
-<!-- NOTARY -->
-
 <div class="notary-seal">
-
 NOTARY VERIFIED
-
 </div>
-
-<!-- CONTENT -->
 
 <p>
 Your professional affidavit preview
 will appear here.
 </p>
 
-<!-- QR -->
-
 <div id="qrCodeContainer"></div>
 
-<!-- FOOTER -->
-
 <div class="doc-id">
-
-Powered by
-AGI ULTRA PRO v16 AI
-
+Powered by AGI ULTRA PRO v16 AI
 </div>
 
 </div>
@@ -643,10 +451,6 @@ AGI ULTRA PRO v16 AI
 </div>
 
 </div>
-
-<!-- =========================================
-LEGAL AI CHAT
-========================================= -->
 
 <div
 id="legalAiBox"
@@ -695,10 +499,7 @@ font-size:14px;
 
 </div>
 
-<!-- =========================================
-SCRIPTS
-========================================= -->
-
+<!-- MAIN SCRIPT -->
 <script src="script.js"></script>
 
 <script>
