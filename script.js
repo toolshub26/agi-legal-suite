@@ -224,6 +224,26 @@ document.body.classList.add(
 
 }
 
+/* PREMIUM EXPIRY */
+
+let expiry =
+localStorage.getItem(
+"agiPremiumExpiry"
+);
+
+if(
+expiry &&
+Date.now() > Number(expiry)
+){
+
+localStorage.removeItem(
+"agiPremium"
+);
+
+AGI.premium = false;
+
+}
+
 })();
 
 /* =========================================
@@ -233,17 +253,31 @@ document.body.classList.add(
 function activatePremiumManually(){
 
 let code =
-prompt("Enter Premium Code");
+prompt(
+"Enter Premium Code"
+);
 
 if(!code) return;
 
-if(code.trim()===AGI.premiumCode){
+if(
+code.trim() ===
+AGI.premiumCode
+){
 
 AGI.premium = true;
 
 localStorage.setItem(
 "agiPremium",
 "true"
+);
+
+let expiry =
+Date.now() +
+(30*24*60*60*1000);
+
+localStorage.setItem(
+"agiPremiumExpiry",
+expiry
 );
 
 updateUI();
@@ -331,7 +365,9 @@ const fieldIDs = [
 "details",
 "place",
 "date",
-"purposeType"
+"purposeType",
+"tone",
+"stampValue"
 
 ];
 
@@ -511,7 +547,6 @@ JSON.stringify(history)
 );
 
 loadHistory();
-
 updateAnalytics();
 
 }
@@ -529,7 +564,6 @@ localStorage.removeItem(
 );
 
 loadHistory();
-
 updateAnalytics();
 
 }
@@ -597,6 +631,29 @@ return true;
 }
 
 /* =========================================
+   AI STATUS
+========================================= */
+
+function showAIStatus(msg){
+
+let box =
+document.getElementById(
+"aiStatus"
+);
+
+if(!box) return;
+
+box.innerHTML = msg;
+
+setTimeout(()=>{
+
+box.innerHTML = "";
+
+},3000);
+
+}
+
+/* =========================================
    AI DRAFT
 ========================================= */
 
@@ -605,24 +662,28 @@ function aiDraft(){
 if(!AGI.premium){
 
 alert(
-"AI Draft is Premium 🔒"
+"AI Draft Premium Only 🔒"
 );
 
 return;
 
 }
 
+showAIStatus(
+"🤖 AI Generating Draft..."
+);
+
 let purpose =
 getVal("purposeType");
 
-let details =
+let tone =
+getVal("tone");
+
 document.getElementById(
 "details"
-);
+).value =
 
-details.value =
-"Professional affidavit declaration regarding " +
-purpose + ".";
+`This ${tone} affidavit is submitted regarding ${purpose}. All statements are true and valid to the best of my knowledge.`;
 
 }
 
@@ -660,6 +721,10 @@ generateAffidavit();
 
 function generateAffidavit(){
 
+showAIStatus(
+"⚡ Generating Affidavit..."
+);
+
 let preview =
 document.getElementById(
 "previewArea"
@@ -675,7 +740,8 @@ address:getVal("address"),
 details:getVal("details"),
 purposeType:getVal("purposeType"),
 place:getVal("place"),
-date:getVal("date")
+date:getVal("date"),
+stamp:getVal("stampValue")
 
 };
 
@@ -741,10 +807,23 @@ signatureInput.files[0]
 
 }
 
+let signaturePadImage = "";
+
+if(
+typeof signaturePad !==
+"undefined" &&
+!signaturePad.isEmpty()
+){
+
+signaturePadImage =
+signaturePad.toDataURL();
+
+}
+
 let html = `
 
 <div class="stamp">
-₹10
+${data.stamp}
 </div>
 
 <div class="meezan-logo">
@@ -788,9 +867,21 @@ signatureURL
 <div style="margin-top:30px;">
 <img
 src="${signatureURL}"
-style="
-height:80px;
-">
+style="height:80px;">
+</div>
+`
+:
+""
+}
+
+${
+signaturePadImage
+?
+`
+<div style="margin-top:20px;">
+<img
+src="${signaturePadImage}"
+style="height:80px;">
 </div>
 `
 :
@@ -817,10 +908,10 @@ NOTARY PUBLIC
 
 </div>
 
+<div id="qrCodeContainer"></div>
+
 <div class="doc-id">
-
 ${docID}
-
 </div>
 
 </div>
@@ -851,6 +942,8 @@ preview.setAttribute(
 
 saveDoc(docID,data);
 
+generateQRCode();
+
 loadHistory();
 
 alert(
@@ -860,15 +953,17 @@ alert(
 }
 
 /* =========================================
-   QR
+   QR CODE
 ========================================= */
 
 function generateQRCode(){
 
 let qrBox =
 document.getElementById(
-"qrBox"
+"qrCodeContainer"
 );
+
+if(!qrBox) return;
 
 qrBox.innerHTML = "";
 
@@ -879,10 +974,34 @@ document.getElementById(
 "previewArea"
 ).innerText,
 
-width:180,
-height:180
+width:120,
+height:120
 
 });
+
+}
+
+/* =========================================
+   VERIFY DOCUMENT
+========================================= */
+
+function verifyDocument(){
+
+alert(
+"QR Verification System Ready ✅"
+);
+
+}
+
+/* =========================================
+   BOOK NOTARY
+========================================= */
+
+function bookNotary(){
+
+alert(
+"Online Notary Booking Coming Soon 🚀"
+);
 
 }
 
@@ -905,12 +1024,96 @@ window.open(
 }
 
 /* =========================================
-   PDF
+   COPY AFFIDAVIT
+========================================= */
+
+function copyAffidavit(){
+
+let text =
+document.getElementById(
+"previewArea"
+).innerText;
+
+navigator.clipboard.writeText(
+text
+);
+
+alert(
+"Copied Successfully ✅"
+);
+
+}
+
+/* =========================================
+   DOWNLOAD TXT
+========================================= */
+
+function downloadTXT(){
+
+let text =
+document.getElementById(
+"previewArea"
+).innerText;
+
+let blob =
+new Blob(
+[text],
+{
+type:"text/plain"
+}
+);
+
+let a =
+document.createElement("a");
+
+a.href =
+URL.createObjectURL(blob);
+
+a.download =
+"Affidavit.txt";
+
+a.click();
+
+}
+
+/* =========================================
+   REAL PDF
 ========================================= */
 
 function downloadPDF(){
 
-window.print();
+const element =
+document.getElementById(
+"previewArea"
+);
+
+const opt = {
+
+margin:0.5,
+filename:
+'Affidavit.pdf',
+
+image:{
+type:'jpeg',
+quality:1
+},
+
+html2canvas:{
+scale:2
+},
+
+jsPDF:{
+unit:'in',
+format:'a4',
+orientation:'portrait'
+}
+
+};
+
+html2pdf()
+.set(opt)
+.from(element)
+.save();
 
 }
 
@@ -985,5 +1188,159 @@ document.getElementById(
 "AI Response:<br><br>" +
 "Legal guidance regarding:<br>" +
 q;
+
+}
+
+/* =========================================
+   SIGNATURE PAD
+========================================= */
+
+let signaturePad;
+
+window.addEventListener(
+"load",
+()=>{
+
+const canvas =
+document.getElementById(
+"signaturePad"
+);
+
+if(canvas){
+
+signaturePad =
+new SignaturePad(canvas);
+
+}
+
+});
+
+/* =========================================
+   CLEAR SIGNATURE
+========================================= */
+
+function clearSignaturePad(){
+
+if(signaturePad){
+
+signaturePad.clear();
+
+}
+
+}
+
+/* =========================================
+   OCR STATUS
+========================================= */
+
+document
+.getElementById(
+"ocrUpload"
+)
+?.addEventListener(
+"change",
+function(){
+
+document.getElementById(
+"aiStatus"
+).innerHTML =
+"📄 OCR File Uploaded Successfully";
+
+}
+);
+
+/* =========================================
+   EXPORT BACKUP
+========================================= */
+
+function exportBackup(){
+
+let data = {
+
+history:
+localStorage.getItem(
+"agiHistory"
+),
+
+premium:
+localStorage.getItem(
+"agiPremium"
+)
+
+};
+
+let blob =
+new Blob(
+[
+JSON.stringify(data)
+],
+{
+type:"application/json"
+}
+);
+
+let a =
+document.createElement("a");
+
+a.href =
+URL.createObjectURL(blob);
+
+a.download =
+"AGI_Backup.json";
+
+a.click();
+
+}
+
+/* =========================================
+   IMPORT BACKUP
+========================================= */
+
+function importBackup(event){
+
+const file =
+event.target.files[0];
+
+if(!file) return;
+
+const reader =
+new FileReader();
+
+reader.onload =
+function(e){
+
+let data =
+JSON.parse(
+e.target.result
+);
+
+if(data.history){
+
+localStorage.setItem(
+"agiHistory",
+data.history
+);
+
+}
+
+if(data.premium){
+
+localStorage.setItem(
+"agiPremium",
+data.premium
+);
+
+}
+
+loadHistory();
+updateUI();
+
+alert(
+"Backup Imported ✅"
+);
+
+};
+
+reader.readAsText(file);
 
 }
