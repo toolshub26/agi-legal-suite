@@ -1,6 +1,6 @@
 /* =========================================
    AGI ULTRA PRO v16 AI 🚀
-   COMPLETE FINAL FIXED SCRIPT
+   COMPLETE FINAL STABLE SCRIPT
 ========================================= */
 
 /* =========================================
@@ -18,7 +18,7 @@ version:"v16 AI"
 };
 
 /* =========================================
-   SIGNATURE PAD GLOBAL
+   GLOBAL SIGNATURE PAD
 ========================================= */
 
 let signaturePad = null;
@@ -105,7 +105,7 @@ templates:{
 };
 
 /* =========================================
-   SAFE GET
+   SAFE GET VALUE
 ========================================= */
 
 function getVal(id){
@@ -303,7 +303,8 @@ const fieldIDs = [
 "details",
 "place",
 "date",
-"purposeType"
+"purposeType",
+"stampValue"
 
 ];
 
@@ -641,23 +642,47 @@ affidavitTemplates[
 "English"
 ];
 
-let templateLines =
-lang.templates[
-data.purposeType
-] ||
-lang.templates[
-"Name Change"
+/* SAFE TEMPLATE */
+
+let templateLines = [];
+
+if(
+lang.templates &&
+lang.templates[data.purposeType]
+){
+
+templateLines =
+lang.templates[data.purposeType];
+
+}else if(
+lang.templates &&
+lang.templates["Name Change"]
+){
+
+templateLines =
+lang.templates["Name Change"];
+
+}else{
+
+templateLines = [
+"This affidavit is submitted for official purposes."
 ];
+
+}
+
+/* TEMPLATE HTML */
 
 let templateHTML = "";
 
-templateLines.forEach(line=>{
+(templateLines || []).forEach(line=>{
 
 templateHTML += `
 <li>${line}</li>
 `;
 
 });
+
+/* ADDITIONAL DETAILS */
 
 if(data.details){
 
@@ -667,13 +692,18 @@ templateHTML += `
 
 }
 
+/* DOC ID */
+
 let docID =
 generateDocID();
+
+/* SIGNATURE */
 
 let signatureImage = "";
 
 if(
 signaturePad &&
+typeof signaturePad.isEmpty === "function" &&
 !signaturePad.isEmpty()
 ){
 
@@ -682,10 +712,12 @@ signaturePad.toDataURL();
 
 }
 
+/* FINAL HTML */
+
 preview.innerHTML = `
 
 <div class="stamp">
-${data.stamp}
+${data.stamp || "₹10"}
 </div>
 
 <div class="meezan-logo">
@@ -700,6 +732,8 @@ ${lang.title}
 ${lang.subtitle}
 </div>
 
+<div class="doc-content">
+
 <p>
 ${lang.intro(data)}
 </p>
@@ -707,6 +741,8 @@ ${lang.intro(data)}
 <ol>
 ${templateHTML}
 </ol>
+
+<br>
 
 <p>
 ${lang.place}:
@@ -722,9 +758,11 @@ ${
 signatureImage
 ?
 `
+<div style="margin-top:20px;">
 <img
 src="${signatureImage}"
-style="height:80px;margin-top:20px;">
+style="height:80px;">
+</div>
 `
 :
 ""
@@ -736,7 +774,31 @@ style="height:80px;margin-top:20px;">
 ${docID}
 </div>
 
+</div>
+
 `;
+
+/* RTL */
+
+if(
+data.lang==="Urdu"
+){
+
+preview.setAttribute(
+"dir",
+"rtl"
+);
+
+}else{
+
+preview.setAttribute(
+"dir",
+"ltr"
+);
+
+}
+
+/* SAVE */
 
 saveDoc(docID,data);
 
@@ -775,7 +837,11 @@ if(!qrBox) return;
 
 qrBox.innerHTML = "";
 
-if(typeof QRCode !== "undefined"){
+if(
+typeof QRCode !== "undefined"
+){
+
+try{
 
 new QRCode(qrBox,{
 
@@ -789,12 +855,21 @@ height:120
 
 });
 
+}catch(err){
+
+console.log(err);
+
+qrBox.innerHTML =
+"<p>QR Failed</p>";
+
+}
+
 }
 
 }
 
 /* =========================================
-   PDF
+   DOWNLOAD PDF
 ========================================= */
 
 function downloadPDF(){
@@ -808,6 +883,16 @@ if(!element){
 
 alert(
 "Preview missing ❌"
+);
+
+return;
+
+}
+
+if(typeof html2pdf === "undefined"){
+
+alert(
+"PDF Library Missing ❌"
 );
 
 return;
@@ -835,32 +920,6 @@ window.open(
 `https://wa.me/?text=${encodeURIComponent(text)}`,
 "_blank"
 );
-
-}
-
-/* =========================================
-   LEGAL AI
-========================================= */
-
-function openLegalAI(){
-
-document.getElementById(
-"legalAiBox"
-).style.display =
-"block";
-
-}
-
-function askLegalAI(){
-
-let q =
-getVal("legalQuestion");
-
-document.getElementById(
-"legalAIResponse"
-).innerHTML =
-"AI Response:<br><br>" +
-q;
 
 }
 
@@ -903,7 +962,47 @@ event.results[0][0].transcript;
 }
 
 /* =========================================
-   EXTRA FUNCTIONS
+   LEGAL AI
+========================================= */
+
+function openLegalAI(){
+
+let box =
+document.getElementById(
+"legalAiBox"
+);
+
+if(box){
+
+box.style.display =
+"block";
+
+}
+
+}
+
+function askLegalAI(){
+
+let q =
+getVal("legalQuestion");
+
+let response =
+document.getElementById(
+"legalAIResponse"
+);
+
+if(response){
+
+response.innerHTML =
+"AI Response:<br><br>" +
+q;
+
+}
+
+}
+
+/* =========================================
+   CLEAR SIGNATURE
 ========================================= */
 
 function clearSignaturePad(){
@@ -916,6 +1015,10 @@ signaturePad.clear();
 
 }
 
+/* =========================================
+   VERIFY
+========================================= */
+
 function verifyDocument(){
 
 alert(
@@ -923,6 +1026,10 @@ alert(
 );
 
 }
+
+/* =========================================
+   BOOK NOTARY
+========================================= */
 
 function bookNotary(){
 
