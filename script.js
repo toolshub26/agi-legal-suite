@@ -30,7 +30,9 @@ let signaturePad = null;
 const affidavitTemplates = {
 
 English:{
+
 title:"AFFIDAVIT",
+
 subtitle:"BEFORE THE NOTARY PUBLIC",
 
 intro:(d)=>`
@@ -46,6 +48,7 @@ resident of
 `,
 
 place:"Place",
+
 date:"Date",
 
 templates:{
@@ -66,7 +69,9 @@ templates:{
 },
 
 Urdu:{
+
 title:"حلف نامہ",
+
 subtitle:"نوٹری پبلک کے سامنے",
 
 intro:(d)=>`
@@ -83,6 +88,7 @@ intro:(d)=>`
 `,
 
 place:"مقام",
+
 date:"تاریخ",
 
 templates:{
@@ -130,8 +136,11 @@ window.addEventListener(
 ()=>{
 
 restoreDraft();
+
 loadHistory();
+
 updateUI();
+
 updateAnalytics();
 
 /* DARK MODE */
@@ -471,6 +480,7 @@ JSON.stringify(history)
 );
 
 loadHistory();
+
 updateAnalytics();
 
 }
@@ -825,38 +835,82 @@ alert(
 }
 
 /* =========================================
-   QR CODE
+   QR CODE FIXED
 ========================================= */
 
 function generateQRCode(){
 
-let qrBox =
+const qr =
 document.getElementById(
 "qrCodeContainer"
 );
 
-if(!qrBox) return;
+if(!qr){
 
-qrBox.innerHTML = "";
+alert(
+"QR Container Missing ❌"
+);
 
-if(
-typeof QRCode !== "undefined"
-){
+return;
 
-new QRCode(qrBox,{
+}
 
-text:
+qr.innerHTML = "";
+
+if(typeof QRCode === "undefined"){
+
+alert(
+"QR Library Missing ❌"
+);
+
+return;
+
+}
+
+let text =
 document.getElementById(
 "previewArea"
-).innerText,
+).innerText.trim();
+
+if(!text){
+
+alert(
+"Generate affidavit first ❌"
+);
+
+return;
+
+}
+
+try{
+
+new QRCode(qr,{
+
+text:text,
 
 width:120,
-height:120
+
+height:120,
+
+colorDark:"#111827",
+
+colorLight:"#ffffff",
+
+correctLevel:
+QRCode.CorrectLevel.H
 
 });
 
 alert(
 "QR Generated ✔"
+);
+
+}catch(err){
+
+console.log(err);
+
+alert(
+"QR Failed ❌"
 );
 
 }
@@ -884,6 +938,16 @@ return;
 
 }
 
+if(typeof html2pdf === "undefined"){
+
+alert(
+"PDF Library Missing ❌"
+);
+
+return;
+
+}
+
 html2pdf()
 .from(element)
 .save("Affidavit.pdf");
@@ -902,7 +966,7 @@ window.location.href =
 }
 
 /* =========================================
-   WHATSAPP
+   WHATSAPP SHARE
 ========================================= */
 
 function shareWhatsApp(){
@@ -1035,13 +1099,21 @@ alert(
 }
 
 /* =========================================
-   BOOK NOTARY
+   BOOK NOTARY FIXED
 ========================================= */
 
 function bookNotary(){
 
+const phone =
+"917780936452";
+
+const message =
+encodeURIComponent(
+"Hello, I want to book notary service."
+);
+
 window.open(
-"https://wa.me/911234567890?text=I want to book notary service",
+`https://wa.me/${phone}?text=${message}`,
 "_blank"
 );
 
