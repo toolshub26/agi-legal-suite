@@ -1039,3 +1039,129 @@ window.open(
 );
 
 }
+/* =========================================
+AI DRAFT
+========================================= */
+
+function aiDraft(){
+
+let purpose =
+document.getElementById(
+"purposeType"
+).value;
+
+let detailsBox =
+document.getElementById(
+"details"
+);
+
+detailsBox.value =
+
+"This affidavit is created for " +
+purpose +
+". All statements mentioned are true and correct to the best of my knowledge.";
+
+alert(
+"AI Draft Generated ✔"
+);
+
+}
+
+/* =========================================
+GENERATE QR
+========================================= */
+
+function generateQRCode(){
+
+let qr =
+document.getElementById(
+"qrCodeContainer"
+);
+
+if(!qr) return;
+
+qr.innerHTML = "";
+
+new QRCode(qr,{
+text:
+document.getElementById(
+"previewArea"
+).innerText,
+
+width:120,
+height:120
+});
+
+alert(
+"QR Generated ✔"
+);
+
+}
+
+/* =========================================
+EMAIL PDF
+========================================= */
+
+function emailPDF(){
+
+window.location.href =
+"mailto:?subject=Affidavit PDF&body=Generated using AGI ULTRA PRO";
+
+}
+
+/* =========================================
+LEGAL AI
+========================================= */
+
+function openLegalAI(){
+
+let box =
+document.getElementById(
+"legalAiBox"
+);
+
+if(
+box.style.display==="block"
+){
+
+box.style.display="none";
+
+}else{
+
+box.style.display="block";
+
+}
+
+}
+
+function askLegalAI(){
+
+let q =
+document.getElementById(
+"legalQuestion"
+).value;
+
+document.getElementById(
+"legalAIResponse"
+).innerHTML =
+
+"⚖️ Legal AI Response:<br><br>" +
+"Regarding: <b>" +
+q +
+"</b><br><br>" +
+"Please consult a professional advocate for final legal verification.";
+
+}
+
+/* =========================================
+BOOK NOTARY
+========================================= */
+
+function bookNotary(){
+
+window.open(
+"https://wa.me/911234567890?text=I want to book notary service",
+"_blank"
+);
+
+}
