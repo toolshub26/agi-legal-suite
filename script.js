@@ -135,6 +135,16 @@ window.addEventListener(
 "load",
 ()=>{
 
+/* FORCE FREE VERSION */
+
+localStorage.removeItem(
+"agiPremium"
+);
+
+localStorage.removeItem(
+"agiPremiumExpiry"
+);
+
 restoreDraft();
 
 loadHistory();
@@ -157,24 +167,6 @@ document.body.classList.add(
 
 }
 
-/* PREMIUM */
-
-let expiry =
-localStorage.getItem(
-"agiPremiumExpiry"
-);
-
-if(
-expiry &&
-Date.now() > Number(expiry)
-){
-
-localStorage.removeItem(
-"agiPremium"
-);
-
-}
-
 /* SIGNATURE PAD */
 
 const canvas =
@@ -193,7 +185,8 @@ new SignaturePad(canvas);
 
 }
 
-});
+}
+);
 
 /* =========================================
    PREMIUM
@@ -201,45 +194,9 @@ new SignaturePad(canvas);
 
 function activatePremiumManually(){
 
-let code =
-prompt(
-"Enter Premium Code"
-);
-
-if(!code) return;
-
-if(
-code.trim() ===
-AGI.premiumCode
-){
-
-localStorage.setItem(
-"agiPremium",
-"true"
-);
-
-let expiry =
-Date.now() +
-(30*24*60*60*1000);
-
-localStorage.setItem(
-"agiPremiumExpiry",
-expiry
-);
-
-updateUI();
-
 alert(
-"Premium Activated ✔"
+"Premium Disabled In Demo Version"
 );
-
-}else{
-
-alert(
-"Invalid Code ❌"
-);
-
-}
 
 }
 
@@ -253,7 +210,7 @@ window.open(
 }
 
 /* =========================================
-   UPDATE UI
+   UPDATE UI FIXED
 ========================================= */
 
 function updateUI(){
@@ -265,17 +222,13 @@ document.getElementById(
 
 if(!badge) return;
 
-AGI.premium =
-localStorage.getItem(
-"agiPremium"
-)==="true";
+AGI.premium = false;
 
 badge.innerHTML =
-AGI.premium
-?
-"🟢 Premium Active"
-:
 "🔴 Free Version";
+
+badge.className =
+"premium-active";
 
 }
 
@@ -835,7 +788,7 @@ alert(
 }
 
 /* =========================================
-   QR CODE FIXED
+   QR CODE
 ========================================= */
 
 function generateQRCode(){
@@ -889,15 +842,7 @@ new QRCode(qr,{
 text:text,
 
 width:120,
-
-height:120,
-
-colorDark:"#111827",
-
-colorLight:"#ffffff",
-
-correctLevel:
-QRCode.CorrectLevel.H
+height:120
 
 });
 
@@ -1099,7 +1044,7 @@ alert(
 }
 
 /* =========================================
-   BOOK NOTARY FIXED
+   BOOK NOTARY
 ========================================= */
 
 function bookNotary(){
