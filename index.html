@@ -60,6 +60,10 @@ class="premium-active">
 
 <div class="container">
 
+<!-- =========================================
+FORM SECTION
+========================================= -->
+
 <div class="form-section ai-glow">
 
 <h2>
@@ -73,6 +77,8 @@ AI Quick Prompt
 <textarea
 id="aiPrompt"
 placeholder="Example: I lost my marksheet"></textarea>
+
+<div class="button-group">
 
 <button
 class="btn-purple"
@@ -89,6 +95,8 @@ onclick="startVoiceInput()">
 🎤 Voice Input
 
 </button>
+
+</div>
 
 <label>
 Language
@@ -251,6 +259,7 @@ border:2px solid #d1d5db;
 border-radius:14px;
 background:white;
 width:100%;
+touch-action:none;
 ">
 </canvas>
 
@@ -392,6 +401,10 @@ Premium Users:
 
 </div>
 
+<!-- =========================================
+PREVIEW SECTION
+========================================= -->
+
 <div class="preview-section">
 
 <div class="watermark">
@@ -402,6 +415,8 @@ AGI ULTRA PRO
 class="document-preview"
 id="previewArea">
 
+<!-- DOC ID -->
+
 <div
 style="
 position:absolute;
@@ -409,19 +424,37 @@ top:20px;
 left:20px;
 font-size:12px;
 color:#6b7280;
+font-weight:600;
 ">
 
 IND-AFF-2026
 
 </div>
 
+<!-- STAMP -->
+
 <div class="stamp">
 ₹10
 </div>
 
+<!-- LOGO -->
+
+<img
+src="logo.png"
+class="logo"
+alt="Meezan Logo">
+
+<!-- COMPANY -->
+
 <div class="meezan-logo">
-⚖️ MEEZAN LEGAL SERVICES
+MEEZAN LEGAL SERVICES
 </div>
+
+<div class="meezan-sub">
+Legal Documentation & Notary Services
+</div>
+
+<!-- TITLE -->
 
 <div class="title">
 AFFIDAVIT
@@ -435,22 +468,44 @@ BEFORE THE NOTARY PUBLIC
 NOTARY VERIFIED
 </div>
 
+<div class="preview-content">
+
 <p>
 Your professional affidavit preview
 will appear here.
 </p>
 
-<div id="qrCodeContainer"></div>
+</div>
+
+<!-- QR -->
+
+<div
+id="qrCodeContainer"
+style="
+margin-top:25px;
+display:flex;
+justify-content:center;
+">
+</div>
+
+<!-- FOOTER -->
 
 <div class="doc-id">
-Powered by AGI ULTRA PRO v16 AI
-</div>
+
+Powered by
+AGI ULTRA PRO v16 AI
 
 </div>
 
 </div>
 
 </div>
+
+</div>
+
+<!-- =========================================
+LEGAL AI BOX
+========================================= -->
 
 <div
 id="legalAiBox"
@@ -500,6 +555,7 @@ font-size:14px;
 </div>
 
 <!-- MAIN SCRIPT -->
+
 <script src="script.js"></script>
 
 <script>
