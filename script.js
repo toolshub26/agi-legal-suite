@@ -589,6 +589,34 @@ generateAffidavit();
 }
 
 /* =========================================
+   AI DRAFT
+========================================= */
+
+function aiDraft(){
+
+let purpose =
+document.getElementById(
+"purposeType"
+).value;
+
+let detailsBox =
+document.getElementById(
+"details"
+);
+
+detailsBox.value =
+
+"This affidavit is created for " +
+purpose +
+". All statements mentioned are true and correct to the best of my knowledge.";
+
+alert(
+"AI Draft Generated ✔"
+);
+
+}
+
+/* =========================================
    MAIN GENERATOR
 ========================================= */
 
@@ -642,8 +670,6 @@ affidavitTemplates[
 "English"
 ];
 
-/* SAFE TEMPLATE */
-
 let templateLines = [];
 
 if(
@@ -654,14 +680,6 @@ lang.templates[data.purposeType]
 templateLines =
 lang.templates[data.purposeType];
 
-}else if(
-lang.templates &&
-lang.templates["Name Change"]
-){
-
-templateLines =
-lang.templates["Name Change"];
-
 }else{
 
 templateLines = [
@@ -670,19 +688,15 @@ templateLines = [
 
 }
 
-/* TEMPLATE HTML */
-
 let templateHTML = "";
 
-(templateLines || []).forEach(line=>{
+templateLines.forEach(line=>{
 
 templateHTML += `
 <li>${line}</li>
 `;
 
 });
-
-/* ADDITIONAL DETAILS */
 
 if(data.details){
 
@@ -692,12 +706,8 @@ templateHTML += `
 
 }
 
-/* DOC ID */
-
 let docID =
 generateDocID();
-
-/* SIGNATURE */
 
 let signatureImage = "";
 
@@ -711,8 +721,6 @@ signatureImage =
 signaturePad.toDataURL();
 
 }
-
-/* FINAL HTML */
 
 preview.innerHTML = `
 
@@ -778,11 +786,7 @@ ${docID}
 
 `;
 
-/* RTL */
-
-if(
-data.lang==="Urdu"
-){
+if(data.lang==="Urdu"){
 
 preview.setAttribute(
 "dir",
@@ -797,8 +801,6 @@ preview.setAttribute(
 );
 
 }
-
-/* SAVE */
 
 saveDoc(docID,data);
 
@@ -841,8 +843,6 @@ if(
 typeof QRCode !== "undefined"
 ){
 
-try{
-
 new QRCode(qrBox,{
 
 text:
@@ -855,14 +855,9 @@ height:120
 
 });
 
-}catch(err){
-
-console.log(err);
-
-qrBox.innerHTML =
-"<p>QR Failed</p>";
-
-}
+alert(
+"QR Generated ✔"
+);
 
 }
 
@@ -889,19 +884,20 @@ return;
 
 }
 
-if(typeof html2pdf === "undefined"){
-
-alert(
-"PDF Library Missing ❌"
-);
-
-return;
-
-}
-
 html2pdf()
 .from(element)
 .save("Affidavit.pdf");
+
+}
+
+/* =========================================
+   EMAIL PDF
+========================================= */
+
+function emailPDF(){
+
+window.location.href =
+"mailto:?subject=Affidavit PDF&body=Generated using AGI ULTRA PRO";
 
 }
 
@@ -972,10 +968,17 @@ document.getElementById(
 "legalAiBox"
 );
 
-if(box){
+if(!box) return;
 
-box.style.display =
-"block";
+if(
+box.style.display==="block"
+){
+
+box.style.display="none";
+
+}else{
+
+box.style.display="block";
 
 }
 
@@ -994,8 +997,12 @@ document.getElementById(
 if(response){
 
 response.innerHTML =
-"AI Response:<br><br>" +
-q;
+
+"⚖️ Legal AI Response:<br><br>" +
+"Regarding: <b>" +
+q +
+"</b><br><br>" +
+"Please consult a professional advocate for final legal verification.";
 
 }
 
@@ -1029,132 +1036,6 @@ alert(
 
 /* =========================================
    BOOK NOTARY
-========================================= */
-
-function bookNotary(){
-
-window.open(
-"https://wa.me/911234567890",
-"_blank"
-);
-
-}
-/* =========================================
-AI DRAFT
-========================================= */
-
-function aiDraft(){
-
-let purpose =
-document.getElementById(
-"purposeType"
-).value;
-
-let detailsBox =
-document.getElementById(
-"details"
-);
-
-detailsBox.value =
-
-"This affidavit is created for " +
-purpose +
-". All statements mentioned are true and correct to the best of my knowledge.";
-
-alert(
-"AI Draft Generated ✔"
-);
-
-}
-
-/* =========================================
-GENERATE QR
-========================================= */
-
-function generateQRCode(){
-
-let qr =
-document.getElementById(
-"qrCodeContainer"
-);
-
-if(!qr) return;
-
-qr.innerHTML = "";
-
-new QRCode(qr,{
-text:
-document.getElementById(
-"previewArea"
-).innerText,
-
-width:120,
-height:120
-});
-
-alert(
-"QR Generated ✔"
-);
-
-}
-
-/* =========================================
-EMAIL PDF
-========================================= */
-
-function emailPDF(){
-
-window.location.href =
-"mailto:?subject=Affidavit PDF&body=Generated using AGI ULTRA PRO";
-
-}
-
-/* =========================================
-LEGAL AI
-========================================= */
-
-function openLegalAI(){
-
-let box =
-document.getElementById(
-"legalAiBox"
-);
-
-if(
-box.style.display==="block"
-){
-
-box.style.display="none";
-
-}else{
-
-box.style.display="block";
-
-}
-
-}
-
-function askLegalAI(){
-
-let q =
-document.getElementById(
-"legalQuestion"
-).value;
-
-document.getElementById(
-"legalAIResponse"
-).innerHTML =
-
-"⚖️ Legal AI Response:<br><br>" +
-"Regarding: <b>" +
-q +
-"</b><br><br>" +
-"Please consult a professional advocate for final legal verification.";
-
-}
-
-/* =========================================
-BOOK NOTARY
 ========================================= */
 
 function bookNotary(){
