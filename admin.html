@@ -1,1051 +1,380 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>
-AGI ULTRA PRO v17 ADMIN PANEL 🚀
-</title>
-
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-
-/* =========================================
-RESET
-========================================= */
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-
-font-family:"Inter",sans-serif;
-
-background:
-linear-gradient(
-135deg,
-#020617,
-#0f172a
-);
-
-color:white;
-
-overflow-x:hidden;
-
-}
-
-/* =========================================
-LAYOUT
-========================================= */
-
-.dashboard{
-
-display:flex;
-
-min-height:100vh;
-
-}
-
-/* =========================================
-SIDEBAR
-========================================= */
-
-.sidebar{
-
-width:280px;
-
-background:
-linear-gradient(
-180deg,
-#111827,
-#020617
-);
-
-padding:24px;
-
-position:fixed;
-
-height:100vh;
-
-overflow:auto;
-
-border-right:
-1px solid rgba(255,255,255,.08);
-
-}
-
-.logo{
-
-font-size:28px;
-
-font-weight:800;
-
-margin-bottom:35px;
-
-}
-
-.logo span{
-
-color:#3b82f6;
-
-}
-
-.nav-btn{
-
-width:100%;
-
-padding:15px;
-
-border:none;
-
-margin-bottom:12px;
-
-border-radius:16px;
-
-background:#1f2937;
-
-color:white;
-
-font-weight:700;
-
-cursor:pointer;
-
-transition:.25s;
-
-}
-
-.nav-btn:hover{
-
-background:#2563eb;
-
-transform:translateY(-2px);
-
-}
-
-/* =========================================
-MAIN
-========================================= */
-
-.main{
-
-margin-left:280px;
-
-padding:30px;
-
-width:100%;
-
-}
-
-/* =========================================
-TOPBAR
-========================================= */
-
-.topbar{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-flex-wrap:wrap;
-
-gap:20px;
-
-margin-bottom:30px;
-
-}
-
-.topbar h1{
-
-font-size:36px;
-
-font-weight:800;
-
-}
-
-.topbar p{
-
-opacity:.7;
-
-margin-top:6px;
-
-}
-
-.admin-badge{
-
-padding:12px 18px;
-
-border-radius:30px;
-
-font-weight:700;
-
-background:
-linear-gradient(
-135deg,
-#dc2626,
-#ef4444
-);
-
-}
-
-/* =========================================
-CARDS
-========================================= */
-
-.cards{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
-
-gap:20px;
-
-margin-bottom:30px;
-
-}
-
-.card{
-
-background:
-rgba(255,255,255,.05);
-
-backdrop-filter:blur(12px);
-
-padding:24px;
-
-border-radius:24px;
-
-border:
-1px solid rgba(255,255,255,.08);
-
-transition:.25s;
-
-}
-
-.card:hover{
-
-transform:translateY(-4px);
-
-}
-
-.card h3{
-
-font-size:15px;
-
-opacity:.75;
-
-margin-bottom:12px;
-
-}
-
-.card .value{
-
-font-size:34px;
-
-font-weight:800;
-
-}
-
-/* =========================================
-GRID
-========================================= */
-
-.grid{
-
-display:grid;
-
-grid-template-columns:
-2fr 1fr;
-
-gap:25px;
-
-margin-bottom:30px;
-
-}
-
-/* =========================================
-PANEL
-========================================= */
-
-.panel{
-
-background:
-rgba(255,255,255,.05);
-
-padding:25px;
-
-border-radius:24px;
-
-border:
-1px solid rgba(255,255,255,.08);
-
-}
-
-.panel h2{
-
-margin-bottom:20px;
-
-font-size:22px;
-
-}
-
-/* =========================================
-ACTIVITY
-========================================= */
-
-.activity-item{
-
-padding:14px;
-
-background:#111827;
-
-border-radius:14px;
-
-margin-bottom:12px;
-
-font-size:14px;
-
-}
-
-/* =========================================
-SEARCH
-========================================= */
-
-.search{
-
-width:100%;
-
-padding:14px;
-
-border:none;
-
-border-radius:14px;
-
-background:#1f2937;
-
-color:white;
-
-margin-bottom:20px;
-
-}
-
-/* =========================================
-TABLE
-========================================= */
-
-table{
-
-width:100%;
-
-border-collapse:collapse;
-
-}
-
-th,td{
-
-padding:14px;
-
-text-align:left;
-
-border-bottom:
-1px solid rgba(255,255,255,.08);
-
-font-size:14px;
-
-}
-
-/* =========================================
-BADGES
-========================================= */
-
-.badge{
-
-display:inline-block;
-
-padding:6px 12px;
-
-border-radius:30px;
-
-font-size:12px;
-
-font-weight:700;
-
-}
-
-.green{
-background:#059669;
-}
-
-.red{
-background:#dc2626;
-}
-
-.orange{
-background:#ea580c;
-}
-
-.blue{
-background:#2563eb;
-}
-
-/* =========================================
-BUTTONS
-========================================= */
-
-.action-btn{
-
-padding:10px 14px;
-
-border:none;
-
-border-radius:12px;
-
-color:white;
-
-font-weight:700;
-
-cursor:pointer;
-
-margin:4px;
-
-transition:.25s;
-
-}
-
-.action-btn:hover{
-
-transform:translateY(-2px);
-
-opacity:.92;
-
-}
-
-/* =========================================
-AI BOX
-========================================= */
-
-.ai-box{
-
-margin-top:20px;
-
-padding:20px;
-
-background:#111827;
-
-border-radius:20px;
-
-}
-
-.ai-box textarea{
-
-width:100%;
-
-height:120px;
-
-padding:14px;
-
-border:none;
-
-border-radius:14px;
-
-background:#1f2937;
-
-color:white;
-
-resize:none;
-
-margin-top:15px;
-
-}
-
-/* =========================================
-MOBILE
-========================================= */
-
-@media(max-width:1100px){
-
-.dashboard{
-
-flex-direction:column;
-
-}
-
-.sidebar{
-
-position:relative;
-
-width:100%;
-
-height:auto;
-
-}
-
-.main{
-
-margin-left:0;
-
-padding:20px;
-
-}
-
-.grid{
-
-grid-template-columns:1fr;
-
-}
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="dashboard">
-
 <!-- =========================================
-SIDEBAR
+ADD THESE NEW FEATURES INSIDE admin.html
 ========================================= -->
 
-<div class="sidebar">
-
-<div class="logo">
-👑 <span>AGI ADMIN</span>
-</div>
-
-<button class="nav-btn">
-📊 Dashboard
-</button>
-
-<button class="nav-btn">
-👥 Users
-</button>
-
-<button class="nav-btn">
-💸 Withdrawals
-</button>
-
-<button class="nav-btn">
-⭐ Premium
-</button>
-
-<button class="nav-btn">
-📄 Affidavits
-</button>
-
-<button class="nav-btn">
-🤖 Legal AI
-</button>
-
-<button class="nav-btn">
-📈 Analytics
-</button>
-
-<button class="nav-btn"
-onclick="logout()">
-🚪 Logout
-</button>
-
-</div>
-
 <!-- =========================================
-MAIN
+ADD INSIDE QUICK ACTION PANEL
 ========================================= -->
 
-<div class="main">
+<button class="action-btn purple"
+onclick="downloadReport()">
 
-<!-- TOPBAR -->
-
-<div class="topbar">
-
-<div>
-
-<h1>
-AGI ULTRA PRO ADMIN 🚀
-</h1>
-
-<p>
-Enterprise Legal SaaS Control Panel
-</p>
-
-</div>
-
-<div class="admin-badge">
-SUPER ADMIN
-</div>
-
-</div>
-
-<!-- STATS -->
-
-<div class="cards">
-
-<div class="card">
-<h3>Total Users</h3>
-<div class="value"
-id="totalUsers">
-1,248
-</div>
-</div>
-
-<div class="card">
-<h3>Premium Users</h3>
-<div class="value"
-id="premiumUsers">
-328
-</div>
-</div>
-
-<div class="card">
-<h3>Withdraw Requests</h3>
-<div class="value"
-id="totalWithdraw">
-42
-</div>
-</div>
-
-<div class="card">
-<h3>Total Revenue</h3>
-<div class="value"
-id="totalRevenue">
-₹82,450
-</div>
-</div>
-
-</div>
-
-<!-- GRID -->
-
-<div class="grid">
-
-<!-- LEFT -->
-
-<div>
-
-<div class="panel">
-
-<h2>
-📈 Revenue Analytics
-</h2>
-
-<canvas id="analyticsChart"></canvas>
-
-</div>
-
-<br>
-
-<div class="panel">
-
-<h2>
-🕒 Live Activity
-</h2>
-
-<div id="activityBox">
-
-<div class="activity-item">
-Premium user activated
-</div>
-
-<div class="activity-item">
-Withdraw approved
-</div>
-
-<div class="activity-item">
-New affidavit generated
-</div>
-
-<div class="activity-item">
-New user registered
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- RIGHT -->
-
-<div>
-
-<div class="panel">
-
-<h2>
-⚡ Quick Actions
-</h2>
-
-<button class="action-btn blue"
-onclick="exportUsers()">
-
-📥 Export Users
+📊 Download Report
 
 </button>
 
 <button class="action-btn orange"
-onclick="refreshDashboard()">
+onclick="sendNotification()">
 
-🔄 Refresh
+🔔 Push Notify
 
 </button>
 
-<button class="action-btn green"
-onclick="openPremium()">
+<button class="action-btn blue"
+onclick="toggleAutoRefresh()">
 
-⭐ Premium Panel
+♻️ Auto Refresh
 
 </button>
 
 <button class="action-btn red"
-onclick="clearLogs()">
+onclick="detectFraud()">
 
-🗑 Clear Logs
+🚨 Fraud Scan
 
 </button>
 
+<!-- =========================================
+ADD NEW ANALYTICS CARD
+========================================= -->
+
+<div class="card">
+<h3>Blocked Users</h3>
+<div class="value"
+id="blockedUsers">
+12
+</div>
 </div>
 
-<br>
+<div class="card">
+<h3>Today's Revenue</h3>
+<div class="value"
+id="todayRevenue">
+₹12,500
+</div>
+</div>
+
+<!-- =========================================
+ADD LIVE NOTIFICATION PANEL
+========================================= -->
 
 <div class="panel">
 
 <h2>
-🤖 Legal AI Moderation
+🔔 Admin Notifications
 </h2>
 
-<div class="ai-box">
-
-<textarea
-id="adminAIQuestion"
-placeholder="Ask admin AI..."></textarea>
-
-<br><br>
-
-<button class="action-btn blue"
-onclick="askAdminAI()">
-
-Ask AI
-
-</button>
-
-<br><br>
-
-<div id="adminAIResponse">
-No response yet.
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- USERS TABLE -->
-
-<div class="panel">
-
-<h2>
-👥 Users Management
-</h2>
-
-<input
-class="search"
-id="search"
-placeholder="Search users..."
-onkeyup="filterUsers()">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Email</th>
-<th>Wallet</th>
-<th>Status</th>
-<th>Actions</th>
-
-</tr>
-
-</thead>
-
-<tbody id="usersTable">
-
-<tr>
-
-<td>
-user1@gmail.com
-</td>
-
-<td>
-₹1500
-</td>
-
-<td>
-<span class="badge green">
-Premium
-</span>
-</td>
-
-<td>
-
-<button class="action-btn blue">
-Premium
-</button>
-
-<button class="action-btn red">
-Delete
-</button>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-user2@gmail.com
-</td>
-
-<td>
-₹0
-</td>
-
-<td>
-<span class="badge red">
-Free
-</span>
-</td>
-
-<td>
-
-<button class="action-btn blue">
-Premium
-</button>
-
-<button class="action-btn red">
-Delete
-</button>
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-<br>
-
-<!-- WITHDRAWALS -->
-
-<div class="panel">
-
-<h2>
-💸 Withdraw Requests
-</h2>
-
-<div id="withdrawals">
+<div id="notificationBox">
 
 <div class="activity-item">
+New premium purchase completed
+</div>
 
-👤 user@gmail.com<br><br>
+<div class="activity-item">
+Large withdrawal detected
+</div>
 
-💸 ₹500<br><br>
-
-<button class="action-btn green">
-Approve
-</button>
-
-<button class="action-btn red">
-Reject
-</button>
-
+<div class="activity-item">
+System backup completed
 </div>
 
 </div>
 
 </div>
 
-</div>
+<!-- =========================================
+ADD FIREBASE LIVE USERS
+========================================= -->
 
-</div>
+<script type="module">
+
+import {
+initializeApp
+} from
+"https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+onSnapshot,
+doc,
+updateDoc,
+deleteDoc
+} from
+"https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"YOUR_API_KEY",
+authDomain:"YOUR_AUTH_DOMAIN",
+projectId:"YOUR_PROJECT_ID",
+storageBucket:"YOUR_STORAGE_BUCKET",
+messagingSenderId:"YOUR_SENDER_ID",
+appId:"YOUR_APP_ID"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* =========================================
+REALTIME USERS
+========================================= */
+
+onSnapshot(
+collection(db,"users"),
+(snapshot)=>{
+
+document.getElementById(
+"totalUsers"
+).innerText =
+snapshot.size;
+
+});
+
+/* =========================================
+MAKE PREMIUM
+========================================= */
+
+window.makePremium =
+async function(uid){
+
+await updateDoc(
+doc(db,"users",uid),
+{
+premium:true
+}
+);
+
+alert(
+"Premium Activated ✅"
+);
+
+};
+
+/* =========================================
+DELETE USER
+========================================= */
+
+window.deleteUser =
+async function(uid){
+
+if(
+!confirm(
+"Delete this user?"
+)
+)return;
+
+await deleteDoc(
+doc(db,"users",uid)
+);
+
+alert(
+"User Deleted ❌"
+);
+
+};
+
+</script>
+
+<!-- =========================================
+ADD BELOW EXISTING SCRIPT
+========================================= -->
 
 <script>
 
 /* =========================================
-CHART
+DOWNLOAD REPORT
 ========================================= */
 
-const ctx =
+function downloadReport(){
+
+const data = `
+AGI ADMIN REPORT
+
+Total Users: ${
 document.getElementById(
-"analyticsChart"
-);
-
-new Chart(ctx,{
-
-type:"bar",
-
-data:{
-
-labels:[
-"Mon",
-"Tue",
-"Wed",
-"Thu",
-"Fri",
-"Sat",
-"Sun"
-],
-
-datasets:[{
-
-label:"Revenue",
-
-data:[
-120,
-190,
-300,
-500,
-200,
-300,
-450
-],
-
-borderWidth:2
-
-}]
-
+"totalUsers"
+).innerText
 }
 
-});
-
-/* =========================================
-FILTER USERS
-========================================= */
-
-function filterUsers(){
-
-const value =
+Premium Users: ${
 document.getElementById(
-"search"
-).value.toLowerCase();
+"premiumUsers"
+).innerText
+}
 
-const rows =
-document.querySelectorAll(
-"#usersTable tr"
-);
+Revenue: ${
+document.getElementById(
+"totalRevenue"
+).innerText
+}
+`;
 
-rows.forEach(row=>{
-
-row.style.display =
-row.innerText.toLowerCase()
-.includes(value)
-? ""
-: "none";
-
+const blob =
+new Blob([data],{
+type:"text/plain"
 });
+
+const a =
+document.createElement("a");
+
+a.href =
+URL.createObjectURL(blob);
+
+a.download =
+"admin-report.txt";
+
+a.click();
 
 }
 
 /* =========================================
-AI
+SEND NOTIFICATION
 ========================================= */
 
-function askAdminAI(){
+function sendNotification(){
 
-let q =
+alert(
+"Push Notification Sent 🔔"
+);
+
+const box =
 document.getElementById(
-"adminAIQuestion"
-).value;
+"notificationBox"
+);
 
-document.getElementById(
-"adminAIResponse"
-).innerHTML =
+box.innerHTML += `
 
-`
-<b>AI Response:</b><br><br>
+<div class="activity-item">
 
-Admin legal analysis regarding:<br>
+New admin notification pushed
 
-${q}
+</div>
 
 `;
 
 }
 
 /* =========================================
-QUICK ACTIONS
+AUTO REFRESH
 ========================================= */
 
-function exportUsers(){
+let autoRefresh = false;
+
+function toggleAutoRefresh(){
+
+autoRefresh = !autoRefresh;
+
+if(autoRefresh){
 
 alert(
-"CSV Export Started 📥"
+"Auto Refresh Enabled ♻️"
 );
 
-}
-
-function refreshDashboard(){
+setInterval(()=>{
 
 location.reload();
 
-}
+},60000);
 
-function openPremium(){
+}else{
 
 alert(
-"Opening Premium Panel ⭐"
+"Auto Refresh Disabled ❌"
 );
 
 }
-
-function clearLogs(){
-
-document.getElementById(
-"activityBox"
-).innerHTML =
-
-"Logs Cleared ✅";
 
 }
 
 /* =========================================
-LOGOUT
+FRAUD DETECTION
 ========================================= */
 
-function logout(){
+function detectFraud(){
 
 alert(
-"Logged Out 🚪"
+"Fraud Scan Completed 🚨"
 );
 
-location.reload();
+document.getElementById(
+"activityBox"
+).innerHTML += `
+
+<div class="activity-item">
+
+🚨 Suspicious withdrawal detected
+
+</div>
+
+`;
 
 }
 
-</script>
+/* =========================================
+EXPORT CSV
+========================================= */
 
-</body>
-</html>
+function exportUsers(){
+
+let csv =
+"Email,Wallet,Status\n";
+
+document.querySelectorAll(
+"#usersTable tr"
+).forEach(row=>{
+
+let cols =
+row.querySelectorAll("td");
+
+if(cols.length){
+
+csv +=
+cols[0].innerText + "," +
+cols[1].innerText + "," +
+cols[2].innerText + "\n";
+
+}
+
+});
+
+const blob =
+new Blob([csv],{
+type:"text/csv"
+});
+
+const a =
+document.createElement("a");
+
+a.href =
+URL.createObjectURL(blob);
+
+a.download =
+"users.csv";
+
+a.click();
+
+alert(
+"CSV Exported 📥"
+);
+
+}
+
+/* =========================================
+LIVE CLOCK
+========================================= */
+
+setInterval(()=>{
+
+document.title =
+"AGI ADMIN • " +
+new Date()
+.toLocaleTimeString();
+
+},1000);
+
+</script>
