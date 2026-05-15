@@ -4,43 +4,50 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
-AGI ULTRA PRO v16 AI 🚀
+AGI ULTRA PRO v17 PREMIUM 🚀
 </title>
 
 <!-- =========================================
 FONTS
 ========================================= -->
 
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;700&display=swap"
-rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;700&display=swap" rel="stylesheet">
 
 <!-- =========================================
-CHART
+CHART JS
 ========================================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <!-- =========================================
-QR
+QR CODE
 ========================================= -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<!-- =========================================
+HTML2PDF
+========================================= -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- =========================================
+SIGNATURE PAD
+========================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 
 <!-- =========================================
 FIREBASE
 ========================================= -->
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <style>
@@ -55,11 +62,17 @@ padding:0;
 box-sizing:border-box;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
+
 background:#020617;
 font-family:'Inter',sans-serif;
 color:white;
 overflow-x:hidden;
+
 }
 
 /* =========================================
@@ -82,19 +95,20 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 flex-wrap:wrap;
+gap:20px;
 
 box-shadow:
-0 5px 25px rgba(0,0,0,.3);
+0 5px 25px rgba(0,0,0,.35);
 
 }
 
 .logo h1{
-font-size:32px;
+font-size:34px;
 font-weight:800;
 }
 
 .logo p{
-opacity:.8;
+opacity:.75;
 margin-top:5px;
 }
 
@@ -111,8 +125,8 @@ BUTTONS
 button{
 
 border:none;
-padding:12px 18px;
-border-radius:12px;
+padding:13px 18px;
+border-radius:14px;
 cursor:pointer;
 font-weight:700;
 font-size:14px;
@@ -156,13 +170,13 @@ MAIN
 
 .main{
 
-max-width:1600px;
+max-width:1700px;
 margin:auto;
 
 padding:30px;
 
 display:grid;
-grid-template-columns:380px 1fr;
+grid-template-columns:390px 1fr;
 gap:30px;
 
 }
@@ -177,29 +191,33 @@ background:#111827;
 
 padding:25px;
 
-border-radius:22px;
+border-radius:24px;
 
 box-shadow:
 0 10px 35px rgba(0,0,0,.3);
 
-height:fit-content;
-
 position:sticky;
 top:20px;
+
+height:fit-content;
 
 }
 
 .sidebar h2{
-margin-bottom:20px;
 font-size:24px;
+margin-bottom:20px;
 }
 
 .label{
+
 display:block;
-margin-top:14px;
-margin-bottom:6px;
+
+margin-top:15px;
+margin-bottom:7px;
+
 font-size:14px;
 font-weight:700;
+
 }
 
 .input,
@@ -208,7 +226,7 @@ font-weight:700;
 
 width:100%;
 
-padding:13px;
+padding:14px;
 
 border:none;
 
@@ -220,11 +238,22 @@ color:white;
 
 font-size:14px;
 
+outline:none;
+
 }
 
 .textarea{
-min-height:90px;
+min-height:100px;
 resize:vertical;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus{
+
+box-shadow:
+0 0 0 3px rgba(37,99,235,.35);
+
 }
 
 /* =========================================
@@ -237,7 +266,26 @@ display:grid;
 grid-template-columns:1fr 1fr;
 gap:12px;
 
-margin-top:20px;
+margin-top:22px;
+
+}
+
+/* =========================================
+SIGNATURE PAD
+========================================= */
+
+#signaturePad{
+
+margin-top:12px;
+
+width:100%;
+height:180px;
+
+border-radius:16px;
+
+background:white;
+
+touch-action:none;
 
 }
 
@@ -248,7 +296,10 @@ ANALYTICS
 .analytics{
 
 display:grid;
-grid-template-columns:repeat(4,1fr);
+
+grid-template-columns:
+repeat(4,1fr);
+
 gap:20px;
 
 margin-bottom:25px;
@@ -261,7 +312,7 @@ background:#111827;
 
 padding:20px;
 
-border-radius:20px;
+border-radius:22px;
 
 text-align:center;
 
@@ -271,8 +322,11 @@ box-shadow:
 }
 
 .stat h3{
-font-size:30px;
+
+font-size:32px;
+
 margin-top:10px;
+
 }
 
 /* =========================================
@@ -284,11 +338,11 @@ PREVIEW
 background:white;
 color:#111827;
 
-border-radius:22px;
+border-radius:24px;
 
 padding:40px;
 
-min-height:1000px;
+min-height:1100px;
 
 position:relative;
 
@@ -334,7 +388,6 @@ border:3px solid #dc2626;
 border-radius:50%;
 
 display:flex;
-
 align-items:center;
 justify-content:center;
 
@@ -364,7 +417,7 @@ color:#2563eb;
 
 text-align:center;
 
-font-size:42px;
+font-size:44px;
 
 letter-spacing:3px;
 
@@ -390,13 +443,50 @@ letter-spacing:2px;
 }
 
 .doc-content{
+
 line-height:2;
 font-size:18px;
+
 }
 
 .doc-content ol{
+
 padding-left:24px;
+
 margin-top:15px;
+
+}
+
+.doc-footer{
+
+margin-top:40px;
+
+font-size:13px;
+
+color:#6b7280;
+
+text-align:center;
+
+}
+
+/* =========================================
+QR
+========================================= */
+
+#qrBox{
+
+margin-top:20px;
+text-align:center;
+
+}
+
+#qrCodeContainer{
+
+margin-top:25px;
+
+display:flex;
+justify-content:center;
+
 }
 
 /* =========================================
@@ -446,7 +536,25 @@ border-radius:18px;
 }
 
 /* =========================================
-MOBILE
+STATUS
+========================================= */
+
+.status{
+
+margin-top:20px;
+
+padding:12px;
+
+border-radius:12px;
+
+background:#0f172a;
+
+font-size:13px;
+
+}
+
+/* =========================================
+RESPONSIVE
 ========================================= */
 
 @media(max-width:1100px){
@@ -473,6 +581,51 @@ font-size:30px;
 
 }
 
+@media(max-width:700px){
+
+.analytics{
+grid-template-columns:1fr;
+}
+
+.topbar{
+padding:20px;
+}
+
+.logo h1{
+font-size:26px;
+}
+
+}
+
+/* =========================================
+PRINT
+========================================= */
+
+@media print{
+
+body{
+background:white;
+}
+
+.sidebar,
+.topbar,
+.analytics{
+display:none !important;
+}
+
+.main{
+display:block;
+padding:0;
+}
+
+.preview{
+box-shadow:none;
+border-radius:0;
+min-height:auto;
+}
+
+}
+
 </style>
 
 </head>
@@ -488,11 +641,11 @@ TOPBAR
 <div class="logo">
 
 <h1>
-⚖️ AGI ULTRA PRO v16 AI
+⚖️ AGI ULTRA PRO v17 AI
 </h1>
 
 <p>
-Enterprise Legal SaaS Platform
+Enterprise Premium Legal SaaS Platform
 </p>
 
 </div>
@@ -543,8 +696,7 @@ Generate Affidavit
 Language
 </label>
 
-<select class="select"
-id="lang">
+<select class="select" id="lang">
 
 <option>English</option>
 <option>Urdu</option>
@@ -558,8 +710,7 @@ id="lang">
 Purpose
 </label>
 
-<select class="select"
-id="purposeType">
+<select class="select" id="purposeType">
 
 <option>Name Change</option>
 <option>Address Proof</option>
@@ -574,59 +725,63 @@ id="purposeType">
 Full Name
 </label>
 
-<input class="input"
-id="name">
+<input class="input" id="name">
 
 <label class="label">
 Father Name
 </label>
 
-<input class="input"
-id="father">
+<input class="input" id="father">
 
 <label class="label">
 Age
 </label>
 
-<input class="input"
-id="age">
+<input class="input" id="age">
 
 <label class="label">
 Address
 </label>
 
-<textarea class="textarea"
-id="address"></textarea>
+<textarea class="textarea" id="address"></textarea>
 
 <label class="label">
 Details
 </label>
 
-<textarea class="textarea"
-id="details"></textarea>
+<textarea class="textarea" id="details"></textarea>
 
 <label class="label">
 Place
 </label>
 
-<input class="input"
-id="place">
+<input class="input" id="place">
 
 <label class="label">
 Date
 </label>
 
-<input class="input"
-type="date"
-id="date">
+<input class="input" type="date" id="date">
 
 <label class="label">
-Upload Signature
+Digital Signature
 </label>
 
-<input class="input"
-type="file"
-id="signatureUpload">
+<canvas id="signaturePad"></canvas>
+
+<div class="btn-grid">
+
+<button class="orange"
+onclick="clearSignature()">
+Clear Sign
+</button>
+
+<button class="green"
+onclick="saveDraft()">
+Save Draft
+</button>
+
+</div>
 
 <!-- =========================================
 AI QUICK
@@ -690,12 +845,13 @@ Voice Input
 
 </div>
 
-<!-- =========================================
-QR
-========================================= -->
+<div id="qrBox"></div>
 
-<div id="qrBox"
-style="margin-top:20px;text-align:center;">
+<div class="status"
+id="statusBox">
+
+System Ready 🚀
+
 </div>
 
 <!-- =========================================
@@ -717,7 +873,7 @@ No documents yet.
 </div>
 
 <!-- =========================================
-RIGHT
+RIGHT SIDE
 ========================================= -->
 
 <div>
@@ -737,14 +893,14 @@ ANALYTICS
 <div class="stat">
 ⭐
 <h3 id="premiumStatus">
-Active
+Premium
 </h3>
-<p>Premium</p>
+<p>Subscription</p>
 </div>
 
 <div class="stat">
 🔥
-<h3>
+<h3 id="aiStatus">
 AI
 </h3>
 <p>Smart Engine</p>
@@ -753,7 +909,7 @@ AI
 <div class="stat">
 ⚖️
 <h3>
-v16
+v17
 </h3>
 <p>Enterprise</p>
 </div>
@@ -809,8 +965,6 @@ will appear here.
 SCRIPT
 ========================================= -->
 
-<script src="script.js"></script>
-
 <script>
 
 /* =========================================
@@ -819,36 +973,43 @@ FIREBASE
 
 const firebaseConfig = {
 
-apiKey:
-"AIzaSyC_1bKbNGAoGviGt1-a1f27h9VDj4hr3oA",
-
-authDomain:
-"affidavittool.firebaseapp.com",
-
-projectId:
-"affidavittool",
-
-storageBucket:
-"affidavittool.appspot.com",
-
-messagingSenderId:
-"108525725649",
-
-appId:
-"1:108525725649:web:2c3cab440860c81e6de2f0"
+apiKey:"YOUR_API_KEY",
+authDomain:"YOUR_AUTH_DOMAIN",
+projectId:"YOUR_PROJECT_ID",
+storageBucket:"YOUR_STORAGE_BUCKET",
+messagingSenderId:"YOUR_SENDER_ID",
+appId:"YOUR_APP_ID"
 
 };
 
 firebase.initializeApp(firebaseConfig);
 
-const auth =
-firebase.auth();
-
-const db =
-firebase.firestore();
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 /* =========================================
-AUTH PROTECT
+SIGNATURE PAD
+========================================= */
+
+let signaturePad;
+
+window.onload = ()=>{
+
+const canvas =
+document.getElementById(
+"signaturePad"
+);
+
+signaturePad =
+new SignaturePad(canvas);
+
+loadHistory();
+restoreDraft();
+
+};
+
+/* =========================================
+AUTH
 ========================================= */
 
 auth.onAuthStateChanged(user=>{
@@ -862,34 +1023,6 @@ return;
 
 }
 
-db.collection("users")
-.doc(user.uid)
-.get()
-.then(doc=>{
-
-if(!doc.exists){
-
-location.href =
-"index.html";
-
-return;
-
-}
-
-let d =
-doc.data();
-
-if(!d.premium){
-
-alert(
-"Premium Required ❌"
-);
-
-location.href =
-"dashboard.html";
-
-}
-
 document.getElementById(
 "premiumStatus"
 ).innerText =
@@ -897,7 +1030,501 @@ document.getElementById(
 
 });
 
+/* =========================================
+STATUS
+========================================= */
+
+function setStatus(msg){
+
+document.getElementById(
+"statusBox"
+).innerText = msg;
+
+}
+
+/* =========================================
+DOC COUNT
+========================================= */
+
+let total = 0;
+
+/* =========================================
+GENERATE
+========================================= */
+
+function generateAffidavit(){
+
+const preview =
+document.getElementById(
+"previewArea"
+);
+
+const name =
+document.getElementById(
+"name"
+).value;
+
+const father =
+document.getElementById(
+"father"
+).value;
+
+const age =
+document.getElementById(
+"age"
+).value;
+
+const address =
+document.getElementById(
+"address"
+).value;
+
+const details =
+document.getElementById(
+"details"
+).value;
+
+const place =
+document.getElementById(
+"place"
+).value;
+
+const date =
+document.getElementById(
+"date"
+).value;
+
+if(
+!name ||
+!father ||
+!age
+){
+
+alert(
+"Fill required fields ❌"
+);
+
+return;
+
+}
+
+const signature =
+signaturePad.isEmpty()
+?
+""
+:
+signaturePad.toDataURL();
+
+const docID =
+"IND-" +
+Math.random()
+.toString(36)
+.substring(2,8)
+.toUpperCase();
+
+preview.innerHTML = `
+
+<div class="stamp">
+₹10
+</div>
+
+<div class="meezan-logo">
+⚖️ MEEZAN LEGAL SERVICES
+</div>
+
+<div class="doc-title">
+AFFIDAVIT
+</div>
+
+<div class="doc-sub">
+BEFORE THE NOTARY PUBLIC
+</div>
+
+<div class="doc-content">
+
+<p>
+I,
+<b>${name}</b>,
+S/o
+<b>${father}</b>,
+aged about
+<b>${age}</b>
+years,
+resident of
+<b>${address}</b>.
+</p>
+
+<ol>
+
+<li>
+This affidavit is submitted
+for official purposes.
+</li>
+
+<li>
+${details}
+</li>
+
+</ol>
+
+<br>
+
+<p>
+Place:
+<b>${place}</b>
+</p>
+
+<p>
+Date:
+<b>${date}</b>
+</p>
+
+${
+signature
+?
+`
+<div style="margin-top:30px;">
+<img src="${signature}"
+style="height:80px;">
+</div>
+`
+:
+""
+}
+
+<div id="qrCodeContainer"></div>
+
+<div class="doc-footer">
+
+Document ID:
+${docID}
+
+<br><br>
+
+Powered by
+AGI ULTRA PRO v17 AI
+
+</div>
+
+</div>
+
+`;
+
+generateQRCode();
+
+total++;
+
+document.getElementById(
+"totalDocs"
+).innerText =
+total;
+
+saveHistory(docID,name);
+
+setStatus(
+"Affidavit Generated ✅"
+);
+
+}
+
+/* =========================================
+QR
+========================================= */
+
+function generateQRCode(){
+
+const qrBox =
+document.getElementById(
+"qrCodeContainer"
+);
+
+if(!qrBox) return;
+
+qrBox.innerHTML = "";
+
+new QRCode(qrBox,{
+
+text:
+document.getElementById(
+"previewArea"
+).innerText,
+
+width:140,
+height:140
+
 });
+
+}
+
+/* =========================================
+PDF
+========================================= */
+
+function downloadPDF(){
+
+const element =
+document.getElementById(
+"previewArea"
+);
+
+html2pdf()
+.from(element)
+.save("Affidavit.pdf");
+
+}
+
+/* =========================================
+WHATSAPP
+========================================= */
+
+function shareWhatsApp(){
+
+let text =
+document.getElementById(
+"previewArea"
+).innerText;
+
+window.open(
+`https://wa.me/?text=${encodeURIComponent(text)}`,
+"_blank"
+);
+
+}
+
+/* =========================================
+EMAIL
+========================================= */
+
+function emailPDF(){
+
+window.location.href =
+"mailto:?subject=Affidavit&body=Generated by AGI ULTRA PRO";
+
+}
+
+/* =========================================
+VOICE
+========================================= */
+
+function startVoiceInput(){
+
+if(
+!('webkitSpeechRecognition' in window)
+){
+
+alert(
+"Voice not supported ❌"
+);
+
+return;
+
+}
+
+const recognition =
+new webkitSpeechRecognition();
+
+recognition.lang =
+"en-IN";
+
+recognition.start();
+
+recognition.onresult =
+function(event){
+
+document.getElementById(
+"details"
+).value =
+event.results[0][0].transcript;
+
+};
+
+}
+
+/* =========================================
+AI DRAFT
+========================================= */
+
+function aiDraft(){
+
+document.getElementById(
+"details"
+).value =
+
+"This affidavit is generated using AGI ULTRA PRO AI engine and all statements are true to the best of my knowledge.";
+
+}
+
+/* =========================================
+AI QUICK
+========================================= */
+
+function generateAIQuickAffidavit(){
+
+let val =
+document.getElementById(
+"aiPrompt"
+).value;
+
+document.getElementById(
+"details"
+).value = val;
+
+generateAffidavit();
+
+}
+
+/* =========================================
+SAVE DRAFT
+========================================= */
+
+function saveDraft(){
+
+const fields = [
+
+"name",
+"father",
+"age",
+"address",
+"details",
+"place",
+"date"
+
+];
+
+fields.forEach(id=>{
+
+localStorage.setItem(
+id,
+document.getElementById(id).value
+);
+
+});
+
+setStatus(
+"Draft Saved ✅"
+);
+
+}
+
+/* =========================================
+RESTORE DRAFT
+========================================= */
+
+function restoreDraft(){
+
+const fields = [
+
+"name",
+"father",
+"age",
+"address",
+"details",
+"place",
+"date"
+
+];
+
+fields.forEach(id=>{
+
+const val =
+localStorage.getItem(id);
+
+if(val){
+
+document.getElementById(id).value =
+val;
+
+}
+
+});
+
+}
+
+/* =========================================
+CLEAR SIGN
+========================================= */
+
+function clearSignature(){
+
+signaturePad.clear();
+
+}
+
+/* =========================================
+HISTORY
+========================================= */
+
+function saveHistory(id,name){
+
+let history =
+JSON.parse(
+localStorage.getItem(
+"agiHistory"
+) || "[]"
+);
+
+history.unshift({
+
+id:id,
+name:name
+
+});
+
+localStorage.setItem(
+"agiHistory",
+JSON.stringify(history)
+);
+
+loadHistory();
+
+}
+
+function loadHistory(){
+
+let box =
+document.getElementById(
+"history"
+);
+
+let history =
+JSON.parse(
+localStorage.getItem(
+"agiHistory"
+) || "[]"
+);
+
+if(history.length===0){
+
+box.innerHTML =
+"No documents yet.";
+
+return;
+
+}
+
+let html = "";
+
+history.forEach(item=>{
+
+html += `
+
+<div class="history-item">
+
+<b>${item.name}</b>
+
+<br>
+
+${item.id}
+
+</div>
+
+`;
+
+});
+
+box.innerHTML = html;
+
+}
 
 /* =========================================
 LOGOUT
