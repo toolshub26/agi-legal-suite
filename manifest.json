@@ -1,5 +1,5 @@
 {
-  "name": "AGI ULTRA PRO v17 AI",
+  "name": "AGI ULTRA PRO v18 AI",
   "short_name": "AGI PRO",
   "lang": "en",
   "dir": "ltr",
@@ -10,6 +10,7 @@
   "scope": "./",
 
   "display": "standalone",
+
   "display_override": [
     "window-controls-overlay",
     "standalone",
@@ -22,7 +23,7 @@
   "background_color": "#020617",
   "theme_color": "#0f172a",
 
-  "description": "AGI ULTRA PRO v17 AI - Enterprise Legal SaaS Platform with Affidavit Generator, AI Drafting, OCR Scanner, QR Verification, Wallet, Rewards, Premium Dashboard, Admin Panel and Legal AI Assistant.",
+  "description": "AGI ULTRA PRO v18 AI Enterprise Legal SaaS Platform with Affidavit Generator, OCR Scanner, QR Verification, AI Legal Assistant, Wallet System, Premium Dashboard, Admin Enterprise Panel, Notifications, Cloud Sync and Analytics.",
 
   "categories": [
     "business",
@@ -33,6 +34,7 @@
   ],
 
   "screenshots": [
+
     {
       "src": "screenshot-desktop.png",
       "sizes": "1280x720",
@@ -40,6 +42,7 @@
       "form_factor": "wide",
       "label": "AGI ULTRA PRO Dashboard"
     },
+
     {
       "src": "screenshot-mobile.png",
       "sizes": "720x1280",
@@ -47,6 +50,7 @@
       "form_factor": "narrow",
       "label": "Mobile Affidavit Generator"
     }
+
   ],
 
   "shortcuts": [
@@ -184,28 +188,38 @@
   "handle_links": "preferred",
 
   "protocol_handlers": [
+
     {
       "protocol": "web+agi",
       "url": "./index.html?open=%s"
     }
+
   ],
 
   "file_handlers": [
+
     {
       "action": "./index.html",
+
       "accept": {
+
         "application/pdf": [
           ".pdf"
         ],
+
         "image/png": [
           ".png"
         ],
+
         "image/jpeg": [
           ".jpg",
           ".jpeg"
         ]
+
       }
+
     }
+
   ]
 
 }
