@@ -4,12 +4,10 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
-AGI ULTRA PRO v17 ENTERPRISE 🚀
+AGI ULTRA PRO v18 ENTERPRISE 🚀
 </title>
 
 <link rel="preconnect"
@@ -46,6 +44,15 @@ linear-gradient(
 color:white;
 
 overflow-x:hidden;
+
+transition:.3s;
+
+}
+
+.light-mode{
+
+background:#f3f4f6;
+color:#111827;
 
 }
 
@@ -89,9 +96,7 @@ border-right:
 .logo{
 
 font-size:28px;
-
 font-weight:800;
-
 margin-bottom:35px;
 
 }
@@ -103,23 +108,14 @@ color:#3b82f6;
 .nav-btn{
 
 width:100%;
-
 padding:15px;
-
 border:none;
-
 margin-bottom:12px;
-
 border-radius:16px;
-
 background:#1f2937;
-
 color:white;
-
 font-weight:700;
-
 cursor:pointer;
-
 transition:.25s;
 
 }
@@ -127,7 +123,6 @@ transition:.25s;
 .nav-btn:hover{
 
 background:#2563eb;
-
 transform:translateY(-2px);
 
 }
@@ -139,9 +134,7 @@ MAIN
 .main{
 
 margin-left:290px;
-
 width:100%;
-
 padding:30px;
 
 }
@@ -153,15 +146,10 @@ TOPBAR
 .topbar{
 
 display:flex;
-
 justify-content:space-between;
-
 align-items:center;
-
 flex-wrap:wrap;
-
 gap:20px;
-
 margin-bottom:30px;
 
 }
@@ -169,31 +157,17 @@ margin-bottom:30px;
 .topbar h1{
 
 font-size:36px;
-
 font-weight:800;
-
-}
-
-.topbar p{
-
-opacity:.7;
-
-margin-top:6px;
 
 }
 
 .profile{
 
 display:flex;
-
 align-items:center;
-
 gap:14px;
-
 background:#111827;
-
 padding:12px 18px;
-
 border-radius:18px;
 
 }
@@ -202,16 +176,11 @@ border-radius:18px;
 
 width:50px;
 height:50px;
-
 border-radius:50%;
-
 background:#2563eb;
-
 display:flex;
-
 align-items:center;
 justify-content:center;
-
 font-size:20px;
 font-weight:800;
 
@@ -226,10 +195,9 @@ CARDS
 display:grid;
 
 grid-template-columns:
-repeat(auto-fit,minmax(230px,1fr));
+repeat(auto-fit,minmax(220px,1fr));
 
 gap:20px;
-
 margin-bottom:30px;
 
 }
@@ -248,33 +216,13 @@ border-radius:24px;
 border:
 1px solid rgba(255,255,255,.08);
 
-transition:.25s;
-
-}
-
-.card:hover{
-
-transform:translateY(-4px);
-
-}
-
-.card h3{
-
-font-size:15px;
-
-opacity:.75;
-
-margin-bottom:12px;
-
 }
 
 .card .value{
 
 font-size:34px;
-
 font-weight:800;
-
-margin-bottom:8px;
+margin-top:10px;
 
 }
 
@@ -285,13 +233,8 @@ GRID
 .grid{
 
 display:grid;
-
-grid-template-columns:
-2fr 1fr;
-
+grid-template-columns:2fr 1fr;
 gap:25px;
-
-margin-bottom:30px;
 
 }
 
@@ -311,31 +254,13 @@ border-radius:24px;
 border:
 1px solid rgba(255,255,255,.08);
 
+margin-bottom:25px;
+
 }
 
 .panel h2{
 
 margin-bottom:20px;
-
-font-size:22px;
-
-}
-
-/* =========================================
-ACTIVITY
-========================================= */
-
-.activity-item{
-
-padding:14px;
-
-background:#111827;
-
-border-radius:14px;
-
-margin-bottom:12px;
-
-font-size:14px;
 
 }
 
@@ -346,28 +271,13 @@ BUTTONS
 .action-btn{
 
 padding:14px 18px;
-
 border:none;
-
 border-radius:16px;
-
 background:#2563eb;
-
 color:white;
-
 font-weight:700;
-
 cursor:pointer;
-
 margin:6px;
-
-transition:.25s;
-
-}
-
-.action-btn:hover{
-
-transform:translateY(-2px);
 
 }
 
@@ -388,27 +298,33 @@ background:#7c3aed;
 }
 
 /* =========================================
+ACTIVITY
+========================================= */
+
+.activity-item{
+
+padding:14px;
+background:#111827;
+border-radius:14px;
+margin-bottom:12px;
+
+}
+
+/* =========================================
 TABLE
 ========================================= */
 
 table{
-
 width:100%;
-
 border-collapse:collapse;
-
 }
 
 th,td{
 
 padding:14px;
-
 text-align:left;
-
 border-bottom:
 1px solid rgba(255,255,255,.08);
-
-font-size:14px;
 
 }
 
@@ -418,14 +334,9 @@ BADGES
 
 .badge{
 
-display:inline-block;
-
 padding:6px 12px;
-
 border-radius:30px;
-
 font-size:12px;
-
 font-weight:700;
 
 }
@@ -445,44 +356,12 @@ SEARCH
 .search-box{
 
 width:100%;
-
 padding:14px;
-
 border:none;
-
 border-radius:14px;
-
 background:#1f2937;
-
 color:white;
-
 margin-bottom:20px;
-
-}
-
-/* =========================================
-AI BOX
-========================================= */
-
-.ai-box textarea{
-
-width:100%;
-
-height:120px;
-
-background:#1f2937;
-
-border:none;
-
-border-radius:16px;
-
-padding:14px;
-
-color:white;
-
-margin-top:15px;
-
-resize:none;
 
 }
 
@@ -493,13 +372,9 @@ PROGRESS
 .progress{
 
 height:10px;
-
 background:#1f2937;
-
 border-radius:20px;
-
 overflow:hidden;
-
 margin-top:10px;
 
 }
@@ -507,7 +382,6 @@ margin-top:10px;
 .progress div{
 
 height:100%;
-
 background:#2563eb;
 
 }
@@ -519,22 +393,13 @@ TOAST
 .toast{
 
 position:fixed;
-
 bottom:20px;
 right:20px;
-
 background:#111827;
-
 padding:16px 20px;
-
 border-radius:14px;
-
 display:none;
-
 z-index:9999;
-
-box-shadow:
-0 10px 25px rgba(0,0,0,.4);
 
 }
 
@@ -551,9 +416,7 @@ flex-direction:column;
 .sidebar{
 
 position:relative;
-
 width:100%;
-
 height:auto;
 
 }
@@ -561,7 +424,6 @@ height:auto;
 .main{
 
 margin-left:0;
-
 padding:20px;
 
 }
@@ -580,14 +442,12 @@ grid-template-columns:1fr;
 
 <div class="toast"
 id="toast">
-System Notification
+Notification
 </div>
 
 <div class="dashboard">
 
-<!-- =========================================
-SIDEBAR
-========================================= -->
+<!-- SIDEBAR -->
 
 <div class="sidebar">
 
@@ -608,56 +468,62 @@ SIDEBAR
 </button>
 
 <button class="nav-btn">
-⭐ Premium
-</button>
-
-<button class="nav-btn">
 📊 Analytics
-</button>
-
-<button class="nav-btn">
-💰 Revenue
 </button>
 
 <button class="nav-btn">
 🤖 Legal AI
 </button>
 
-<button class="nav-btn">
-📥 Export CSV
+<button class="nav-btn"
+onclick="toggleDarkMode()">
+
+🌗 Toggle Theme
+
 </button>
 
-<button class="nav-btn">
-📱 Install App
+<button class="nav-btn"
+onclick="enableNotifications()">
+
+🔔 Notifications
+
 </button>
 
-<button class="nav-btn">
-🌙 Dark Mode
+<button class="nav-btn"
+onclick="downloadTXTReport()">
+
+📄 TXT Report
+
+</button>
+
+<button class="nav-btn"
+onclick="voiceCommand()">
+
+🎤 Voice Commands
+
 </button>
 
 <button class="nav-btn"
 onclick="logout()">
+
 🚪 Logout
+
 </button>
 
 </div>
 
-<!-- =========================================
-MAIN
-========================================= -->
+<!-- MAIN -->
 
 <div class="main">
 
-<!-- =========================================
-TOPBAR
-========================================= -->
+<!-- TOPBAR -->
 
 <div class="topbar">
 
 <div>
 
 <h1>
-AGI ULTRA PRO v17 🚀
+AGI ULTRA PRO v18 🚀
 </h1>
 
 <p>
@@ -690,74 +556,43 @@ PREMIUM ACTIVE
 
 </div>
 
-<!-- =========================================
-CARDS
-========================================= -->
+<!-- CARDS -->
 
 <div class="cards">
 
 <div class="card">
-
 <h3>Total Affidavits</h3>
-
 <div class="value"
 id="docsCount">
 1248
 </div>
-
-<p>
-+12% growth this week
-</p>
-
 </div>
 
 <div class="card">
-
 <h3>Total Revenue</h3>
-
 <div class="value">
 ₹82,450
 </div>
-
-<p>
-Monthly earnings
-</p>
-
 </div>
 
 <div class="card">
-
 <h3>Premium Users</h3>
-
 <div class="value">
 328
 </div>
-
-<p>
-Active subscribers
-</p>
-
 </div>
 
 <div class="card">
-
-<h3>QR Verifications</h3>
-
-<div class="value">
-2902
+<h3>AI Requests</h3>
+<div class="value"
+id="aiRequests">
+845
 </div>
-
-<p>
-Verified documents
-</p>
-
 </div>
 
 </div>
 
-<!-- =========================================
-GRID
-========================================= -->
+<!-- GRID -->
 
 <div class="grid">
 
@@ -775,8 +610,6 @@ GRID
 
 </div>
 
-<br>
-
 <div class="panel">
 
 <h2>
@@ -792,20 +625,14 @@ Premium activated successfully
 </div>
 
 <div class="activity-item">
-Wallet withdrawal requested
-</div>
-
-<div class="activity-item">
 Document verified by QR
 </div>
 
 <div class="activity-item">
-New user registered
+Cloud backup completed
 </div>
 
 </div>
-
-<br>
 
 <div class="panel">
 
@@ -824,11 +651,9 @@ onkeyup="filterUsers()">
 <thead>
 
 <tr>
-
 <th>Email</th>
 <th>Status</th>
 <th>Wallet</th>
-
 </tr>
 
 </thead>
@@ -836,57 +661,33 @@ onkeyup="filterUsers()">
 <tbody id="usersTable">
 
 <tr>
-
-<td>
-user1@gmail.com
-</td>
-
+<td>user1@gmail.com</td>
 <td>
 <span class="badge badge-premium">
 Premium
 </span>
 </td>
-
-<td>
-₹1500
-</td>
-
+<td>₹1500</td>
 </tr>
 
 <tr>
-
-<td>
-user2@gmail.com
-</td>
-
+<td>user2@gmail.com</td>
 <td>
 <span class="badge badge-free">
 Free
 </span>
 </td>
-
-<td>
-₹0
-</td>
-
+<td>₹0</td>
 </tr>
 
 <tr>
-
-<td>
-user3@gmail.com
-</td>
-
+<td>user3@gmail.com</td>
 <td>
 <span class="badge badge-premium">
 Premium
 </span>
 </td>
-
-<td>
-₹850
-</td>
-
+<td>₹850</td>
 </tr>
 
 </tbody>
@@ -908,7 +709,7 @@ Premium
 </h2>
 
 <button class="action-btn">
-🚀 Open Generator
+🚀 Generator
 </button>
 
 <button class="action-btn green"
@@ -919,9 +720,9 @@ onclick="exportCSV()">
 </button>
 
 <button class="action-btn orange"
-onclick="installApp()">
+onclick="cloudBackup()">
 
-📱 Install App
+☁️ Cloud Backup
 
 </button>
 
@@ -935,13 +736,11 @@ onclick="withdrawMoney()">
 <button class="action-btn purple"
 onclick="generateReport()">
 
-📄 Generate Report
+📄 Report
 
 </button>
 
 </div>
-
-<br>
 
 <div class="panel">
 
@@ -949,40 +748,29 @@ onclick="generateReport()">
 📊 System Usage
 </h2>
 
-<p>
-Storage Usage
-</p>
+<p>Storage Usage</p>
 
 <div class="progress">
-<div style="width:70%;">
-</div>
+<div style="width:70%;"></div>
 </div>
 
 <br>
 
-<p>
-API Usage
-</p>
+<p>API Usage</p>
 
 <div class="progress">
-<div style="width:45%;">
-</div>
+<div style="width:45%;"></div>
 </div>
 
 <br>
 
-<p>
-Realtime Database
-</p>
+<p>Realtime Database</p>
 
 <div class="progress">
-<div style="width:82%;">
-</div>
-</div>
-
+<div style="width:82%;"></div>
 </div>
 
-<br>
+</div>
 
 <div class="panel">
 
@@ -990,11 +778,19 @@ Realtime Database
 🤖 Legal AI Assistant
 </h2>
 
-<div class="ai-box">
-
 <textarea
 id="legalQuestion"
-placeholder="Ask legal question..."></textarea>
+style="
+width:100%;
+height:120px;
+background:#1f2937;
+border:none;
+border-radius:16px;
+padding:14px;
+color:white;
+">
+
+</textarea>
 
 <br><br>
 
@@ -1012,6 +808,16 @@ No response yet.
 </div>
 
 </div>
+
+<div class="panel">
+
+<h2>
+⏰ Live Clock
+</h2>
+
+<h1 id="liveClock">
+00:00:00
+</h1>
 
 </div>
 
@@ -1065,7 +871,6 @@ data:[
 ],
 
 borderWidth:3,
-
 tension:.4
 
 }]
@@ -1121,6 +926,7 @@ document.getElementById(
 <b>AI Response:</b><br><br>
 
 Legal guidance regarding:<br>
+
 ${q}
 
 `;
@@ -1132,7 +938,7 @@ showToast(
 }
 
 /* =========================================
-EXPORT CSV
+CSV EXPORT
 ========================================= */
 
 function exportCSV(){
@@ -1144,13 +950,18 @@ showToast(
 }
 
 /* =========================================
-INSTALL APP
+CLOUD BACKUP
 ========================================= */
 
-function installApp(){
+function cloudBackup(){
+
+localStorage.setItem(
+"agi_backup",
+document.body.innerHTML
+);
 
 showToast(
-"PWA install ready"
+"Cloud Backup Saved ☁️"
 );
 
 }
@@ -1180,6 +991,139 @@ showToast(
 }
 
 /* =========================================
+TXT REPORT
+========================================= */
+
+function downloadTXTReport(){
+
+const report = `
+
+AGI ULTRA REPORT
+
+Total Docs:
+${document.getElementById("docsCount").innerText}
+
+AI Requests:
+${document.getElementById("aiRequests").innerText}
+
+`;
+
+const blob =
+new Blob([report],{
+type:"text/plain"
+});
+
+const link =
+document.createElement("a");
+
+link.href =
+URL.createObjectURL(blob);
+
+link.download =
+"AGI_REPORT.txt";
+
+link.click();
+
+showToast(
+"TXT Report Downloaded"
+);
+
+}
+
+/* =========================================
+DARK MODE
+========================================= */
+
+function toggleDarkMode(){
+
+document.body.classList.toggle(
+"light-mode"
+);
+
+showToast(
+"Theme Updated"
+);
+
+}
+
+/* =========================================
+NOTIFICATIONS
+========================================= */
+
+function enableNotifications(){
+
+if(
+"Notification" in window
+){
+
+Notification.requestPermission()
+.then(permission=>{
+
+if(permission==="granted"){
+
+new Notification(
+"AGI Notifications Enabled 🚀"
+);
+
+}
+
+});
+
+}
+
+}
+
+/* =========================================
+VOICE COMMANDS
+========================================= */
+
+function voiceCommand(){
+
+if(
+!('webkitSpeechRecognition' in window)
+){
+
+showToast(
+"Voice Commands Unsupported"
+);
+
+return;
+
+}
+
+const recognition =
+new webkitSpeechRecognition();
+
+recognition.lang =
+"en-IN";
+
+recognition.start();
+
+recognition.onresult =
+function(event){
+
+const command =
+event.results[0][0]
+.transcript
+.toLowerCase();
+
+showToast(
+"Voice: " + command
+);
+
+if(command.includes("logout")){
+logout();
+}
+
+if(command.includes("report")){
+downloadTXTReport();
+}
+
+};
+
+}
+
+/* =========================================
 TOAST
 ========================================= */
 
@@ -1205,7 +1149,21 @@ toast.style.display =
 }
 
 /* =========================================
-AUTO REFRESH STATS
+LIVE CLOCK
+========================================= */
+
+setInterval(()=>{
+
+document.getElementById(
+"liveClock"
+).innerHTML =
+new Date()
+.toLocaleTimeString();
+
+},1000);
+
+/* =========================================
+AUTO REFRESH
 ========================================= */
 
 setInterval(()=>{
@@ -1221,6 +1179,18 @@ document.getElementById(
 "docsCount"
 ).innerText =
 current + 1;
+
+let ai =
+Number(
+document.getElementById(
+"aiRequests"
+).innerText
+);
+
+document.getElementById(
+"aiRequests"
+).innerText =
+ai + 1;
 
 },15000);
 
