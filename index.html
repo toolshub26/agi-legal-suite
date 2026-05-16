@@ -4,16 +4,12 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>
-AGI ULTRA PRO v17 AI 🚀
-</title>
+<title>AGI ULTRA PRO v18 ENTERPRISE 🚀</title>
 
 <meta name="description"
-content="Ultimate Legal AI SaaS Platform">
+content="Enterprise AI Legal SaaS Platform">
 
 <link rel="preconnect"
 href="https://fonts.googleapis.com">
@@ -27,17 +23,16 @@ rel="stylesheet">
 <!-- PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<!-- Signature -->
+<!-- SIGN -->
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 
 <!-- OCR -->
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2/dist/tesseract.min.js"></script>
 
-<style>
+<!-- PNG -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-/* =========================================
-RESET
-========================================= */
+<style>
 
 *{
 margin:0;
@@ -57,19 +52,15 @@ linear-gradient(
 );
 
 color:white;
-
 overflow-x:hidden;
 
 }
 
-/* =========================================
-HEADER
-========================================= */
+/* HEADER */
 
 header{
 
 padding:30px;
-
 text-align:center;
 
 background:
@@ -87,16 +78,14 @@ box-shadow:
 header h1{
 
 font-size:42px;
-
 font-weight:800;
 
 }
 
 .tagline{
 
-opacity:.8;
-
 margin-top:10px;
+opacity:.8;
 
 }
 
@@ -104,33 +93,28 @@ margin-top:10px;
 
 display:inline-block;
 
-margin-top:15px;
+margin-top:18px;
 
 padding:12px 22px;
 
 border-radius:40px;
 
-background:#dc2626;
+background:#059669;
 
 font-weight:700;
 
 }
 
-/* =========================================
-NAVBAR
-========================================= */
+/* NAV */
 
 .top-nav{
 
-margin-top:20px;
-
 display:flex;
-
 justify-content:center;
-
 gap:15px;
-
 flex-wrap:wrap;
+
+margin-top:20px;
 
 }
 
@@ -158,9 +142,7 @@ background:#2563eb;
 
 }
 
-/* =========================================
-PROFILE
-========================================= */
+/* PROFILE */
 
 .user-profile-card{
 
@@ -175,9 +157,7 @@ padding:20px;
 border-radius:20px;
 
 display:flex;
-
 align-items:center;
-
 gap:15px;
 
 }
@@ -191,13 +171,11 @@ border-radius:50%;
 
 }
 
-/* =========================================
-LAYOUT
-========================================= */
+/* LAYOUT */
 
 .container{
 
-max-width:1600px;
+max-width:1700px;
 
 margin:auto;
 
@@ -205,15 +183,13 @@ padding:20px;
 
 display:grid;
 
-grid-template-columns:380px 1fr;
+grid-template-columns:390px 1fr;
 
 gap:30px;
 
 }
 
-/* =========================================
-FORM
-========================================= */
+/* FORM */
 
 .form-section{
 
@@ -224,7 +200,6 @@ padding:25px;
 border-radius:24px;
 
 position:sticky;
-
 top:20px;
 
 height:fit-content;
@@ -234,7 +209,6 @@ height:fit-content;
 .form-section h2{
 
 font-size:26px;
-
 margin-bottom:20px;
 
 }
@@ -268,19 +242,18 @@ color:white;
 
 font-size:14px;
 
+outline:none;
+
 }
 
 textarea{
 
-min-height:90px;
-
+min-height:100px;
 resize:vertical;
 
 }
 
-/* =========================================
-BUTTONS
-========================================= */
+/* BUTTONS */
 
 .button-group{
 
@@ -334,14 +307,11 @@ background:#ea580c;
 background:#7c3aed;
 }
 
-/* =========================================
-PREVIEW
-========================================= */
+/* PREVIEW */
 
 .preview-section{
 
 background:white;
-
 color:#111827;
 
 border-radius:24px;
@@ -377,14 +347,6 @@ pointer-events:none;
 
 }
 
-.document-preview{
-
-position:relative;
-
-z-index:2;
-
-}
-
 .title{
 
 text-align:center;
@@ -405,16 +367,15 @@ text-align:center;
 
 margin-top:10px;
 
-letter-spacing:2px;
-
 margin-bottom:40px;
+
+letter-spacing:2px;
 
 }
 
 .preview-content{
 
 line-height:2;
-
 font-size:18px;
 
 }
@@ -442,12 +403,10 @@ border:3px solid #dc2626;
 border-radius:50%;
 
 display:flex;
-
 align-items:center;
 justify-content:center;
 
 font-weight:800;
-
 font-size:20px;
 
 color:#dc2626;
@@ -482,9 +441,7 @@ color:#6b7280;
 
 }
 
-/* =========================================
-HISTORY
-========================================= */
+/* HISTORY */
 
 .history-box{
 
@@ -512,9 +469,7 @@ font-size:13px;
 
 }
 
-/* =========================================
-OCR
-========================================= */
+/* OCR */
 
 #ocrResultBox{
 
@@ -526,15 +481,13 @@ background:#1e293b;
 
 border-radius:14px;
 
-font-size:13px;
-
 min-height:80px;
+
+font-size:13px;
 
 }
 
-/* =========================================
-AI STATUS
-========================================= */
+/* AI STATUS */
 
 #aiStatus{
 
@@ -546,108 +499,43 @@ color:#60a5fa;
 
 }
 
-/* =========================================
-LOADER
-========================================= */
+/* LIGHT MODE */
 
-#globalLoader{
+.light-mode{
 
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:#020617;
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:center;
-align-items:center;
-
-z-index:999999;
+background:#f8fafc;
+color:#111827;
 
 }
 
-.loader-spinner{
+.light-mode .form-section,
+.light-mode .history-box,
+.light-mode .user-profile-card,
+.light-mode header{
 
-width:70px;
-height:70px;
-
-border:6px solid #1f2937;
-
-border-top:6px solid #2563eb;
-
-border-radius:50%;
-
-animation:spin 1s linear infinite;
+background:white;
+color:#111827;
 
 }
 
-@keyframes spin{
-
-100%{
-transform:rotate(360deg);
-}
-
-}
-
-/* =========================================
-SUPPORT
-========================================= */
-
-#supportBtn{
-
-position:fixed;
-
-bottom:20px;
-right:20px;
-
-width:60px;
-height:60px;
-
-border-radius:50%;
-
-background:#2563eb;
-
-font-size:24px;
-
-z-index:9999;
-
-}
-
-/* =========================================
-MOBILE
-========================================= */
+/* MOBILE */
 
 @media(max-width:1100px){
 
 .container{
-
 grid-template-columns:1fr;
-
 }
 
 .button-group{
-
 grid-template-columns:1fr;
-
 }
 
 .preview-section{
-
 padding:20px;
-
 }
 
 .title{
-
 font-size:34px;
-
 }
 
 }
@@ -661,65 +549,47 @@ font-size:34px;
 <header>
 
 <h1>
-⚖️ AGI ULTRA PRO v17 AI
+⚖️ AGI ULTRA PRO v18 AI
 </h1>
 
 <p class="tagline">
-Ultimate Legal AI SaaS Platform
+Enterprise Legal AI SaaS Platform
 </p>
 
-<div id="premiumStatus"
-class="premium-active">
-
-🔴 Free Version
-
+<div class="premium-active">
+🟢 Premium Enterprise
 </div>
 
 <div class="top-nav">
 
-<a href="#">
-Dashboard
-</a>
-
-<a href="#">
-Verify
-</a>
-
-<a href="#">
-Premium
-</a>
-
-<a href="#">
-Admin
-</a>
+<a href="#">Dashboard</a>
+<a href="#">Verify</a>
+<a href="#">Premium</a>
+<a href="#">Admin</a>
 
 </div>
 
 </header>
 
-<!-- PROFILE -->
-
 <div class="user-profile-card">
 
 <img
-src="https://ui-avatars.com/api/?name=Guest+User"
+src="https://ui-avatars.com/api/?name=AGI+User"
 class="user-avatar">
 
 <div>
 
 <h3>
-Guest User
+Enterprise User
 </h3>
 
 <p>
-Not Logged In
+AI Legal Member
 </p>
 
 </div>
 
 </div>
-
-<!-- MAIN -->
 
 <div class="container">
 
@@ -731,12 +601,9 @@ Not Logged In
 Generate Affidavit
 </h2>
 
-<label>
-AI Prompt
-</label>
+<label>AI Prompt</label>
 
-<textarea
-id="aiPrompt"></textarea>
+<textarea id="aiPrompt"></textarea>
 
 <div class="button-group">
 
@@ -758,9 +625,7 @@ Voice
 
 </div>
 
-<label>
-Language
-</label>
+<label>Language</label>
 
 <select id="lang">
 
@@ -770,9 +635,7 @@ Language
 
 </select>
 
-<label>
-Purpose
-</label>
+<label>Purpose</label>
 
 <select id="purposeType">
 
@@ -783,56 +646,28 @@ Purpose
 
 </select>
 
-<label>
-Full Name
-</label>
+<label>Full Name</label>
+<input type="text" id="name">
 
-<input type="text"
-id="name">
+<label>Father Name</label>
+<input type="text" id="father">
 
-<label>
-Father Name
-</label>
+<label>Age</label>
+<input type="number" id="age">
 
-<input type="text"
-id="father">
-
-<label>
-Age
-</label>
-
-<input type="number"
-id="age">
-
-<label>
-Address
-</label>
-
+<label>Address</label>
 <textarea id="address"></textarea>
 
-<label>
-Details
-</label>
-
+<label>Details</label>
 <textarea id="details"></textarea>
 
-<label>
-Place
-</label>
+<label>Place</label>
+<input type="text" id="place">
 
-<input type="text"
-id="place">
+<label>Date</label>
+<input type="date" id="date">
 
-<label>
-Date
-</label>
-
-<input type="date"
-id="date">
-
-<label>
-Signature
-</label>
+<label>Signature</label>
 
 <canvas
 id="signaturePad"
@@ -855,19 +690,20 @@ Clear Signature
 
 </button>
 
-<label>
-OCR Scan
-</label>
+<label>OCR Scan</label>
 
-<input
-type="file"
-id="ocrUpload">
+<input type="file" id="ocrUpload">
 
 <div id="ocrResultBox">
-
 OCR Result Here
-
 </div>
+
+<input
+type="text"
+placeholder="Search History"
+id="searchHistory"
+onkeyup="searchHistory()"
+style="margin-top:15px;">
 
 <div class="button-group">
 
@@ -917,25 +753,29 @@ AI Rewrite
 
 <button
 class="btn-purple"
-onclick="saveToCloud()">
+onclick="exportPNG()">
 
-Cloud Save
+PNG
 
 </button>
 
 <button
 class="btn-blue"
-onclick="enableNotifications()">
+onclick="toggleTheme()">
 
-Notify
+Theme
 
 </button>
 
 </div>
 
-<div id="aiStatus"></div>
+<div id="aiStatus">
+🤖 AGI AI Engine Active
+</div>
 
-<div id="qrBox"></div>
+<div id="liveClock"
+style="margin-top:10px;">
+</div>
 
 <div class="history-box">
 
@@ -961,8 +801,7 @@ No documents yet.
 AGI ULTRA
 </div>
 
-<div class="document-preview"
-id="previewArea">
+<div id="previewArea">
 
 <div class="stamp">
 ₹10
@@ -1008,96 +847,26 @@ Powered by AGI ULTRA PRO
 
 </div>
 
-<!-- LEGAL AI -->
-
-<div id="legalAiBox"
+<footer
 style="
-display:none;
-position:fixed;
-bottom:20px;
-right:20px;
-width:320px;
-background:white;
-padding:20px;
-border-radius:20px;
-z-index:99999;
-color:black;
+text-align:center;
+padding:30px;
+opacity:.7;
 ">
 
-<h3>
-⚖️ Legal AI
-</h3>
+AGI ULTRA PRO v18 ENTERPRISE © 2026
 
-<textarea
-id="legalQuestion"
-style="
-width:100%;
-height:100px;
-margin-top:10px;
-">
-</textarea>
-
-<button
-class="btn-blue"
-style="margin-top:10px;"
-onclick="askLegalAI()">
-
-Ask AI
-
-</button>
-
-<div id="legalAIResponse"
-style="
-margin-top:15px;
-">
-</div>
-
-</div>
-
-<!-- LOADER -->
-
-<div id="globalLoader">
-
-<div class="loader-spinner"></div>
-
-<p style="margin-top:20px;">
-Loading AGI ULTRA PRO...
-</p>
-
-</div>
-
-<!-- SUPPORT -->
-
-<button id="supportBtn">
-
-💬
-
-</button>
+</footer>
 
 <script>
 
-/* =========================================
-LOADER
-========================================= */
+/* SIGNATURE */
+
+let signaturePad;
 
 window.addEventListener(
 "load",
 ()=>{
-
-document.getElementById(
-"globalLoader"
-).style.display =
-"none";
-
-});
-
-/* =========================================
-SIGNATURE PAD
-========================================= */
-
-let signaturePad;
-
-window.onload = ()=>{
 
 signaturePad =
 new SignaturePad(
@@ -1106,21 +875,21 @@ document.getElementById(
 )
 );
 
-};
+});
 
-/* =========================================
-CLEAR SIGNATURE
-========================================= */
+/* CLOCK */
 
-function clearSignaturePad(){
+setInterval(()=>{
 
-signaturePad.clear();
+document.getElementById(
+"liveClock"
+).innerHTML =
+new Date()
+.toLocaleString();
 
-}
+},1000);
 
-/* =========================================
-DOC ID
-========================================= */
+/* DOC ID */
 
 function generateDocID(){
 
@@ -1132,9 +901,7 @@ Math.random()
 
 }
 
-/* =========================================
-GENERATE
-========================================= */
+/* GENERATE */
 
 function generateAffidavit(){
 
@@ -1172,6 +939,20 @@ const date =
 document.getElementById(
 "date"
 ).value;
+
+if(
+!name ||
+!father ||
+!age
+){
+
+alert(
+"Fill all required fields"
+);
+
+return;
+
+}
 
 const docID =
 generateDocID();
@@ -1229,8 +1010,6 @@ ${details}
 
 </ol>
 
-<br>
-
 <p>
 Place:
 <b>${place}</b>
@@ -1272,11 +1051,11 @@ ${docID}
 
 saveHistory(docID,name);
 
+generateQRCode();
+
 }
 
-/* =========================================
-HISTORY
-========================================= */
+/* HISTORY */
 
 function saveHistory(id,name){
 
@@ -1298,9 +1077,36 @@ ${id}
 
 }
 
-/* =========================================
-QR
-========================================= */
+/* SEARCH */
+
+function searchHistory(){
+
+let input =
+document.getElementById(
+"searchHistory"
+).value.toLowerCase();
+
+let items =
+document.querySelectorAll(
+".history-item"
+);
+
+items.forEach(item=>{
+
+item.style.display =
+item.innerText
+.toLowerCase()
+.includes(input)
+?
+"block"
+:
+"none";
+
+});
+
+}
+
+/* QR */
 
 function generateQRCode(){
 
@@ -1324,9 +1130,7 @@ height:140
 
 }
 
-/* =========================================
-PDF
-========================================= */
+/* PDF */
 
 function downloadPDF(){
 
@@ -1340,9 +1144,32 @@ document.getElementById(
 
 }
 
-/* =========================================
-WHATSAPP
-========================================= */
+/* PNG */
+
+function exportPNG(){
+
+html2canvas(
+document.getElementById(
+"previewArea"
+)
+).then(canvas=>{
+
+let link =
+document.createElement("a");
+
+link.download =
+"affidavit.png";
+
+link.href =
+canvas.toDataURL();
+
+link.click();
+
+});
+
+}
+
+/* WHATSAPP */
 
 function shareWhatsApp(){
 
@@ -1359,9 +1186,7 @@ document.getElementById(
 
 }
 
-/* =========================================
-EMAIL
-========================================= */
+/* EMAIL */
 
 function emailPDF(){
 
@@ -1370,27 +1195,45 @@ window.location.href =
 
 }
 
-/* =========================================
-VOICE
-========================================= */
+/* VOICE */
 
 function startVoiceInput(){
 
-alert(
-"Voice Input Started 🎤"
-);
+if(!('webkitSpeechRecognition' in window)){
+
+alert("Voice not supported");
+return;
 
 }
 
-/* =========================================
-AI
-========================================= */
+const recognition =
+new webkitSpeechRecognition();
+
+recognition.lang =
+"en-IN";
+
+recognition.start();
+
+recognition.onresult =
+function(event){
+
+document.getElementById(
+"details"
+).value =
+event.results[0][0].transcript;
+
+};
+
+}
+
+/* AI */
 
 function generateAIQuickAffidavit(){
 
 document.getElementById(
 "details"
 ).value =
+
 document.getElementById(
 "aiPrompt"
 ).value;
@@ -1399,9 +1242,7 @@ generateAffidavit();
 
 }
 
-/* =========================================
-OCR
-========================================= */
+/* OCR */
 
 document.getElementById(
 "ocrUpload"
@@ -1430,11 +1271,14 @@ document.getElementById(
 ).innerHTML =
 result.data.text;
 
+document.getElementById(
+"details"
+).value =
+result.data.text;
+
 });
 
-/* =========================================
-REWRITE
-========================================= */
+/* REWRITE */
 
 function rewriteAffidavit(){
 
@@ -1448,75 +1292,55 @@ details.value +=
 
 }
 
-/* =========================================
-NOTIFICATIONS
-========================================= */
+/* THEME */
 
-function enableNotifications(){
+function toggleTheme(){
 
-Notification.requestPermission();
+document.body.classList.toggle(
+"light-mode"
+);
 
 }
 
-/* =========================================
-CLOUD SAVE
-========================================= */
+/* SIGNATURE */
 
-function saveToCloud(){
+function clearSignaturePad(){
+
+signaturePad.clear();
+
+}
+
+/* AUTO SAVE */
+
+setInterval(()=>{
 
 localStorage.setItem(
-"agiBackup",
+"agiDraft",
 document.getElementById(
-"previewArea"
-).innerHTML
+"details"
+).value
 );
 
-alert(
-"Saved To Cloud ☁️"
+},10000);
+
+window.addEventListener(
+"load",
+()=>{
+
+let draft =
+localStorage.getItem(
+"agiDraft"
 );
+
+if(draft){
+
+document.getElementById(
+"details"
+).value = draft;
 
 }
 
-/* =========================================
-SUPPORT
-========================================= */
-
-document.getElementById(
-"supportBtn"
-).onclick = ()=>{
-
-window.open(
-"https://wa.me/917780936452",
-"_blank"
-);
-
-};
-
-/* =========================================
-LEGAL AI
-========================================= */
-
-function askLegalAI(){
-
-let q =
-document.getElementById(
-"legalQuestion"
-).value;
-
-document.getElementById(
-"legalAIResponse"
-).innerHTML =
-
-`
-<b>AI Response:</b><br><br>
-
-Legal guidance regarding:<br>
-
-${q}
-
-`;
-
-}
+});
 
 </script>
 
