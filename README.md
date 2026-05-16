@@ -1,60 +1,167 @@
 # affidavit-generator-india
 
-Indian Court Ready Affidavit Generator (English, Hindi, Urdu) – A4 Print Optimized Format
+Indian Court Ready Affidavit Generator  
+(English, Hindi, Urdu) – A4 Print Optimized Format
 
 ---
 
-## ⚖️ AGI ULTRA PRO v17 AI
+# ⚖️ AGI ULTRA PRO v18 AI 🚀
 
-Modern AI-powered Legal SaaS platform for generating professional affidavits, declarations, legal drafts, and court-ready documents.
+Modern AI-powered Enterprise Legal SaaS Platform for generating professional affidavits, declarations, legal drafts, notary documents, and court-ready PDFs.
 
 ---
 
-## 🚀 Features
+# 🌟 Overview
 
-- English, Hindi & Urdu affidavit generation
-- AI affidavit drafting system
-- QR code verification
+AGI ULTRA PRO v18 AI is a complete enterprise-grade legal document generation platform specially designed for:
+
+- Indian legal documentation
+- Notary affidavit generation
+- Court-ready declarations
+- Legal startups
+- eSewa & CSC operators
+- Online legal SaaS businesses
+
+The platform supports multilingual affidavit generation with AI-powered drafting, QR verification, premium dashboard systems, Firebase authentication, admin analytics, and mobile-first PWA support.
+
+---
+
+# 🚀 Core Features
+
+## 📄 Affidavit Generator
+
+- Court-ready affidavit format
+- A4 optimized print layout
+- Dynamic document generation
+- Multi-purpose affidavit system
+- Watermark security
+- Enterprise document preview
+- Auto document ID generation
+- Notary-ready formatting
+
+---
+
+## 🌐 Multi Language Support
+
+Supported languages:
+
+- English
+- Hindi
+- Urdu
+- Arabic
+- French
+
+RTL Urdu support included.
+
+---
+
+## 🤖 AI Features
+
+- AI affidavit drafting
+- AI quick prompt generator
+- Smart legal assistant
+- AI rewrite engine
+- Voice-to-text affidavit input
+- AI-powered legal suggestions
+
+---
+
+## 🔐 Authentication & Security
+
+- Firebase Authentication
+- Firestore integration
+- Premium user access
+- Admin role protection
+- Secure document generation
+- QR verification system
+- Local draft protection
+
+---
+
+## 📲 PWA Support
+
+Fully installable Progressive Web App:
+
+- Android support
+- iPhone support
+- Desktop installation
+- Offline support
+- Splash screen
+- App shortcuts
+- Standalone mode
+
+---
+
+## 📊 Enterprise Dashboard
+
+### User Dashboard
+
+- Affidavit generator
+- AI drafting tools
+- Draft saving
+- QR verification
 - PDF export
-- Digital signature support
-- Voice input support
-- Premium SaaS dashboard
-- Firebase authentication
-- Admin panel
-- User analytics
-- Mobile responsive design
-- Court-ready A4 print layout
 - WhatsApp sharing
-- Legal document history
-- Premium enterprise UI
-- PWA support
+
+### Premium Dashboard
+
+- Advanced legal tools
+- Premium templates
+- Enterprise analytics
+- Legal AI assistant
+
+### Admin Dashboard
+
+- Revenue analytics
+- User management
+- Fraud detection
+- CSV export
+- Real-time activity logs
+- Notification system
+- System monitoring
 
 ---
 
-## 📄 Supported Affidavits
+# 📄 Supported Affidavits
 
-- Name Change
-- Address Proof
+- Name Change Affidavit
+- Address Proof Affidavit
 - Birth Affidavit
 - Marriage Affidavit
 - Income Proof
-- Lost Document
-- Nationality
+- Lost Document Affidavit
+- Nationality Affidavit
 - Property Declaration
 - Visa Affidavit
 - Embassy Affidavit
 - Gap Certificate
 - Vehicle Ownership
+- One and Same Person Affidavit
+- Character Certificate
+- Rent Agreement Declaration
+- Bank Verification Affidavit
+- Identity Declaration
+- Legal Heir Affidavit
+- Pension Affidavit
+- Affidavit for Minor
 
 ---
 
-## 🛠 Tech Stack
+# 🛠 Technology Stack
+
+## Frontend
 
 - HTML5
 - CSS3
-- JavaScript
+- JavaScript ES6
+
+## Backend / Database
+
 - Firebase
 - Firestore
+
+## Libraries Used
+
 - Chart.js
 - QRCode.js
 - html2pdf.js
@@ -62,67 +169,52 @@ Modern AI-powered Legal SaaS platform for generating professional affidavits, de
 
 ---
 
-## 📱 Mobile Friendly
+# 📱 Mobile Responsive Design
 
-Fully responsive enterprise legal SaaS UI optimized for:
+Optimized for:
 
-- Android
-- iPhone
+- Android phones
+- iPhones
 - Tablets
-- Desktop
-- PWA Installation
+- Windows laptops
+- macOS devices
+- PWA installations
+
+Features:
+
+- Responsive dashboard
+- Mobile-friendly forms
+- Touch signature support
+- Fast-loading interface
 
 ---
 
-## 🔐 Authentication
+# 🔍 QR Verification System
 
-- Firebase Login
-- Premium User Access
-- Admin Dashboard Protection
-- Firestore Database Integration
+Each generated affidavit includes:
 
----
-
-## 📦 Enterprise Modules
-
-- User Dashboard
-- Premium Generator
-- Admin Panel
-- Revenue Analytics
-- Withdrawal System
-- Legal AI Assistant
-- QR Verification
+- Unique document ID
+- QR verification
+- Verification page
+- Valid / Invalid detection
+- Instant document validation
 
 ---
 
-## ⚡ Live SaaS Features
+# 📂 Project Structure
 
-- Real-time analytics
-- Local draft saving
-- AI quick draft
-- Dynamic QR generation
-- Premium subscription system
-- Enterprise watermark preview
-
----
-
-## 👨‍⚖️ Designed For
-
-- Advocates
-- Notary Public Services
-- Court Documentation Centers
-- eSewa Operators
-- Legal Startups
-- SaaS Businesses
-
----
-
-## 📜 License
-
-MIT License
-
----
-
-## 🌟 AGI ULTRA PRO v17 AI
-
-Enterprise Legal AI SaaS Platform 🚀
+```bash
+project/
+│
+├── index.html
+├── premium.html
+├── admin.html
+├── verify.html
+├── style.css
+├── script.js
+├── manifest.json
+├── sw.js
+│
+├── icons/
+├── screenshots/
+└── assets/
