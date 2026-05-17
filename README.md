@@ -92,9 +92,9 @@ Fully installable Progressive Web App:
 
 ---
 
-## 📊 Enterprise Dashboard
+# 📊 Enterprise Dashboard
 
-### User Dashboard
+## User Dashboard
 
 - Affidavit generator
 - AI drafting tools
@@ -103,14 +103,14 @@ Fully installable Progressive Web App:
 - PDF export
 - WhatsApp sharing
 
-### Premium Dashboard
+## Premium Dashboard
 
 - Advanced legal tools
 - Premium templates
 - Enterprise analytics
 - Legal AI assistant
 
-### Admin Dashboard
+## Admin Dashboard
 
 - Revenue analytics
 - User management
@@ -166,6 +166,7 @@ Fully installable Progressive Web App:
 - QRCode.js
 - html2pdf.js
 - SignaturePad.js
+- Tesseract.js
 
 ---
 
@@ -209,12 +210,23 @@ project/
 ├── index.html
 ├── premium.html
 ├── admin.html
+├── dashboard.html
 ├── verify.html
+├── login.html
+│
 ├── style.css
 ├── script.js
-├── manifest.json
 ├── sw.js
+├── manifest.json
+├── firebase.js
 │
 ├── icons/
+│   ├── icon-72.png
+│   ├── icon-96.png
+│   ├── icon-128.png
+│   ├── icon-192.png
+│   └── icon-512.png
+│
 ├── screenshots/
+│
 └── assets/
