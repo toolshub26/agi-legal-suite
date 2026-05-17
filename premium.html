@@ -12,6 +12,12 @@ content="width=device-width, initial-scale=1.0">
 AGI ULTRA PRO v18 PREMIUM ENTERPRISE 🚀
 </title>
 
+<meta name="theme-color"
+content="#020617">
+
+<link rel="manifest"
+href="manifest.json">
+
 <link rel="preconnect"
 href="https://fonts.googleapis.com">
 
@@ -26,10 +32,12 @@ rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <style>
 
 /* =========================================
-GLOBAL
+RESET
 ========================================= */
 
 *{
@@ -38,37 +46,20 @@ padding:0;
 box-sizing:border-box;
 }
 
-html{
-scroll-behavior:smooth;
-}
-
 body{
 
-background:#020617;
+background:
+linear-gradient(
+135deg,
+#020617,
+#0f172a
+);
+
 font-family:'Inter',sans-serif;
+
 color:white;
+
 overflow-x:hidden;
-
-}
-
-/* =========================================
-DARK MODE
-========================================= */
-
-.dark-mode{
-
-background:#000;
-color:white;
-
-}
-
-.dark-mode .sidebar,
-.dark-mode .stat,
-.dark-mode .history,
-.dark-mode .ai-box,
-.dark-mode .preview{
-
-background:#050505;
 
 }
 
@@ -78,38 +69,47 @@ TOPBAR
 
 .topbar{
 
+padding:20px 30px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+
+gap:20px;
+
 background:
 linear-gradient(
 135deg,
 #111827,
-#1e293b,
-#0f172a
+#1e293b
 );
-
-padding:20px 30px;
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-gap:20px;
 
 }
 
 .logo h1{
+
 font-size:34px;
 font-weight:800;
+
 }
 
 .logo p{
-opacity:.75;
+
+opacity:.8;
 margin-top:5px;
+
 }
 
 .top-actions{
+
 display:flex;
 gap:12px;
 flex-wrap:wrap;
+
 }
 
 /* =========================================
@@ -119,42 +119,45 @@ BUTTONS
 button{
 
 border:none;
-padding:13px 18px;
+
+padding:14px 18px;
+
 border-radius:14px;
-cursor:pointer;
+
 font-weight:700;
-font-size:14px;
+
+cursor:pointer;
+
 transition:.25s;
+
+color:white;
 
 }
 
 button:hover{
+
 transform:translateY(-2px);
+
 }
 
 .primary{
 background:#2563eb;
-color:white;
 }
 
 .green{
 background:#059669;
-color:white;
 }
 
 .orange{
 background:#ea580c;
-color:white;
 }
 
 .red{
 background:#dc2626;
-color:white;
 }
 
 .purple{
 background:#7c3aed;
-color:white;
 }
 
 /* =========================================
@@ -164,12 +167,15 @@ MAIN
 .main{
 
 max-width:1700px;
+
 margin:auto;
 
 padding:30px;
 
 display:grid;
+
 grid-template-columns:390px 1fr;
+
 gap:30px;
 
 }
@@ -194,8 +200,11 @@ height:fit-content;
 }
 
 .sidebar h2{
+
 font-size:24px;
+
 margin-bottom:20px;
+
 }
 
 .label{
@@ -203,9 +212,8 @@ margin-bottom:20px;
 display:block;
 
 margin-top:15px;
-margin-bottom:7px;
+margin-bottom:8px;
 
-font-size:14px;
 font-weight:700;
 
 }
@@ -233,8 +241,10 @@ outline:none;
 }
 
 .textarea{
+
 min-height:100px;
 resize:vertical;
+
 }
 
 /* =========================================
@@ -244,10 +254,12 @@ BUTTON GRID
 .btn-grid{
 
 display:grid;
+
 grid-template-columns:1fr 1fr;
+
 gap:12px;
 
-margin-top:22px;
+margin-top:20px;
 
 }
 
@@ -257,14 +269,15 @@ SIGNATURE
 
 #signaturePad{
 
-margin-top:12px;
-
 width:100%;
+
 height:180px;
+
+background:white;
 
 border-radius:16px;
 
-background:white;
+margin-top:10px;
 
 }
 
@@ -277,7 +290,7 @@ ANALYTICS
 display:grid;
 
 grid-template-columns:
-repeat(6,1fr);
+repeat(auto-fit,minmax(180px,1fr));
 
 gap:20px;
 
@@ -299,7 +312,7 @@ text-align:center;
 
 .stat h3{
 
-font-size:32px;
+font-size:30px;
 
 margin-top:10px;
 
@@ -312,6 +325,7 @@ PREVIEW
 .preview{
 
 background:white;
+
 color:#111827;
 
 border-radius:24px;
@@ -351,8 +365,8 @@ pointer-events:none;
 
 position:absolute;
 
-top:30px;
-right:30px;
+top:25px;
+right:25px;
 
 width:90px;
 height:90px;
@@ -374,24 +388,11 @@ transform:rotate(-15deg);
 
 }
 
-.meezan-logo{
-
-text-align:center;
-
-font-size:16px;
-font-weight:800;
-
-margin-bottom:15px;
-
-color:#2563eb;
-
-}
-
 .doc-title{
 
 text-align:center;
 
-font-size:44px;
+font-size:46px;
 
 font-family:
 'Cormorant Garamond',
@@ -408,7 +409,7 @@ text-align:center;
 margin-top:10px;
 margin-bottom:40px;
 
-font-size:14px;
+letter-spacing:2px;
 
 }
 
@@ -423,7 +424,7 @@ font-size:18px;
 
 padding-left:24px;
 
-margin-top:15px;
+margin-top:20px;
 
 }
 
@@ -431,9 +432,11 @@ margin-top:15px;
 
 margin-top:40px;
 
+text-align:center;
+
 font-size:13px;
 
-text-align:center;
+color:#6b7280;
 
 }
 
@@ -449,7 +452,7 @@ background:#1e293b;
 
 padding:20px;
 
-border-radius:18px;
+border-radius:20px;
 
 }
 
@@ -464,22 +467,6 @@ border-radius:12px;
 margin-bottom:10px;
 
 font-size:13px;
-
-}
-
-/* =========================================
-AI BOX
-========================================= */
-
-.ai-box{
-
-margin-top:20px;
-
-padding:18px;
-
-background:#1e293b;
-
-border-radius:18px;
 
 }
 
@@ -511,16 +498,36 @@ RESPONSIVE
 grid-template-columns:1fr;
 }
 
-.analytics{
-grid-template-columns:1fr 1fr;
-}
-
 .btn-grid{
 grid-template-columns:1fr;
 }
 
 .preview{
 padding:20px;
+}
+
+}
+
+/* =========================================
+PRINT
+========================================= */
+
+@media print{
+
+.sidebar,
+.topbar,
+.analytics{
+
+display:none !important;
+
+}
+
+.preview{
+
+box-shadow:none;
+
+width:100%;
+
 }
 
 }
@@ -563,22 +570,17 @@ WhatsApp
 
 <button class="orange"
 onclick="downloadPDF()">
-Print PDF
+PDF
 </button>
 
 <button class="primary"
 onclick="toggleDarkMode()">
-🌙 Dark Mode
+🌙 Theme
 </button>
 
-<button class="purple"
-id="installBtn">
-📱 Install App
-</button>
-
-<button class="green"
-onclick="exportTXT()">
-📄 Export TXT
+<button class="red"
+onclick="window.print()">
+🖨 Print
 </button>
 
 </div>
@@ -610,6 +612,9 @@ Language
 <option>English</option>
 <option>Urdu</option>
 <option>Hindi</option>
+<option>Arabic</option>
+<option>Spanish</option>
+<option>Chinese</option>
 
 </select>
 
@@ -621,8 +626,13 @@ Purpose
 
 <option>Name Change</option>
 <option>Address Proof</option>
+<option>Birth Affidavit</option>
+<option>Marriage Affidavit</option>
 <option>Income Proof</option>
 <option>Lost Document</option>
+<option>Nationality</option>
+<option>Property Declaration</option>
+<option>Vehicle Ownership</option>
 
 </select>
 
@@ -666,9 +676,36 @@ Place
 Date
 </label>
 
-<input class="input"
+<input
 type="date"
+class="input"
 id="date">
+
+<label class="label">
+AI Prompt
+</label>
+
+<textarea
+class="textarea"
+id="aiPrompt"></textarea>
+
+<div class="btn-grid">
+
+<button class="purple"
+onclick="generateAIQuickAffidavit()">
+
+AI Draft
+
+</button>
+
+<button class="orange"
+onclick="startVoiceInput()">
+
+Voice
+
+</button>
+
+</div>
 
 <label class="label">
 Digital Signature
@@ -680,17 +717,19 @@ Digital Signature
 
 <button class="orange"
 onclick="clearSignature()">
+
 Clear Sign
+
 </button>
 
 <button class="green"
 onclick="saveDraft()">
+
 Save Draft
+
 </button>
 
 </div>
-
-<!-- OCR -->
 
 <label class="label">
 OCR Scan
@@ -708,32 +747,6 @@ OCR Ready
 
 </div>
 
-<!-- AI -->
-
-<div class="ai-box">
-
-<h3>
-🤖 AI Quick Draft
-</h3>
-
-<textarea
-class="textarea"
-id="aiPrompt"
-placeholder="Describe affidavit..."></textarea>
-
-<br><br>
-
-<button class="purple"
-onclick="generateAIQuickAffidavit()">
-
-Generate AI Draft
-
-</button>
-
-</div>
-
-<!-- BUTTONS -->
-
 <div class="btn-grid">
 
 <button class="primary"
@@ -744,23 +757,23 @@ Generate
 </button>
 
 <button class="green"
-onclick="aiDraft()">
+onclick="downloadPDF()">
 
-AI Draft
+PDF
+
+</button>
+
+<button class="purple"
+onclick="exportPNG()">
+
+PNG
 
 </button>
 
 <button class="orange"
 onclick="emailPDF()">
 
-Email PDF
-
-</button>
-
-<button class="purple"
-onclick="startVoiceInput()">
-
-Voice Input
+Email
 
 </button>
 
@@ -787,7 +800,9 @@ No documents yet.
 
 </div>
 
-<!-- RIGHT -->
+<!-- =========================================
+RIGHT
+========================================= -->
 
 <div>
 
@@ -804,7 +819,7 @@ No documents yet.
 <div class="stat">
 ⭐
 <h3>Premium</h3>
-<p>Subscription</p>
+<p>Enterprise</p>
 </div>
 
 <div class="stat">
@@ -817,18 +832,6 @@ No documents yet.
 ⚖️
 <h3>v18</h3>
 <p>Enterprise</p>
-</div>
-
-<div class="stat">
-🚨
-<h3 id="fraudCount">0</h3>
-<p>Fraud Scans</p>
-</div>
-
-<div class="stat">
-☁️
-<h3>Cloud</h3>
-<p>Backup</p>
 </div>
 
 </div>
@@ -845,10 +848,6 @@ AGI ULTRA PRO
 
 <div class="stamp">
 ₹10
-</div>
-
-<div class="meezan-logo">
-⚖️ MEEZAN LEGAL SERVICES
 </div>
 
 <div class="doc-title">
@@ -875,25 +874,30 @@ Your affidavit preview will appear here.
 
 </div>
 
-<!-- =========================================
-SCRIPT
-========================================= -->
-
 <script>
 
+/* =========================================
+GLOBAL
+========================================= */
+
 let signaturePad;
+let total = 0;
+
+/* =========================================
+LOAD
+========================================= */
 
 window.onload = ()=>{
 
-const canvas =
+signaturePad =
+new SignaturePad(
 document.getElementById(
 "signaturePad"
+)
 );
 
-signaturePad =
-new SignaturePad(canvas);
-
 restoreDraft();
+
 loadHistory();
 
 };
@@ -913,8 +917,6 @@ document.getElementById(
 /* =========================================
 GENERATE
 ========================================= */
-
-let total = 0;
 
 function generateAffidavit(){
 
@@ -953,11 +955,12 @@ document.getElementById(
 "date"
 ).value;
 
-if(
-!name ||
-!father ||
-!age
-){
+const purpose =
+document.getElementById(
+"purposeType"
+).value;
+
+if(!name || !father || !age){
 
 alert(
 "Fill required fields ❌"
@@ -975,11 +978,20 @@ signaturePad.isEmpty()
 signaturePad.toDataURL();
 
 const docID =
-"IND-" +
+"IND-AFF-" +
 Math.random()
 .toString(36)
 .substring(2,8)
 .toUpperCase();
+
+localStorage.setItem(
+"doc_"+docID,
+JSON.stringify({
+name,
+date,
+purpose
+})
+);
 
 document.getElementById(
 "previewArea"
@@ -987,10 +999,6 @@ document.getElementById(
 
 <div class="stamp">
 ₹10
-</div>
-
-<div class="meezan-logo">
-⚖️ MEEZAN LEGAL SERVICES
 </div>
 
 <div class="doc-title">
@@ -1020,7 +1028,8 @@ resident of
 <ol>
 
 <li>
-This affidavit is submitted for official purposes.
+This affidavit is submitted for
+${purpose}.
 </li>
 
 <li>
@@ -1028,8 +1037,6 @@ ${details}
 </li>
 
 </ol>
-
-<br>
 
 <p>
 Place:
@@ -1044,27 +1051,27 @@ Date:
 ${
 signature
 ?
-`
-<div style="margin-top:30px;">
-<img src="${signature}"
-style="height:80px;">
-</div>
-`
+`<img src="${signature}"
+style="height:90px;margin-top:25px;">`
 :
 ""
 }
 
-<div id="qrCodeContainer"></div>
+<div id="qrCodeContainer"
+style="
+margin-top:30px;
+display:flex;
+justify-content:center;
+">
+</div>
 
 <div class="doc-footer">
 
-Document ID:
 ${docID}
 
 <br><br>
 
-Powered by
-AGI ULTRA PRO v18 AI
+Powered by AGI ULTRA PRO v18
 
 </div>
 
@@ -1072,7 +1079,7 @@ AGI ULTRA PRO v18 AI
 
 `;
 
-generateQRCode();
+generateQRCode(docID);
 
 total++;
 
@@ -1093,28 +1100,25 @@ setStatus(
 QR
 ========================================= */
 
-function generateQRCode(){
+function generateQRCode(docID){
 
-const qr =
 document.getElementById(
 "qrCodeContainer"
-);
+).innerHTML = "";
 
-if(!qr) return;
-
-qr.innerHTML = "";
-
-new QRCode(qr,{
-
-text:
+new QRCode(
 document.getElementById(
-"previewArea"
-).innerText,
-
+"qrCodeContainer"
+),
+{
+text:
+location.origin +
+"/verify.html?id=" +
+docID,
 width:140,
 height:140
-
-});
+}
+);
 
 }
 
@@ -1130,7 +1134,36 @@ document.getElementById(
 "previewArea"
 )
 )
-.save("Affidavit.pdf");
+.save(
+"Affidavit.pdf"
+);
+
+}
+
+/* =========================================
+PNG
+========================================= */
+
+function exportPNG(){
+
+html2canvas(
+document.getElementById(
+"previewArea"
+)
+).then(canvas=>{
+
+let link =
+document.createElement("a");
+
+link.download =
+"affidavit.png";
+
+link.href =
+canvas.toDataURL();
+
+link.click();
+
+});
 
 }
 
@@ -1159,7 +1192,7 @@ EMAIL
 function emailPDF(){
 
 window.location.href =
-"mailto:?subject=Affidavit&body=Generated by AGI ULTRA PRO";
+"mailto:?subject=Affidavit";
 
 }
 
@@ -1169,9 +1202,7 @@ VOICE
 
 function startVoiceInput(){
 
-if(
-!('webkitSpeechRecognition' in window)
-){
+if(!('webkitSpeechRecognition' in window)){
 
 alert(
 "Voice not supported ❌"
@@ -1205,26 +1236,15 @@ event.results[0][0].transcript;
 AI
 ========================================= */
 
-function aiDraft(){
+function generateAIQuickAffidavit(){
 
 document.getElementById(
 "details"
 ).value =
 
-"This affidavit is generated using AGI ULTRA PRO v18 AI engine.";
-
-}
-
-function generateAIQuickAffidavit(){
-
-let val =
 document.getElementById(
 "aiPrompt"
 ).value;
-
-document.getElementById(
-"details"
-).value = val;
 
 generateAffidavit();
 
@@ -1294,7 +1314,7 @@ val;
 }
 
 /* =========================================
-CLEAR SIGN
+SIGNATURE
 ========================================= */
 
 function clearSignature(){
@@ -1380,64 +1400,12 @@ box.innerHTML = html;
 }
 
 /* =========================================
-EXPORT TXT
-========================================= */
-
-function exportTXT(){
-
-const text =
-document.getElementById(
-"previewArea"
-).innerText;
-
-const blob =
-new Blob([text],{
-type:"text/plain"
-});
-
-const a =
-document.createElement("a");
-
-a.href =
-URL.createObjectURL(blob);
-
-a.download =
-"affidavit.txt";
-
-a.click();
-
-setStatus(
-"TXT Exported ✅"
-);
-
-}
-
-/* =========================================
-DARK MODE
+THEME
 ========================================= */
 
 function toggleDarkMode(){
 
 document.body.classList.toggle(
-"dark-mode"
-);
-
-localStorage.setItem(
-"agiDark",
-document.body.classList.contains(
-"dark-mode"
-)
-);
-
-}
-
-if(
-localStorage.getItem(
-"agiDark"
-)==="true"
-){
-
-document.body.classList.add(
 "dark-mode"
 );
 
@@ -1461,36 +1429,6 @@ document.getElementById(
 });
 
 /* =========================================
-INSTALL APP
-========================================= */
-
-let deferredPrompt;
-
-window.addEventListener(
-"beforeinstallprompt",
-(e)=>{
-
-e.preventDefault();
-
-deferredPrompt = e;
-
-});
-
-document.getElementById(
-"installBtn"
-).addEventListener(
-"click",
-async()=>{
-
-if(deferredPrompt){
-
-deferredPrompt.prompt();
-
-}
-
-});
-
-/* =========================================
 AUTO SAVE
 ========================================= */
 
@@ -1499,43 +1437,6 @@ setInterval(()=>{
 saveDraft();
 
 },30000);
-
-/* =========================================
-LIVE TITLE
-========================================= */
-
-setInterval(()=>{
-
-document.title =
-"AGI PREMIUM • " +
-new Date()
-.toLocaleTimeString();
-
-},1000);
-
-/* =========================================
-FRAUD
-========================================= */
-
-function fraudScan(){
-
-let total =
-Number(
-document.getElementById(
-"fraudCount"
-).innerText
-);
-
-document.getElementById(
-"fraudCount"
-).innerText =
-total + 1;
-
-setStatus(
-"Fraud Scan Complete 🚨"
-);
-
-}
 
 </script>
 
