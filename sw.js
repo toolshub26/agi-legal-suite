@@ -1,10 +1,20 @@
 /* =========================================
    AGI ULTRA PRO v18 AI 🚀
-   ENTERPRISE SERVICE WORKER
+   ULTIMATE ENTERPRISE SERVICE WORKER
 ========================================= */
 
+/* =========================================
+   CACHE VERSION
+========================================= */
+
+const CACHE_VERSION = "v18.0.1";
+
 const CACHE_NAME =
-"agi-ultra-v18-cache";
+`agi-ultra-${CACHE_VERSION}`;
+
+/* =========================================
+   STATIC FILES
+========================================= */
 
 const STATIC_ASSETS = [
 
@@ -15,6 +25,7 @@ const STATIC_ASSETS = [
 "admin.html",
 "dashboard.html",
 "verify.html",
+"offline.html",
 
 "style.css",
 "script.js",
@@ -27,12 +38,24 @@ const STATIC_ASSETS = [
 "icon-152.png",
 "icon-192.png",
 "icon-384.png",
-"icon-512.png"
+"icon-512.png",
+
+/* CDN CACHE */
+
+"https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js",
+
+"https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js",
+
+"https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js",
+
+"https://cdn.jsdelivr.net/npm/tesseract.js@2/dist/tesseract.min.js",
+
+"https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
 
 ];
 
 /* =========================================
-INSTALL
+   INSTALL
 ========================================= */
 
 self.addEventListener(
@@ -40,13 +63,17 @@ self.addEventListener(
 event=>{
 
 console.log(
-"SW Installed 🚀"
+"🚀 Service Worker Installing..."
 );
 
 event.waitUntil(
 
 caches.open(CACHE_NAME)
 .then(cache=>{
+
+console.log(
+"📦 Caching Static Assets"
+);
 
 return cache.addAll(
 STATIC_ASSETS
@@ -62,7 +89,7 @@ self.skipWaiting();
 );
 
 /* =========================================
-ACTIVATE
+   ACTIVATE
 ========================================= */
 
 self.addEventListener(
@@ -70,7 +97,7 @@ self.addEventListener(
 event=>{
 
 console.log(
-"SW Activated ✅"
+"✅ Service Worker Activated"
 );
 
 event.waitUntil(
@@ -87,7 +114,7 @@ key !== CACHE_NAME
 ){
 
 console.log(
-"Old Cache Deleted:",
+"🗑 Removing Old Cache:",
 key
 );
 
@@ -101,37 +128,60 @@ return caches.delete(key);
 
 })
 
-);
+.then(()=>{
 
-self.clients.claim();
+return self.clients.claim();
+
+})
+
+);
 
 }
 );
 
 /* =========================================
-FETCH
+   FETCH
 ========================================= */
 
 self.addEventListener(
 "fetch",
 event=>{
 
-event.respondWith(
+/* =========================================
+   IGNORE FIREBASE
+========================================= */
 
-caches.match(
-event.request
+if(
+
+event.request.url.includes(
+"firebase"
 )
-.then(response=>{
 
-if(response){
+){
 
-return response;
+return;
 
 }
 
-return fetch(
-event.request
-)
+/* =========================================
+   IMAGE CACHE STRATEGY
+========================================= */
+
+if(
+event.request.destination ===
+"image"
+){
+
+event.respondWith(
+
+caches.match(event.request)
+.then(response=>{
+
+return (
+
+response ||
+
+fetch(event.request)
 .then(networkResponse=>{
 
 return caches.open(
@@ -149,14 +199,82 @@ return networkResponse;
 });
 
 })
-.catch(()=>{
+
+);
+
+})
+
+);
+
+return;
+
+}
+
+/* =========================================
+   NORMAL CACHE STRATEGY
+========================================= */
+
+event.respondWith(
+
+caches.match(
+event.request
+)
+.then(response=>{
+
+if(response){
+
+console.log(
+"⚡ Cache Hit:",
+event.request.url
+);
+
+return response;
+
+}
+
+return fetch(
+event.request
+)
+.then(networkResponse=>{
 
 if(
-event.request.destination === "document"
+!networkResponse ||
+networkResponse.status !== 200
+){
+
+return networkResponse;
+
+}
+
+const responseClone =
+networkResponse.clone();
+
+caches.open(CACHE_NAME)
+.then(cache=>{
+
+cache.put(
+event.request,
+responseClone
+);
+
+});
+
+return networkResponse;
+
+})
+.catch(()=>{
+
+/* =========================================
+   OFFLINE FALLBACK
+========================================= */
+
+if(
+event.request.mode ===
+"navigate"
 ){
 
 return caches.match(
-"index.html"
+"offline.html"
 );
 
 }
@@ -171,7 +289,7 @@ return caches.match(
 );
 
 /* =========================================
-PUSH NOTIFICATION
+   PUSH NOTIFICATION
 ========================================= */
 
 self.addEventListener(
@@ -187,7 +305,10 @@ body:
 "New Legal Notification",
 
 icon:
-"icon-192.png"
+"icon-192.png",
+
+badge:
+"icon-96.png"
 
 };
 
@@ -210,7 +331,7 @@ body:data.body,
 
 icon:data.icon,
 
-badge:"icon-96.png",
+badge:data.badge,
 
 vibrate:[
 200,
@@ -220,7 +341,21 @@ vibrate:[
 
 data:{
 url:"index.html"
+},
+
+actions:[
+
+{
+action:"open",
+title:"Open App"
+},
+
+{
+action:"close",
+title:"Dismiss"
 }
+
+]
 
 }
 
@@ -232,7 +367,7 @@ url:"index.html"
 );
 
 /* =========================================
-NOTIFICATION CLICK
+   NOTIFICATION CLICK
 ========================================= */
 
 self.addEventListener(
@@ -240,6 +375,14 @@ self.addEventListener(
 event=>{
 
 event.notification.close();
+
+if(
+event.action === "close"
+){
+
+return;
+
+}
 
 event.waitUntil(
 
@@ -253,7 +396,7 @@ event.notification.data.url
 );
 
 /* =========================================
-BACKGROUND SYNC
+   BACKGROUND SYNC
 ========================================= */
 
 self.addEventListener(
@@ -267,9 +410,13 @@ event.tag ===
 
 event.waitUntil(
 
+(async()=>{
+
 console.log(
-"Background Sync Running 🔄"
-)
+"🔄 Background Sync Running"
+);
+
+})()
 
 );
 
@@ -279,38 +426,7 @@ console.log(
 );
 
 /* =========================================
-OFFLINE FALLBACK
-========================================= */
-
-self.addEventListener(
-"fetch",
-event=>{
-
-if(
-event.request.mode ===
-"navigate"
-){
-
-event.respondWith(
-
-fetch(event.request)
-.catch(()=>{
-
-return caches.match(
-"index.html"
-);
-
-})
-
-);
-
-}
-
-}
-);
-
-/* =========================================
-MESSAGE LISTENER
+   MESSAGE LISTENER
 ========================================= */
 
 self.addEventListener(
@@ -327,11 +443,58 @@ self.skipWaiting();
 
 }
 
+/* =========================================
+   CLEAR CACHE
+========================================= */
+
+if(
+event.data &&
+event.data.type ===
+"CLEAR_CACHE"
+){
+
+caches.keys()
+.then(keys=>{
+
+keys.forEach(key=>{
+
+caches.delete(key);
+
+});
+
+});
+
+}
+
 }
 );
 
 /* =========================================
-PERIODIC CACHE CLEAN
+   UPDATE NOTIFY
+========================================= */
+
+async function notifyClientsAboutUpdate(){
+
+const clientsList =
+await clients.matchAll({
+includeUncontrolled:true
+});
+
+clientsList.forEach(client=>{
+
+client.postMessage({
+
+type:"NEW_VERSION",
+version:CACHE_VERSION
+
+});
+
+});
+
+}
+
+/* =========================================
+   PERIODIC CACHE CLEAN
 ========================================= */
 
 async function clearOldCaches(){
@@ -347,11 +510,20 @@ key !== CACHE_NAME
 
 await caches.delete(key);
 
-}
+console.log(
+"🧹 Old Cache Removed:",
+key
+);
 
 }
 
 }
+
+}
+
+/* =========================================
+   PERIODIC CLEANUP
+========================================= */
 
 setInterval(()=>{
 
@@ -360,9 +532,53 @@ clearOldCaches();
 },86400000);
 
 /* =========================================
-END
+   ONLINE / OFFLINE EVENTS
+========================================= */
+
+self.addEventListener(
+"online",
+()=>{
+
+console.log(
+"🌐 Back Online"
+);
+
+}
+);
+
+self.addEventListener(
+"offline",
+()=>{
+
+console.log(
+"📴 Offline Mode"
+);
+
+}
+);
+
+/* =========================================
+   CACHE STORAGE INFO
+========================================= */
+
+async function cacheSizeEstimate(){
+
+const keys =
+await caches.keys();
+
+console.log(
+"📦 Total Caches:",
+keys.length
+);
+
+}
+
+cacheSizeEstimate();
+
+/* =========================================
+   READY
 ========================================= */
 
 console.log(
-"AGI ULTRA PRO v18 SW READY ✅"
+"✅ AGI ULTRA PRO v18 SERVICE WORKER READY"
 );
