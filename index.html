@@ -21,18 +21,44 @@ content="#020617">
 name="description"
 content="Enterprise AI Legal SaaS Platform">
 
+<!-- PWA -->
 <link
 rel="manifest"
 href="manifest.json">
 
-<link rel="preconnect"
+<!-- ICONS -->
+<link
+rel="icon"
+type="image/png"
+sizes="192x192"
+href="launchericon-192x192.png">
+
+<link
+rel="apple-touch-icon"
+href="launchericon-192x192.png">
+
+<meta
+name="apple-mobile-web-app-capable"
+content="yes">
+
+<meta
+name="apple-mobile-web-app-status-bar-style"
+content="black-translucent">
+
+<meta
+name="apple-mobile-web-app-title"
+content="AGI PRO">
+
+<!-- FONTS -->
+<link
+rel="preconnect"
 href="https://fonts.googleapis.com">
 
 <link
 href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;700&display=swap"
 rel="stylesheet">
 
-<!-- STYLE -->
+<!-- CSS -->
 <link
 rel="stylesheet"
 href="style.css">
@@ -43,7 +69,7 @@ href="style.css">
 <!-- PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<!-- SIGN -->
+<!-- SIGNATURE -->
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 
 <!-- OCR -->
@@ -57,7 +83,7 @@ href="style.css">
 <body>
 
 <!-- =========================================
-GLOBAL LOADER
+LOADER
 ========================================= -->
 
 <div id="globalLoader">
@@ -92,7 +118,7 @@ Enterprise Legal AI SaaS Platform
 🟢 Premium Enterprise Active
 </div>
 
-<!-- NAVIGATION -->
+<!-- NAV -->
 
 <div class="top-nav">
 
@@ -125,14 +151,15 @@ Signup
 </header>
 
 <!-- =========================================
-PROFILE CARD
+PROFILE
 ========================================= -->
 
 <div class="user-profile-card">
 
 <img
-src="https://ui-avatars.com/api/?name=AGI+User"
-class="user-avatar">
+src="launchericon-192x192.png"
+class="user-avatar"
+alt="User">
 
 <div>
 
@@ -183,7 +210,7 @@ MAIN CONTAINER
 <div class="container">
 
 <!-- =========================================
-LEFT PANEL
+FORM SECTION
 ========================================= -->
 
 <div class="form-section">
@@ -301,7 +328,9 @@ Address
 Details
 </label>
 
-<textarea id="details"></textarea>
+<textarea id="details">
+This affidavit is verified true.
+</textarea>
 
 <label>
 Place
@@ -366,7 +395,7 @@ onclick="generateAffidavit()">
 
 </button>
 
-<!-- ACTIONS -->
+<!-- ACTION BUTTONS -->
 
 <div class="button-group">
 
@@ -436,7 +465,7 @@ Print
 
 </div>
 
-<!-- AI STATUS -->
+<!-- STATUS -->
 
 <div id="aiStatus">
 
@@ -472,7 +501,7 @@ No documents yet.
 </div>
 
 <!-- =========================================
-RIGHT PANEL
+PREVIEW SECTION
 ========================================= -->
 
 <div class="preview-section">
@@ -526,7 +555,7 @@ Powered by AGI ULTRA PRO v18
 </div>
 
 <!-- =========================================
-LEGAL AI BUTTON
+LEGAL AI
 ========================================= -->
 
 <button
@@ -537,9 +566,7 @@ onclick="openLegalAI()">
 
 </button>
 
-<!-- =========================================
-INSTALL BUTTON
-========================================= -->
+<!-- INSTALL -->
 
 <button
 id="installAppBtn">
@@ -548,9 +575,7 @@ id="installAppBtn">
 
 </button>
 
-<!-- =========================================
-SUPPORT BUTTON
-========================================= -->
+<!-- SUPPORT -->
 
 <button
 id="supportBtn">
@@ -559,9 +584,7 @@ id="supportBtn">
 
 </button>
 
-<!-- =========================================
-LEGAL AI BOX
-========================================= -->
+<!-- LEGAL AI BOX -->
 
 <div id="legalAiBox">
 
@@ -590,9 +613,7 @@ AI response will appear here...
 
 </div>
 
-<!-- =========================================
-FOOTER
-========================================= -->
+<!-- FOOTER -->
 
 <footer>
 
@@ -614,7 +635,22 @@ window.addEventListener(
 
 navigator.serviceWorker.register(
 "sw.js"
+)
+.then(()=>{
+
+console.log(
+"Service Worker Registered"
 );
+
+})
+.catch((error)=>{
+
+console.log(
+"SW Error:",
+error
+);
+
+});
 
 }
 );
