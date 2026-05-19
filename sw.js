@@ -80,7 +80,23 @@ event.respondWith(
 caches.match(event.request)
 .then((response)=>{
 
-return response || fetch(event.request);
+if(response){
+
+return response;
+
+}
+
+return fetch(event.request)
+.then((networkResponse)=>{
+
+return networkResponse;
+
+})
+.catch(()=>{
+
+return caches.match("./index.html");
+
+});
 
 })
 
