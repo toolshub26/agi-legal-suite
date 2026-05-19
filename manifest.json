@@ -1,29 +1,25 @@
 {
   "name": "AGI ULTRA PRO v18 AI",
   "short_name": "AGI PRO",
+
+  "description": "AGI ULTRA PRO v18 AI Enterprise Legal SaaS Platform with Affidavit Generator, OCR Scanner, QR Verification, AI Legal Assistant, Cloud Backup, Premium Dashboard and PWA Support.",
+
   "lang": "en",
   "dir": "ltr",
 
   "id": "/",
 
   "start_url": "./index.html",
+
   "scope": "./",
 
   "display": "standalone",
 
-  "display_override": [
-    "window-controls-overlay",
-    "standalone",
-    "minimal-ui",
-    "browser"
-  ],
-
   "orientation": "portrait-primary",
 
   "background_color": "#020617",
-  "theme_color": "#0f172a",
 
-  "description": "AGI ULTRA PRO v18 AI Enterprise Legal SaaS Platform with Affidavit Generator, OCR Scanner, QR Verification, AI Legal Assistant, Wallet System, Premium Dashboard, Admin Enterprise Panel, Notifications, Cloud Sync and Analytics.",
+  "theme_color": "#0f172a",
 
   "categories": [
     "business",
@@ -33,87 +29,8 @@
     "legal"
   ],
 
-  "screenshots": [
-    {
-      "src": "screenshot-desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "AGI ULTRA PRO Dashboard"
-    },
-
-    {
-      "src": "screenshot-mobile.png",
-      "sizes": "720x1280",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Mobile Affidavit Generator"
-    }
-  ],
-
-  "shortcuts": [
-    {
-      "name": "Generate Affidavit",
-      "short_name": "Generate",
-      "description": "Open affidavit generator instantly",
-      "url": "./index.html#generate",
-
-      "icons": [
-        {
-          "src": "launchericon-192x192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    },
-
-    {
-      "name": "Legal AI Assistant",
-      "short_name": "Legal AI",
-      "description": "Ask legal questions using AI",
-      "url": "./index.html#legalai",
-
-      "icons": [
-        {
-          "src": "launchericon-192x192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    },
-
-    {
-      "name": "Admin Dashboard",
-      "short_name": "Admin",
-      "description": "Open enterprise admin panel",
-      "url": "./admin.html",
-
-      "icons": [
-        {
-          "src": "launchericon-192x192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    },
-
-    {
-      "name": "Verify QR",
-      "short_name": "Verify",
-      "description": "Verify affidavit QR code",
-      "url": "./verify.html",
-
-      "icons": [
-        {
-          "src": "launchericon-192x192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    }
-  ],
-
   "icons": [
+
     {
       "src": "launchericon-48x48.png",
       "sizes": "48x48",
@@ -146,15 +63,112 @@
       "src": "launchericon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
     },
 
     {
       "src": "launchericon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
     }
+
+  ],
+
+  "screenshots": [
+
+    {
+      "src": "screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "AGI ULTRA PRO Desktop Dashboard"
+    },
+
+    {
+      "src": "screenshot-mobile.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "AGI ULTRA PRO Mobile Generator"
+    }
+
+  ],
+
+  "shortcuts": [
+
+    {
+      "name": "Generate Affidavit",
+
+      "short_name": "Generate",
+
+      "description": "Open affidavit generator instantly",
+
+      "url": "./index.html#generate",
+
+      "icons": [
+        {
+          "src": "launchericon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+
+    {
+      "name": "Legal AI Assistant",
+
+      "short_name": "Legal AI",
+
+      "description": "Ask legal questions using AI",
+
+      "url": "./index.html#legalai",
+
+      "icons": [
+        {
+          "src": "launchericon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+
+    {
+      "name": "Admin Dashboard",
+
+      "short_name": "Admin",
+
+      "description": "Open admin enterprise panel",
+
+      "url": "./admin.html",
+
+      "icons": [
+        {
+          "src": "launchericon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+
+    {
+      "name": "Verify QR",
+
+      "short_name": "Verify",
+
+      "description": "Verify affidavit QR instantly",
+
+      "url": "./verify.html",
+
+      "icons": [
+        {
+          "src": "launchericon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+
   ],
 
   "prefer_related_applications": false,
@@ -166,40 +180,32 @@
   "handle_links": "preferred",
 
   "protocol_handlers": [
+
     {
       "protocol": "web+agi",
       "url": "./index.html?open=%s"
     }
-  ],
 
-  "file_handlers": [
-    {
-      "action": "./index.html",
-
-      "accept": {
-        "application/pdf": [".pdf"],
-
-        "image/png": [".png"],
-
-        "image/jpeg": [
-          ".jpg",
-          ".jpeg"
-        ]
-      }
-    }
   ],
 
   "share_target": {
+
     "action": "./index.html",
+
     "method": "POST",
+
     "enctype": "multipart/form-data",
 
     "params": {
+
       "title": "title",
+
       "text": "text",
+
       "url": "url",
 
       "files": [
+
         {
           "name": "files",
 
@@ -208,7 +214,11 @@
             "image/*"
           ]
         }
+
       ]
+
     }
+
   }
+
 }
