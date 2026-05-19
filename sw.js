@@ -1,16 +1,24 @@
 /* =========================================
 AGI ULTRA PRO v18 SERVICE WORKER
+FINAL PWA FIX 🚀
 ========================================= */
 
-const CACHE_NAME = "agi-ultra-v18";
+const CACHE_NAME = "agi-ultra-v18-final";
 
 const urlsToCache = [
 
-"/agi-legal-suite/",
-"/agi-legal-suite/index.html",
-"/agi-legal-suite/style.css",
-"/agi-legal-suite/script.js",
-"/agi-legal-suite/manifest.json"
+"./",
+"./index.html",
+"./style.css",
+"./script.js",
+"./manifest.json",
+
+"./launchericon-48x48.png",
+"./launchericon-72x72.png",
+"./launchericon-96x96.png",
+"./launchericon-144x144.png",
+"./launchericon-192x192.png",
+"./launchericon-512x512.png"
 
 ];
 
