@@ -1,6 +1,7 @@
 /* =========================================
 AGI ULTRA PRO v18 ENTERPRISE 🚀
 FULL FIXED ENTERPRISE SCRIPT
+NO HIDDEN BUTTONS + PWA FIX + MOBILE FIX
 ========================================= */
 
 /* =========================================
@@ -34,7 +35,7 @@ document.getElementById(id);
 
 if(!el) return "";
 
-return el.value.trim();
+return String(el.value || "").trim();
 
 }
 
@@ -44,8 +45,18 @@ TOAST
 
 function showToast(msg){
 
+const oldToast =
+document.querySelector(".agi-toast");
+
+if(oldToast){
+oldToast.remove();
+}
+
 const toast =
 document.createElement("div");
+
+toast.className =
+"agi-toast";
 
 toast.innerText = msg;
 
@@ -60,6 +71,7 @@ toast.style.zIndex = "999999";
 toast.style.fontWeight = "700";
 toast.style.boxShadow =
 "0 10px 25px rgba(0,0,0,.3)";
+toast.style.maxWidth = "300px";
 
 document.body.appendChild(toast);
 
@@ -113,20 +125,18 @@ CLOCK
 
 function startClock(){
 
-setInterval(()=>{
-
 const clock =
 document.getElementById(
 "liveClock"
 );
 
-if(clock){
+if(!clock) return;
+
+setInterval(()=>{
 
 clock.innerHTML =
 new Date()
 .toLocaleString();
-
-}
 
 },1000);
 
@@ -150,7 +160,15 @@ typeof SignaturePad !==
 ){
 
 signaturePad =
-new SignaturePad(canvas);
+new SignaturePad(canvas,{
+
+backgroundColor:
+"rgb(255,255,255)",
+
+penColor:
+"rgb(0,0,0)"
+
+});
 
 }
 
@@ -163,7 +181,7 @@ if(signaturePad){
 signaturePad.clear();
 
 showToast(
-"Signature Cleared"
+"Signature Cleared ✔"
 );
 
 }
@@ -211,6 +229,10 @@ if(!preview){
 
 hideLoader();
 
+showToast(
+"Preview area missing ❌"
+);
+
 return;
 
 }
@@ -224,7 +246,8 @@ address:getVal("address"),
 details:getVal("details"),
 place:getVal("place"),
 date:getVal("date"),
-purpose:getVal("purposeType")
+purpose:getVal("purposeType"),
+lang:getVal("lang")
 
 };
 
@@ -255,12 +278,21 @@ signaturePad &&
 ){
 
 signatureHTML = `
+
+<div style="
+margin-top:25px;
+">
+
 <img
 src="${signaturePad.toDataURL()}"
 style="
 height:90px;
-margin-top:20px;
+max-width:220px;
+object-fit:contain;
 ">
+
+</div>
+
 `;
 
 }
@@ -286,6 +318,7 @@ BEFORE THE NOTARY PUBLIC
 <div class="preview-content">
 
 <p>
+
 I,
 <b>${data.name}</b>,
 S/o
@@ -295,28 +328,50 @@ aged about
 years,
 resident of
 <b>${data.address}</b>.
+
 </p>
 
 <p>
+
 ${data.details}
+
 </p>
 
 <p>
+
+Purpose:
+<b>${data.purpose}</b>
+
+</p>
+
+<p>
+
 Place:
 <b>${data.place}</b>
+
 </p>
 
 <p>
+
 Date:
 <b>${data.date}</b>
+
 </p>
 
 ${signatureHTML}
 
-<div id="qrCodeContainer"></div>
+<div id="qrCodeContainer"
+style="
+margin-top:30px;
+display:flex;
+justify-content:center;
+">
+</div>
 
 <div class="doc-id">
+
 ${docID}
+
 </div>
 
 </div>
@@ -372,7 +427,7 @@ qr.innerHTML = "";
 if(typeof QRCode==="undefined"){
 
 showToast(
-"QR Library Missing"
+"QR Library Missing ❌"
 );
 
 return;
@@ -404,7 +459,15 @@ document.getElementById(
 "previewArea"
 );
 
-if(!area) return;
+if(!area){
+
+showToast(
+"Nothing to export ❌"
+);
+
+return;
+
+}
 
 html2pdf()
 .from(area)
@@ -413,7 +476,7 @@ html2pdf()
 }
 
 /* =========================================
-PNG
+PNG EXPORT
 ========================================= */
 
 function exportPNG(){
@@ -423,7 +486,15 @@ document.getElementById(
 "previewArea"
 );
 
-if(!area) return;
+if(!area){
+
+showToast(
+"Nothing to export ❌"
+);
+
+return;
+
+}
 
 html2canvas(area)
 .then(canvas=>{
@@ -449,10 +520,15 @@ WHATSAPP
 
 function shareWhatsApp(){
 
-const text =
+const area =
 document.getElementById(
 "previewArea"
-).innerText;
+);
+
+if(!area) return;
+
+const text =
+area.innerText;
 
 window.open(
 
@@ -487,7 +563,7 @@ in window)
 ){
 
 showToast(
-"Voice not supported"
+"Voice not supported ❌"
 );
 
 return;
@@ -511,6 +587,10 @@ document.getElementById(
 event.results[0][0]
 .transcript;
 
+showToast(
+"Voice Captured ✔"
+);
+
 };
 
 }
@@ -527,7 +607,7 @@ getVal("aiPrompt");
 if(!prompt){
 
 showToast(
-"Enter AI prompt"
+"Enter AI prompt ❌"
 );
 
 return;
@@ -540,6 +620,73 @@ document.getElementById(
 prompt;
 
 generateAffidavit();
+
+}
+
+/* =========================================
+LEGAL AI
+========================================= */
+
+function openLegalAI(){
+
+const box =
+document.getElementById(
+"legalAiBox"
+);
+
+if(!box) return;
+
+if(
+box.style.display === "block"
+){
+
+box.style.display = "none";
+
+}else{
+
+box.style.display = "block";
+
+}
+
+}
+
+function askLegalAI(){
+
+const q =
+getVal("legalQuestion");
+
+const res =
+document.getElementById(
+"legalAIResponse"
+);
+
+if(!q){
+
+showToast(
+"Enter question ❌"
+);
+
+return;
+
+}
+
+res.innerHTML = `
+
+<b>AI Legal Assistant:</b>
+
+<br><br>
+
+Legal guidance regarding:
+
+<br><br>
+
+"${q}"
+
+<br><br>
+
+Please verify with legal authority.
+
+`;
 
 }
 
@@ -708,6 +855,10 @@ loadHistory();
 
 updateAnalytics();
 
+showToast(
+"Deleted ✔"
+);
+
 }
 
 /* =========================================
@@ -811,21 +962,12 @@ installBtn.style.display =
 
 });
 
-const installBtn =
-document.getElementById(
-"installAppBtn"
-);
-
-if(installBtn){
-
-installBtn.addEventListener(
-"click",
-async ()=>{
+function triggerInstallApp(){
 
 if(!deferredPrompt){
 
 showToast(
-"Install not ready"
+"PWA Install not available yet"
 );
 
 return;
@@ -834,32 +976,49 @@ return;
 
 deferredPrompt.prompt();
 
-await deferredPrompt.userChoice;
+deferredPrompt.userChoice
+.then(()=>{
 
 deferredPrompt = null;
+
+const installBtn =
+document.getElementById(
+"installAppBtn"
+);
+
+if(installBtn){
 
 installBtn.style.display =
 "none";
 
 }
-);
+
+});
 
 }
+
+window.addEventListener(
+"appinstalled",
+()=>{
+
+showToast(
+"App Installed ✔"
+);
+
+});
 
 /* =========================================
 SUPPORT BUTTON
 ========================================= */
 
-window.addEventListener(
-"load",
-()=>{
+function initializeSupport(){
 
 const supportBtn =
 document.getElementById(
 "supportBtn"
 );
 
-if(supportBtn){
+if(!supportBtn) return;
 
 supportBtn.addEventListener(
 "click",
@@ -873,8 +1032,6 @@ window.open(
 });
 
 }
-
-});
 
 /* =========================================
 ONLINE / OFFLINE
@@ -918,6 +1075,8 @@ updateAnalytics();
 
 initializeSearch();
 
+initializeSupport();
+
 startClock();
 
 hideLoader();
@@ -925,5 +1084,18 @@ hideLoader();
 showToast(
 "AGI ULTRA Ready 🚀"
 );
+
+});
+
+/* =========================================
+PREVENT BUTTON HIDE BUG
+========================================= */
+
+window.addEventListener(
+"resize",
+()=>{
+
+document.body.style.overflowX =
+"hidden";
 
 });
