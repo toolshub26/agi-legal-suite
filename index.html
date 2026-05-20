@@ -21,25 +21,43 @@ content="#020617">
 name="description"
 content="Enterprise AI Legal SaaS Platform">
 
-<!-- PWA -->
+<!-- =========================================
+PWA
+========================================= -->
 
 <link
 rel="manifest"
-href="manifest.json">
+href="./manifest.json">
 
-<!-- ICON -->
+<meta
+name="apple-mobile-web-app-capable"
+content="yes">
+
+<meta
+name="apple-mobile-web-app-status-bar-style"
+content="black-translucent">
+
+<meta
+name="apple-mobile-web-app-title"
+content="AGI PRO">
+
+<!-- =========================================
+ICONS
+========================================= -->
 
 <link
 rel="icon"
 type="image/png"
 sizes="192x192"
-href="launchericon-192x192.png">
+href="./launchericon-192x192.png">
 
 <link
 rel="apple-touch-icon"
-href="launchericon-192x192.png">
+href="./launchericon-192x192.png">
 
-<!-- FONTS -->
+<!-- =========================================
+FONTS
+========================================= -->
 
 <link
 rel="preconnect"
@@ -49,13 +67,17 @@ href="https://fonts.googleapis.com">
 href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;700&display=swap"
 rel="stylesheet">
 
-<!-- CSS -->
+<!-- =========================================
+CSS
+========================================= -->
 
 <link
 rel="stylesheet"
-href="style.css?v=20">
+href="./style.css?v=25">
 
-<!-- LIBRARIES -->
+<!-- =========================================
+LIBRARIES
+========================================= -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -95,6 +117,18 @@ HEADER
 
 <header>
 
+<div class="header-top">
+
+<button
+class="back-btn"
+onclick="goBackPage()">
+
+⬅ Back
+
+</button>
+
+</div>
+
 <h1>
 ⚖️ AGI ULTRA PRO v18 AI
 </h1>
@@ -107,21 +141,25 @@ Enterprise Legal AI SaaS Platform
 🟢 Premium Enterprise Active
 </div>
 
+<!-- =========================================
+TOP NAV
+========================================= -->
+
 <div class="top-nav">
 
-<a href="index.html">
+<a href="./index.html">
 Dashboard
 </a>
 
-<a href="verify.html">
+<a href="./verify.html">
 Verify
 </a>
 
-<a href="premium.html">
+<a href="./premium.html">
 Premium
 </a>
 
-<a href="admin.html">
+<a href="./admin.html">
 Admin
 </a>
 
@@ -136,7 +174,7 @@ PROFILE
 <div class="user-profile-card">
 
 <img
-src="launchericon-192x192.png"
+src="./launchericon-192x192.png"
 class="user-avatar"
 alt="Meezan Logo">
 
@@ -162,14 +200,18 @@ ANALYTICS
 
 <div class="analytics-box">
 
-<h3 id="totalDocs">0</h3>
+<h3 id="totalDocs">
+0
+</h3>
 
-<p>Total Docs</p>
+<p>
+Total Docs
+</p>
 
 </div>
 
 <div
-class="analytics-box"
+class="analytics-box clickable-card"
 onclick="openLegalAI()">
 
 <h3>
@@ -183,8 +225,8 @@ Legal Engine
 </div>
 
 <div
-class="analytics-box"
-onclick="window.location.href='premium.html'">
+class="analytics-box clickable-card"
+onclick="window.location.href='./premium.html'">
 
 <h3>
 Premium
@@ -197,7 +239,7 @@ Subscription
 </div>
 
 <div
-class="analytics-box"
+class="analytics-box clickable-card"
 onclick="triggerInstallApp()">
 
 <h3>
@@ -228,6 +270,10 @@ FORM SECTION
 Generate Affidavit
 </h2>
 
+<!-- =========================================
+AI PROMPT
+========================================= -->
+
 <label>
 AI Prompt
 </label>
@@ -240,6 +286,7 @@ placeholder="Describe affidavit..."></textarea>
 
 <button
 class="btn-purple"
+type="button"
 onclick="generateAIQuickAffidavit()">
 
 🤖 AI Generate
@@ -248,6 +295,7 @@ onclick="generateAIQuickAffidavit()">
 
 <button
 class="btn-blue"
+type="button"
 onclick="startVoiceInput()">
 
 🎤 Voice
@@ -255,6 +303,10 @@ onclick="startVoiceInput()">
 </button>
 
 </div>
+
+<!-- =========================================
+LANGUAGE
+========================================= -->
 
 <label>
 Language
@@ -268,6 +320,29 @@ Language
 <option>Arabic</option>
 
 </select>
+
+<!-- =========================================
+PURPOSE FIX
+========================================= -->
+
+<label>
+Purpose
+</label>
+
+<select id="purposeType">
+
+<option>Name Change</option>
+<option>Address Proof</option>
+<option>Marriage Affidavit</option>
+<option>Birth Affidavit</option>
+<option>Income Affidavit</option>
+<option>General Affidavit</option>
+
+</select>
+
+<!-- =========================================
+USER DETAILS
+========================================= -->
 
 <label>
 Full Name
@@ -321,23 +396,31 @@ Date
 type="date"
 id="date">
 
+<!-- =========================================
+SIGNATURE
+========================================= -->
+
 <label>
 Digital Signature
 </label>
 
 <canvas
-id="signaturePad"
-width="300"
-height="150"></canvas>
+id="signaturePad">
+</canvas>
 
 <button
 class="btn-orange"
+type="button"
 style="margin-top:12px;"
 onclick="clearSignaturePad()">
 
 Clear Signature
 
 </button>
+
+<!-- =========================================
+OCR
+========================================= -->
 
 <label>
 OCR Scan
@@ -353,7 +436,9 @@ OCR Result Here
 
 </div>
 
-<!-- MAIN BUTTON -->
+<!-- =========================================
+MAIN GENERATE BUTTON
+========================================= -->
 
 <button
 class="main-generate"
@@ -364,12 +449,15 @@ onclick="generateAffidavit()">
 
 </button>
 
-<!-- ACTION BUTTONS -->
+<!-- =========================================
+ACTION BUTTONS
+========================================= -->
 
 <div class="button-group">
 
 <button
 class="btn-green"
+type="button"
 onclick="downloadPDF()">
 
 PDF
@@ -378,6 +466,7 @@ PDF
 
 <button
 class="btn-purple"
+type="button"
 onclick="generateQRCode()">
 
 QR
@@ -386,6 +475,7 @@ QR
 
 <button
 class="btn-blue"
+type="button"
 onclick="shareWhatsApp()">
 
 WhatsApp
@@ -394,6 +484,7 @@ WhatsApp
 
 <button
 class="btn-orange"
+type="button"
 onclick="emailPDF()">
 
 Email
@@ -401,6 +492,10 @@ Email
 </button>
 
 </div>
+
+<!-- =========================================
+STATUS
+========================================= -->
 
 <div id="aiStatus">
 
@@ -472,6 +567,7 @@ LEGAL AI BUTTON
 
 <button
 class="legal-ai-btn"
+type="button"
 onclick="openLegalAI()">
 
 ⚖️ Legal AI
@@ -484,7 +580,9 @@ INSTALL BUTTON
 
 <button
 id="installAppBtn"
-style="display:none;">
+type="button"
+style="display:none;"
+onclick="triggerInstallApp()">
 
 📲 Install App
 
@@ -495,7 +593,8 @@ SUPPORT BUTTON
 ========================================= -->
 
 <button
-id="supportBtn">
+id="supportBtn"
+type="button">
 
 💬 Support
 
@@ -517,6 +616,7 @@ placeholder="Ask legal question..."></textarea>
 
 <button
 class="btn-purple"
+type="button"
 onclick="askLegalAI()">
 
 Ask AI
@@ -542,10 +642,47 @@ AGI ULTRA PRO v18 ENTERPRISE © 2026
 </footer>
 
 <!-- =========================================
+PWA FIX
+========================================= -->
+
+<script>
+
+if("serviceWorker" in navigator){
+
+window.addEventListener(
+"load",
+async ()=>{
+
+try{
+
+await navigator.serviceWorker.register(
+"./sw.js"
+);
+
+console.log(
+"SW Registered"
+);
+
+}catch(err){
+
+console.log(
+"SW Failed",
+err
+);
+
+}
+
+});
+
+}
+
+</script>
+
+<!-- =========================================
 SCRIPT
 ========================================= -->
 
-<script src="script.js?v=20"></script>
+<script src="./script.js?v=25"></script>
 
 </body>
 </html>
