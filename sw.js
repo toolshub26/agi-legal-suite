@@ -1,16 +1,15 @@
 /* =========================================
-AGI ULTRA PRO v18 SERVICE WORKER
-FINAL PWA FIX 🚀
+AGI ULTRA PRO v18 ENTERPRISE SW 🚀
+FINAL PWA + CACHE FIX
 ========================================= */
 
-const CACHE_NAME = "agi-ultra-v18-final";
+const CACHE_NAME =
+"agi-ultra-v18-enterprise-v2";
 
-const urlsToCache = [
+const STATIC_ASSETS = [
 
 "./",
 "./index.html",
-"./style.css",
-"./script.js",
 "./manifest.json",
 
 "./launchericon-48x48.png",
@@ -24,14 +23,18 @@ const urlsToCache = [
 
 /* INSTALL */
 
-self.addEventListener("install",(event)=>{
+self.addEventListener(
+"install",
+(event)=>{
 
 event.waitUntil(
 
 caches.open(CACHE_NAME)
 .then((cache)=>{
 
-return cache.addAll(urlsToCache);
+return cache.addAll(
+STATIC_ASSETS
+);
 
 })
 
@@ -39,15 +42,19 @@ return cache.addAll(urlsToCache);
 
 self.skipWaiting();
 
-});
+}
+);
 
 /* ACTIVATE */
 
-self.addEventListener("activate",(event)=>{
+self.addEventListener(
+"activate",
+(event)=>{
 
 event.waitUntil(
 
-caches.keys().then((keys)=>{
+caches.keys()
+.then((keys)=>{
 
 return Promise.all(
 
@@ -69,37 +76,87 @@ return caches.delete(key);
 
 self.clients.claim();
 
-});
+}
+);
 
 /* FETCH */
 
-self.addEventListener("fetch",(event)=>{
+self.addEventListener(
+"fetch",
+(event)=>{
+
+if(
+event.request.method !== "GET"
+){
+return;
+}
 
 event.respondWith(
 
-caches.match(event.request)
+fetch(event.request)
+
 .then((response)=>{
 
-if(response){
+const responseClone =
+response.clone();
+
+caches.open(CACHE_NAME)
+.then((cache)=>{
+
+cache.put(
+event.request,
+responseClone
+);
+
+});
 
 return response;
 
-}
-
-return fetch(event.request)
-.then((networkResponse)=>{
-
-return networkResponse;
-
 })
+
 .catch(()=>{
 
-return caches.match("./index.html");
+return caches.match(
+event.request
+)
+
+.then((cached)=>{
+
+return cached ||
+caches.match(
+"./index.html"
+);
 
 });
 
 })
 
 );
+
+}
+);
+
+/* MESSAGE */
+
+self.addEventListener(
+"message",
+(event)=>{
+
+if(
+event.data === "CLEAR_CACHE"
+){
+
+caches.keys()
+.then((keys)=>{
+
+keys.forEach((key)=>{
+
+caches.delete(key);
+
+});
+
+});
+
+}
 
 });
