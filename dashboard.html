@@ -40,7 +40,33 @@ color:white;
 
 overflow-x:hidden;
 
+transition:.3s;
+
 }
+
+/* LIGHT MODE */
+
+.light-mode{
+background:#f3f4f6;
+color:#111827;
+}
+
+.light-mode .sidebar,
+.light-mode .panel,
+.light-mode .card,
+.light-mode .profile,
+.light-mode .activity-item{
+background:white;
+color:#111827;
+}
+
+.light-mode .search-box,
+.light-mode textarea{
+background:#e5e7eb;
+color:#111827;
+}
+
+/* DASHBOARD */
 
 .dashboard{
 display:flex;
@@ -244,7 +270,12 @@ color:white;
 font-weight:700;
 cursor:pointer;
 margin:6px;
+transition:.25s;
 
+}
+
+.action-btn:hover{
+transform:translateY(-2px);
 }
 
 .green{
@@ -320,6 +351,25 @@ padding:14px;
 background:#111827;
 border-radius:14px;
 margin-bottom:12px;
+
+}
+
+/* PROGRESS */
+
+.progress{
+
+height:10px;
+background:#1f2937;
+border-radius:20px;
+overflow:hidden;
+margin-top:10px;
+
+}
+
+.progress div{
+
+height:100%;
+background:#2563eb;
 
 }
 
@@ -430,9 +480,9 @@ onclick="cloudBackup()">
 ☁️ Backup
 </button>
 
-<!-- NEW AUTH BUTTONS -->
+<!-- AUTH -->
 
-<button class="nav-btn"
+<button class="nav-btn green"
 onclick="location.href='signup.html'">
 📝 Signup
 </button>
@@ -442,12 +492,12 @@ onclick="location.href='login.html'">
 🔐 Login
 </button>
 
-<button class="nav-btn"
+<button class="nav-btn orange"
 onclick="clearHistory()">
-🗑️ Delete History
+🗑 Delete History
 </button>
 
-<button class="nav-btn"
+<button class="nav-btn red"
 onclick="logout()">
 🚪 Logout
 </button>
@@ -457,6 +507,8 @@ onclick="logout()">
 <!-- MAIN -->
 
 <div class="main">
+
+<!-- TOPBAR -->
 
 <div class="topbar">
 
@@ -480,7 +532,7 @@ A
 
 <div>
 
-<div>
+<div id="userEmail">
 admin@agiultra.ai
 </div>
 
@@ -654,6 +706,41 @@ onclick="cloudBackup()">
 💸 Withdraw
 </button>
 
+<button class="action-btn purple"
+onclick="generateReport()">
+📄 Report
+</button>
+
+</div>
+
+<div class="panel">
+
+<h2>
+📊 System Usage
+</h2>
+
+<p>Storage Usage</p>
+
+<div class="progress">
+<div style="width:70%;"></div>
+</div>
+
+<br>
+
+<p>API Usage</p>
+
+<div class="progress">
+<div style="width:45%;"></div>
+</div>
+
+<br>
+
+<p>Realtime Database</p>
+
+<div class="progress">
+<div style="width:82%;"></div>
+</div>
+
 </div>
 
 <div class="panel">
@@ -711,6 +798,19 @@ No response yet.
 </div>
 
 <script>
+
+/* USER SESSION */
+
+if(localStorage.getItem("loggedUser")){
+
+document.getElementById(
+"userEmail"
+).innerText =
+localStorage.getItem(
+"loggedUser"
+);
+
+}
 
 /* CHART */
 
@@ -804,7 +904,7 @@ ${q}
 `;
 
 showToast(
-"AI response generated"
+"AI response generated 🤖"
 );
 
 }
@@ -814,7 +914,17 @@ showToast(
 function exportCSV(){
 
 showToast(
-"CSV Exported"
+"CSV Exported 📥"
+);
+
+}
+
+/* REPORT */
+
+function generateReport(){
+
+showToast(
+"Analytics Report Generated 📄"
 );
 
 }
@@ -843,7 +953,7 @@ document.body.classList.toggle(
 );
 
 showToast(
-"Theme Updated"
+"Theme Updated 🌗"
 );
 
 }
@@ -970,8 +1080,12 @@ ai + 1;
 
 function logout(){
 
+localStorage.removeItem(
+"loggedUser"
+);
+
 showToast(
-"Logged out successfully"
+"Logged out successfully 🚪"
 );
 
 setTimeout(()=>{
