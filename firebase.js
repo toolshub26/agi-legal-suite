@@ -1,4 +1,3 @@
-
 /* =========================================
    AGI ULTRA PRO v18 AI 🚀
    FIREBASE ENTERPRISE CONFIG
@@ -29,7 +28,8 @@ addDoc,
 getDocs,
 doc,
 setDoc,
-getDoc
+getDoc,
+deleteDoc
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -48,25 +48,25 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 const firebaseConfig = {
 
 apiKey:
-"YOUR_API_KEY",
+"AIzaSyC_1bKbNGAoGviGt1-a1f27h9VDj4hr3oA",
 
 authDomain:
-"YOUR_PROJECT.firebaseapp.com",
+"affidavittool.firebaseapp.com",
 
 projectId:
-"YOUR_PROJECT_ID",
+"affidavittool",
 
 storageBucket:
-"YOUR_PROJECT.appspot.com",
+"affidavittool.firebasestorage.app",
 
 messagingSenderId:
-"123456789",
+"108525725649",
 
 appId:
-"1:123456:web:abcdef",
+"1:108525725649:web:2c3cab440860c81e6de2f0",
 
 measurementId:
-"G-XXXXXXX"
+"G-1T5FQG5SDL"
 
 };
 
@@ -102,11 +102,9 @@ window.storage = storage;
 ========================================= */
 
 async function signupUser(
-
 email,
 password,
 name
-
 ){
 
 try{
@@ -123,22 +121,13 @@ const user =
 userCredential.user;
 
 await setDoc(
-
 doc(db,"users",user.uid),
-
 {
-
 name:name,
 email:email,
-
 premium:false,
-
-createdAt:
-new Date()
-.toISOString()
-
+createdAt:new Date().toISOString()
 }
-
 );
 
 showToast(
@@ -152,9 +141,7 @@ location.href =
 
 console.error(error);
 
-showToast(
-error.message
-);
+showToast(error.message);
 
 }
 
@@ -165,10 +152,8 @@ error.message
 ========================================= */
 
 async function loginUser(
-
 email,
 password
-
 ){
 
 try{
@@ -190,9 +175,7 @@ location.href =
 
 console.error(error);
 
-showToast(
-error.message
-);
+showToast(error.message);
 
 }
 
@@ -206,9 +189,24 @@ async function loginWithGoogle(){
 
 try{
 
+const result =
 await signInWithPopup(
 auth,
 provider
+);
+
+const user =
+result.user;
+
+await setDoc(
+doc(db,"users",user.uid),
+{
+name:user.displayName,
+email:user.email,
+premium:false,
+createdAt:new Date().toISOString()
+},
+{merge:true}
 );
 
 showToast(
@@ -222,9 +220,7 @@ location.href =
 
 console.error(error);
 
-showToast(
-error.message
-);
+showToast(error.message);
 
 }
 
@@ -289,23 +285,23 @@ async function saveAffidavitToCloud(data){
 
 try{
 
-await addDoc(
+if(!auth.currentUser){
 
-collection(
-db,
-"affidavits"
-),
+showToast(
+"Login Required"
+);
 
-{
-
-...data,
-
-createdAt:
-new Date()
-.toISOString()
+return;
 
 }
 
+await addDoc(
+collection(db,"affidavits"),
+{
+...data,
+uid:auth.currentUser.uid,
+createdAt:new Date().toISOString()
+}
 );
 
 showToast(
@@ -328,10 +324,7 @@ async function getAffidavits(){
 
 const querySnapshot =
 await getDocs(
-collection(
-db,
-"affidavits"
-)
+collection(db,"affidavits")
 );
 
 querySnapshot.forEach(doc=>{
@@ -342,6 +335,30 @@ doc.data()
 );
 
 });
+
+}
+
+/* =========================================
+   DELETE AFFIDAVIT
+========================================= */
+
+async function deleteAffidavit(id){
+
+try{
+
+await deleteDoc(
+doc(db,"affidavits",id)
+);
+
+showToast(
+"Deleted Successfully 🗑️"
+);
+
+}catch(error){
+
+console.error(error);
+
+}
 
 }
 
@@ -406,45 +423,40 @@ return false;
 }
 
 /* =========================================
+   CLEAR HISTORY
+========================================= */
+
+function clearHistory(){
+
+localStorage.clear();
+
+showToast(
+"History Cleared 🗑️"
+);
+
+}
+
+/* =========================================
    TOAST
 ========================================= */
 
 function showToast(msg){
 
 const toast =
-document.createElement(
-"div"
-);
+document.createElement("div");
 
 toast.innerText = msg;
 
-toast.style.position =
-"fixed";
+toast.style.position = "fixed";
+toast.style.bottom = "20px";
+toast.style.right = "20px";
+toast.style.background = "#111827";
+toast.style.color = "white";
+toast.style.padding = "14px 18px";
+toast.style.borderRadius = "14px";
+toast.style.zIndex = "999999";
 
-toast.style.bottom =
-"20px";
-
-toast.style.right =
-"20px";
-
-toast.style.background =
-"#111827";
-
-toast.style.color =
-"white";
-
-toast.style.padding =
-"14px 18px";
-
-toast.style.borderRadius =
-"14px";
-
-toast.style.zIndex =
-"999999";
-
-document.body.appendChild(
-toast
-);
+document.body.appendChild(toast);
 
 setTimeout(()=>{
 
@@ -476,11 +488,17 @@ saveAffidavitToCloud;
 window.getAffidavits =
 getAffidavits;
 
+window.deleteAffidavit =
+deleteAffidavit;
+
 window.uploadFile =
 uploadFile;
 
 window.checkPremium =
 checkPremium;
+
+window.clearHistory =
+clearHistory;
 
 /* =========================================
    END
