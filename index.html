@@ -1,7 +1,7 @@
 <!-- =========================================
 AGI ULTRA PRO v18 ENTERPRISE 🚀
 FINAL COMPLETE FREE VERSION INDEX.HTML
-FREE + PREMIUM SEPARATED FIXED
+FULLY FIXED + 100+ PURPOSES + PRINT FIX
 ========================================= -->
 
 <!DOCTYPE html>
@@ -120,11 +120,11 @@ transform:translateY(-2px);
 /* MAIN */
 
 .main{
-max-width:1700px;
+max-width:1900px;
 margin:auto;
 padding:25px;
 display:grid;
-grid-template-columns:390px 1fr;
+grid-template-columns:460px 1fr;
 gap:30px;
 align-items:start;
 }
@@ -165,7 +165,7 @@ outline:none;
 }
 
 .textarea{
-min-height:110px;
+min-height:120px;
 resize:vertical;
 }
 
@@ -182,10 +182,11 @@ margin-top:20px;
 
 #signaturePad{
 width:100%;
-height:180px;
+height:200px;
 background:white;
 border-radius:16px;
 margin-top:10px;
+touch-action:none;
 }
 
 /* ANALYTICS */
@@ -215,10 +216,10 @@ margin-top:10px;
 background:white;
 color:#111827;
 border-radius:24px;
-padding:40px;
+padding:50px;
 position:relative;
 overflow:hidden;
-min-height:1000px;
+min-height:1200px;
 }
 
 .watermark{
@@ -236,14 +237,14 @@ pointer-events:none;
 position:absolute;
 top:25px;
 right:25px;
-width:90px;
-height:90px;
+width:100px;
+height:100px;
 border:3px solid red;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:20px;
+font-size:24px;
 font-weight:800;
 color:red;
 transform:rotate(-15deg);
@@ -269,13 +270,11 @@ line-height:2;
 }
 
 .signature-box{
-margin-top:30px;
-display:flex;
-justify-content:flex-start;
+margin-top:40px;
 }
 
 .doc-footer{
-margin-top:20px;
+margin-top:25px;
 text-align:center;
 font-size:13px;
 color:#666;
@@ -285,6 +284,57 @@ color:#666;
 margin-top:25px;
 display:flex;
 justify-content:center;
+}
+
+/* LIGHT MODE */
+
+.light-mode{
+background:#f3f4f6;
+color:#111827;
+}
+
+.light-mode .sidebar,
+.light-mode .topbar,
+.light-mode .stat{
+background:white;
+color:#111827;
+}
+
+.light-mode .input,
+.light-mode .select,
+.light-mode .textarea{
+background:#e5e7eb;
+color:#111827;
+}
+
+/* PRINT */
+
+@media print{
+
+body *{
+visibility:hidden;
+}
+
+#previewArea,
+#previewArea *{
+visibility:visible;
+}
+
+#previewArea{
+position:absolute;
+left:0;
+top:0;
+width:100%;
+padding:20px;
+background:white;
+}
+
+.topbar,
+.sidebar,
+.analytics{
+display:none !important;
+}
+
 }
 
 /* RESPONSIVE */
@@ -305,7 +355,7 @@ grid-template-columns:1fr;
 }
 
 .preview{
-padding:20px;
+padding:22px;
 min-height:auto;
 }
 
@@ -329,6 +379,10 @@ font-size:50px;
 display:grid;
 grid-template-columns:1fr 1fr;
 width:100%;
+}
+
+.preview{
+padding:18px;
 }
 
 }
@@ -373,6 +427,11 @@ Verify
 </button>
 
 <button class="primary"
+onclick="toggleTheme()">
+Theme
+</button>
+
+<button class="primary"
 onclick="window.location.href='login.html'">
 Login
 </button>
@@ -382,7 +441,10 @@ onclick="window.location.href='signup.html'">
 Signup
 </button>
 
-<!-- FIXED PREMIUM BUTTON -->
+<button class="orange"
+onclick="window.print()">
+Print
+</button>
 
 <button class="red"
 onclick="window.location.href='premium.html'">
@@ -434,14 +496,14 @@ id="country">
 
 </select>
 
-<!-- FULL PURPOSES FIXED -->
-
 <label class="label">
 Purpose
 </label>
 
 <select class="select"
-id="purposeType">
+id="purposeType"
+size="12"
+style="height:320px;">
 
 <option>Name Change Affidavit</option>
 <option>Address Proof Affidavit</option>
@@ -491,6 +553,56 @@ id="purposeType">
 <option>Affidavit for Vehicle Transfer</option>
 <option>Affidavit for Passport Renewal</option>
 <option>Affidavit for Foreign Travel</option>
+<option>Affidavit for Aadhaar</option>
+<option>Affidavit for PAN Card</option>
+<option>Affidavit for GST</option>
+<option>Affidavit for Electricity</option>
+<option>Affidavit for Water Connection</option>
+<option>Affidavit for Gas Connection</option>
+<option>Affidavit for SIM Ownership</option>
+<option>Affidavit for Scholarship</option>
+<option>Affidavit for Hostel</option>
+<option>Affidavit for University</option>
+<option>Affidavit for Degree</option>
+<option>Affidavit for Diploma</option>
+<option>Affidavit for Marksheet</option>
+<option>Affidavit for Startup</option>
+<option>Affidavit for Business</option>
+<option>Affidavit for Company</option>
+<option>Affidavit for Trade License</option>
+<option>Affidavit for Tender</option>
+<option>Affidavit for NGO</option>
+<option>Affidavit for YouTube</option>
+<option>Affidavit for Social Media</option>
+<option>Affidavit for Freelancing</option>
+<option>Affidavit for Online Seller</option>
+<option>Affidavit for Amazon Seller</option>
+<option>Affidavit for Flipkart Seller</option>
+<option>Affidavit for Customs</option>
+<option>Affidavit for Export</option>
+<option>Affidavit for Import</option>
+<option>Affidavit for Immigration Case</option>
+<option>Affidavit for Character Certificate</option>
+<option>Affidavit for Police Case</option>
+<option>Affidavit for Bail</option>
+<option>Affidavit for Family Court</option>
+<option>Affidavit for High Court</option>
+<option>Affidavit for Supreme Court</option>
+<option>Affidavit for Website Ownership</option>
+<option>Affidavit for Domain Ownership</option>
+<option>Affidavit for Internship Completion</option>
+<option>Affidavit for Salary Proof</option>
+<option>Affidavit for Experience</option>
+<option>Affidavit for Birth Registration</option>
+<option>Affidavit for Death Registration</option>
+<option>Affidavit for Child Custody</option>
+<option>Affidavit for Adoption</option>
+<option>Affidavit for Guardianship</option>
+<option>Affidavit for Research</option>
+<option>Affidavit for Patent</option>
+<option>Affidavit for Trademark</option>
+<option>Affidavit for Copyright</option>
+<option>Custom Purpose</option>
 
 </select>
 
@@ -640,10 +752,20 @@ document.getElementById(
 "signaturePad"
 );
 
-canvas.width =
-canvas.offsetWidth;
+const ratio =
+Math.max(
+window.devicePixelRatio || 1,
+1
+);
 
-canvas.height = 180;
+canvas.width =
+canvas.offsetWidth * ratio;
+
+canvas.height =
+200 * ratio;
+
+canvas.getContext("2d")
+.scale(ratio,ratio);
 
 signaturePad =
 new SignaturePad(canvas,{
@@ -860,14 +982,27 @@ height:140
 function downloadPDF(){
 
 html2pdf()
+.set({
+margin:5,
+filename:"Affidavit.pdf",
+image:{
+type:"jpeg",
+quality:1
+},
+html2canvas:{
+scale:2
+},
+jsPDF:{
+unit:"mm",
+format:"a4"
+}
+})
 .from(
 document.getElementById(
 "previewArea"
 )
 )
-.save(
-"Affidavit.pdf"
-);
+.save();
 
 }
 
@@ -908,6 +1043,16 @@ document.getElementById(
 window.open(
 `https://wa.me/?text=${encodeURIComponent(text)}`,
 "_blank"
+);
+
+}
+
+/* THEME */
+
+function toggleTheme(){
+
+document.body.classList.toggle(
+"light-mode"
 );
 
 }
