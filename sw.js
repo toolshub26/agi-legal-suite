@@ -1,16 +1,28 @@
 /* =========================================
 AGI ULTRA PRO v18 ENTERPRISE SW 🚀
-FINAL PWA + CACHE FIX
+FINAL STABLE PWA + OFFLINE SYSTEM
 ========================================= */
 
 const CACHE_NAME =
-"agi-ultra-v18-enterprise-v2";
+"agi-ultra-v18-enterprise-v3";
+
+/* =========================================
+FILES TO CACHE
+========================================= */
 
 const STATIC_ASSETS = [
 
 "./",
 "./index.html",
+"./premium.html",
+"./dashboard.html",
+"./verify.html",
+"./login.html",
+"./signup.html",
+
 "./manifest.json",
+"./firebase.js",
+"./style.css",
 
 "./launchericon-48x48.png",
 "./launchericon-72x72.png",
@@ -21,7 +33,9 @@ const STATIC_ASSETS = [
 
 ];
 
-/* INSTALL */
+/* =========================================
+INSTALL
+========================================= */
 
 self.addEventListener(
 "install",
@@ -30,10 +44,20 @@ self.addEventListener(
 event.waitUntil(
 
 caches.open(CACHE_NAME)
+
 .then((cache)=>{
 
 return cache.addAll(
 STATIC_ASSETS
+);
+
+})
+
+.catch((error)=>{
+
+console.log(
+"Cache Install Error:",
+error
 );
 
 })
@@ -45,7 +69,9 @@ self.skipWaiting();
 }
 );
 
-/* ACTIVATE */
+/* =========================================
+ACTIVATE
+========================================= */
 
 self.addEventListener(
 "activate",
@@ -54,6 +80,7 @@ self.addEventListener(
 event.waitUntil(
 
 caches.keys()
+
 .then((keys)=>{
 
 return Promise.all(
@@ -79,11 +106,15 @@ self.clients.claim();
 }
 );
 
-/* FETCH */
+/* =========================================
+FETCH
+========================================= */
 
 self.addEventListener(
 "fetch",
 (event)=>{
+
+/* ONLY GET */
 
 if(
 event.request.method !== "GET"
@@ -91,16 +122,51 @@ event.request.method !== "GET"
 return;
 }
 
+/* IGNORE CHROME EXTENSIONS */
+
+if(
+event.request.url.startsWith(
+"chrome-extension://"
+)
+){
+return;
+}
+
 event.respondWith(
 
-fetch(event.request)
+caches.match(event.request)
 
-.then((response)=>{
+.then((cachedResponse)=>{
+
+if(cachedResponse){
+
+return cachedResponse;
+
+}
+
+return fetch(event.request)
+
+.then((networkResponse)=>{
+
+/* INVALID RESPONSE */
+
+if(
+!networkResponse ||
+networkResponse.status !== 200 ||
+networkResponse.type !== "basic"
+){
+
+return networkResponse;
+
+}
+
+/* SAVE CACHE */
 
 const responseClone =
-response.clone();
+networkResponse.clone();
 
 caches.open(CACHE_NAME)
+
 .then((cache)=>{
 
 cache.put(
@@ -110,22 +176,24 @@ responseClone
 
 });
 
-return response;
+return networkResponse;
 
 })
 
 .catch(()=>{
 
+/* FALLBACK */
+
+if(
+event.request.headers.get("accept")
+.includes("text/html")
+){
+
 return caches.match(
-event.request
-)
-
-.then((cached)=>{
-
-return cached ||
-caches.match(
 "./index.html"
 );
+
+}
 
 });
 
@@ -136,7 +204,9 @@ caches.match(
 }
 );
 
-/* MESSAGE */
+/* =========================================
+CLEAR CACHE MESSAGE
+========================================= */
 
 self.addEventListener(
 "message",
@@ -147,16 +217,29 @@ event.data === "CLEAR_CACHE"
 ){
 
 caches.keys()
+
 .then((keys)=>{
 
-keys.forEach((key)=>{
+return Promise.all(
 
-caches.delete(key);
+keys.map((key)=>{
 
-});
+return caches.delete(key);
+
+})
+
+);
 
 });
 
 }
 
 });
+
+/* =========================================
+END
+========================================= */
+
+console.log(
+"AGI ULTRA PWA READY 🚀"
+);
