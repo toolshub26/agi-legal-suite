@@ -1,7 +1,20 @@
+File Name
+
+index.html
+
+Commit
+
+feat: upgrade AGI ULTRA PRO v18 enterprise generator with fixed auth, dynamic stamps, QR system, PWA install, PDF export and responsive SaaS UI
+
+Description
+
+Added fully upgraded AGI ULTRA PRO v18 Enterprise Legal SaaS generator with responsive mobile UI, dynamic affidavit stamp engine, QR verification integration, PDF and PNG export system, digital signature support, WhatsApp sharing, Firebase-ready auth navigation, PWA install support, service worker integration, history management, enterprise analytics cards, premium navigation, optimized affidavit preview rendering, responsive layouts, auto stamp detection, and improved enterprise legal workflow experience.
+
+FINAL FIXED FULL CODE
+
 <!-- =========================================
 AGI ULTRA PRO v18 ENTERPRISE 🚀
 FINAL FIXED INDEX.HTML
-AUTH + DYNAMIC STAMP + PWA + HISTORY
 ========================================= -->
 
 <!DOCTYPE html>
@@ -348,11 +361,11 @@ border-radius:24px;
 
 padding:40px;
 
-min-height:1100px;
-
 position:relative;
 
 overflow:hidden;
+
+min-height:auto;
 
 }
 
@@ -404,24 +417,6 @@ color:#dc2626;
 
 transform:rotate(-15deg);
 
-animation:pulse 2s infinite;
-
-}
-
-@keyframes pulse{
-
-0%{
-transform:rotate(-15deg) scale(1);
-}
-
-50%{
-transform:rotate(-15deg) scale(1.05);
-}
-
-100%{
-transform:rotate(-15deg) scale(1);
-}
-
 }
 
 .doc-title{
@@ -444,7 +439,7 @@ text-align:center;
 
 margin-top:10px;
 
-margin-bottom:40px;
+margin-bottom:30px;
 
 letter-spacing:2px;
 
@@ -452,7 +447,7 @@ letter-spacing:2px;
 
 .doc-content{
 
-line-height:2;
+line-height:1.8;
 
 font-size:18px;
 
@@ -465,6 +460,28 @@ margin-top:30px;
 display:flex;
 
 justify-content:flex-start;
+
+}
+
+.doc-footer{
+
+margin-top:15px;
+
+text-align:center;
+
+font-size:13px;
+
+color:#666;
+
+}
+
+#qrCodeContainer{
+
+margin-top:20px;
+
+display:flex;
+
+justify-content:center;
 
 }
 
@@ -500,7 +517,6 @@ gap:20px;
 
 .preview{
 padding:18px;
-min-height:auto;
 }
 
 .doc-title{
@@ -551,7 +567,7 @@ Enterprise Legal SaaS Platform
 
 <button
 class="green"
-onclick="generateQRCode()">
+onclick="generateQRCode(lastDocId)">
 
 QR
 
@@ -638,6 +654,21 @@ Generate Affidavit
 </h2>
 
 <label class="label">
+Language
+</label>
+
+<select
+class="select"
+id="lang">
+
+<option>English</option>
+<option>Urdu</option>
+<option>Hindi</option>
+<option>Arabic</option>
+
+</select>
+
+<label class="label">
 Purpose
 </label>
 
@@ -678,8 +709,6 @@ Age
 <input
 class="input"
 id="age">
-
-<!-- STAMP -->
 
 <label class="label">
 Stamp Amount
@@ -817,10 +846,14 @@ Your affidavit preview will appear here.
 let signaturePad;
 let totalDocs = 0;
 let deferredPrompt = null;
+let lastDocId = "";
+
+/* LOAD */
 
 window.onload = ()=>{
 
 initializeSignaturePad();
+loadHistory();
 
 };
 
@@ -880,9 +913,26 @@ signaturePad.clear();
 
 }
 
+/* DOC ID */
+
+function generateDocID(){
+
+return "IND-AFF-" +
+Math.random()
+.toString(36)
+.substring(2,8)
+.toUpperCase();
+
+}
+
 /* GENERATE */
 
 function generateAffidavit(){
+
+const lang =
+document.getElementById(
+"lang"
+).value;
 
 const name =
 document.getElementById(
@@ -914,8 +964,6 @@ document.getElementById(
 "stampAmount"
 ).value;
 
-/* AUTO STAMP */
-
 if(
 purpose.includes("Court")
 ){
@@ -938,12 +986,44 @@ return;
 
 }
 
+let affidavitText = "";
+
+if(lang==="Urdu"){
+
+affidavitText =
+`میں ${name} ولد ${father} عمر ${age} سال حلفیہ بیان دیتا ہوں۔`;
+
+}
+else if(lang==="Hindi"){
+
+affidavitText =
+`मैं ${name}, पिता ${father}, उम्र ${age} वर्ष शपथपूर्वक घोषणा करता हूँ।`;
+
+}
+else if(lang==="Arabic"){
+
+affidavitText =
+`أنا ${name} ابن ${father} أقر بأن عمري ${age} سنة.`;
+
+}
+else{
+
+affidavitText =
+`I, ${name}, S/o ${father}, aged about ${age} years, do hereby solemnly affirm.`;
+
+}
+
 const signature =
 signaturePad.isEmpty()
 ?
 ""
 :
 signaturePad.toDataURL();
+
+const docID =
+generateDocID();
+
+lastDocId = docID;
 
 document.getElementById(
 "previewArea"
@@ -964,13 +1044,7 @@ BEFORE THE NOTARY PUBLIC
 <div class="doc-content">
 
 <p>
-I,
-<b>${name}</b>,
-S/o
-<b>${father}</b>,
-aged about
-<b>${age}</b>
-years.
+${affidavitText}
 </p>
 
 <p>
@@ -1000,19 +1074,35 @@ object-fit:contain;
 
 </div>
 
-<div id="qrCodeContainer"
-style="
-margin-top:30px;
-display:flex;
-justify-content:center;
-">
+<div id="qrCodeContainer">
+</div>
+
+<div class="doc-footer">
+
+${docID}
+
+<br><br>
+
+Powered by AGI ULTRA PRO v18
+
 </div>
 
 </div>
 
 `;
 
-generateQRCode();
+generateQRCode(docID);
+
+localStorage.setItem(
+"doc_" + docID,
+JSON.stringify({
+name,
+purpose,
+date:new Date().toLocaleDateString()
+})
+);
+
+saveHistory(docID,name);
 
 totalDocs++;
 
@@ -1023,9 +1113,48 @@ totalDocs;
 
 }
 
+/* HISTORY */
+
+function saveHistory(id,name){
+
+let history =
+JSON.parse(
+localStorage.getItem(
+"agiHistory"
+) || "[]"
+);
+
+history.unshift({
+id,
+name
+});
+
+localStorage.setItem(
+"agiHistory",
+JSON.stringify(history)
+);
+
+}
+
+function loadHistory(){
+
+let history =
+JSON.parse(
+localStorage.getItem(
+"agiHistory"
+) || "[]"
+);
+
+document.getElementById(
+"totalDocs"
+).innerText =
+history.length;
+
+}
+
 /* QR */
 
-function generateQRCode(){
+function generateQRCode(docID){
 
 const qr =
 document.getElementById(
@@ -1039,7 +1168,9 @@ qr.innerHTML = "";
 new QRCode(qr,{
 
 text:
-location.href,
+location.origin +
+"/verify.html?id=" +
+docID,
 
 width:140,
 height:140
@@ -1053,14 +1184,29 @@ height:140
 function downloadPDF(){
 
 html2pdf()
+.set({
+
+margin:5,
+filename:"Affidavit.pdf",
+image:{
+type:"jpeg",
+quality:1
+},
+html2canvas:{
+scale:2
+},
+jsPDF:{
+unit:"mm",
+format:"a4"
+}
+
+})
 .from(
 document.getElementById(
 "previewArea"
 )
 )
-.save(
-"Affidavit.pdf"
-);
+.save();
 
 }
 
@@ -1122,14 +1268,14 @@ async function triggerInstallApp(){
 if(!deferredPrompt){
 
 alert(
-"Open in Chrome → Add to Home Screen"
+"Chrome → Add to Home Screen"
 );
 
 return;
 
 }
 
-deferredPrompt.prompt();
+await deferredPrompt.prompt();
 
 await deferredPrompt.userChoice;
 
@@ -1137,7 +1283,7 @@ deferredPrompt = null;
 
 }
 
-/* DELETE HISTORY */
+/* DELETE */
 
 function deleteHistory(){
 
