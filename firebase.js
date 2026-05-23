@@ -1,6 +1,6 @@
 /* =========================================
    AGI ULTRA PRO v18 AI 🚀
-   FIREBASE ENTERPRISE CONFIG
+   FINAL FIREBASE ENTERPRISE CONFIG
 ========================================= */
 
 /* =========================================
@@ -29,7 +29,8 @@ getDocs,
 doc,
 setDoc,
 getDoc,
-deleteDoc
+deleteDoc,
+serverTimestamp
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -48,30 +49,27 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 const firebaseConfig = {
 
 apiKey:
-"AIzaSyC_1bKbNGAoGviGt1-a1f27h9VDj4hr3oA",
+"YOUR_API_KEY",
 
 authDomain:
-"affidavittool.firebaseapp.com",
+"YOUR_PROJECT.firebaseapp.com",
 
 projectId:
-"affidavittool",
+"YOUR_PROJECT_ID",
 
 storageBucket:
-"affidavittool.firebasestorage.app",
+"YOUR_PROJECT.appspot.com",
 
 messagingSenderId:
-"108525725649",
+"YOUR_SENDER_ID",
 
 appId:
-"1:108525725649:web:2c3cab440860c81e6de2f0",
-
-measurementId:
-"G-1T5FQG5SDL"
+"YOUR_APP_ID"
 
 };
 
 /* =========================================
-   INITIALIZE FIREBASE
+   INITIALIZE
 ========================================= */
 
 const app =
@@ -96,6 +94,37 @@ new GoogleAuthProvider();
 window.auth = auth;
 window.db = db;
 window.storage = storage;
+
+/* =========================================
+   TOAST
+========================================= */
+
+function showToast(msg){
+
+const toast =
+document.createElement("div");
+
+toast.innerText = msg;
+
+toast.style.position = "fixed";
+toast.style.bottom = "20px";
+toast.style.right = "20px";
+toast.style.background = "#111827";
+toast.style.color = "white";
+toast.style.padding = "14px 18px";
+toast.style.borderRadius = "14px";
+toast.style.zIndex = "999999";
+toast.style.fontWeight = "700";
+
+document.body.appendChild(toast);
+
+setTimeout(()=>{
+
+toast.remove();
+
+},3000);
+
+}
 
 /* =========================================
    SIGNUP
@@ -126,8 +155,13 @@ doc(db,"users",user.uid),
 name:name,
 email:email,
 premium:false,
-createdAt:new Date().toISOString()
+createdAt:serverTimestamp()
 }
+);
+
+localStorage.setItem(
+"loggedUser",
+email
 );
 
 showToast(
@@ -162,6 +196,11 @@ await signInWithEmailAndPassword(
 auth,
 email,
 password
+);
+
+localStorage.setItem(
+"loggedUser",
+email
 );
 
 showToast(
@@ -201,12 +240,17 @@ result.user;
 await setDoc(
 doc(db,"users",user.uid),
 {
-name:user.displayName,
+name:user.displayName || "User",
 email:user.email,
 premium:false,
-createdAt:new Date().toISOString()
+createdAt:serverTimestamp()
 },
 {merge:true}
+);
+
+localStorage.setItem(
+"loggedUser",
+user.email
 );
 
 showToast(
@@ -236,6 +280,10 @@ try{
 
 await signOut(auth);
 
+localStorage.removeItem(
+"loggedUser"
+);
+
 showToast(
 "Logged Out ✅"
 );
@@ -252,7 +300,7 @@ console.error(error);
 }
 
 /* =========================================
-   AUTH CHECK
+   AUTH STATE
 ========================================= */
 
 onAuthStateChanged(
@@ -288,19 +336,19 @@ try{
 if(!auth.currentUser){
 
 showToast(
-"Login Required"
+"Login Required ❌"
 );
 
 return;
-
 }
 
+const docRef =
 await addDoc(
 collection(db,"affidavits"),
 {
 ...data,
 uid:auth.currentUser.uid,
-createdAt:new Date().toISOString()
+createdAt:serverTimestamp()
 }
 );
 
@@ -308,9 +356,15 @@ showToast(
 "Saved To Cloud ☁️"
 );
 
+return docRef.id;
+
 }catch(error){
 
 console.error(error);
+
+showToast(
+"Cloud Save Failed ❌"
+);
 
 }
 
@@ -322,19 +376,33 @@ console.error(error);
 
 async function getAffidavits(){
 
+try{
+
 const querySnapshot =
 await getDocs(
 collection(db,"affidavits")
 );
 
+const list = [];
+
 querySnapshot.forEach(doc=>{
 
-console.log(
-doc.id,
-doc.data()
-);
+list.push({
+id:doc.id,
+...doc.data()
+});
 
 });
+
+return list;
+
+}catch(error){
+
+console.error(error);
+
+return [];
+
+}
 
 }
 
@@ -373,7 +441,7 @@ try{
 const storageRef =
 ref(
 storage,
-"uploads/" + file.name
+"uploads/" + Date.now() + "_" + file.name
 );
 
 await uploadBytes(
@@ -396,6 +464,10 @@ return url;
 
 console.error(error);
 
+showToast(
+"Upload Failed ❌"
+);
+
 }
 
 }
@@ -405,6 +477,8 @@ console.error(error);
 ========================================= */
 
 async function checkPremium(uid){
+
+try{
 
 const userRef =
 doc(db,"users",uid);
@@ -419,6 +493,14 @@ return snap.data().premium;
 }
 
 return false;
+
+}catch(error){
+
+console.error(error);
+
+return false;
+
+}
 
 }
 
@@ -437,37 +519,7 @@ showToast(
 }
 
 /* =========================================
-   TOAST
-========================================= */
-
-function showToast(msg){
-
-const toast =
-document.createElement("div");
-
-toast.innerText = msg;
-
-toast.style.position = "fixed";
-toast.style.bottom = "20px";
-toast.style.right = "20px";
-toast.style.background = "#111827";
-toast.style.color = "white";
-toast.style.padding = "14px 18px";
-toast.style.borderRadius = "14px";
-toast.style.zIndex = "999999";
-
-document.body.appendChild(toast);
-
-setTimeout(()=>{
-
-toast.remove();
-
-},3000);
-
-}
-
-/* =========================================
-   EXPORT FUNCTIONS
+   EXPORTS
 ========================================= */
 
 window.signupUser =
@@ -501,7 +553,7 @@ window.clearHistory =
 clearHistory;
 
 /* =========================================
-   END
+   READY
 ========================================= */
 
 console.log(
