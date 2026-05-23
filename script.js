@@ -1,42 +1,865 @@
-/* =========================================
+<!-- =========================================
 AGI ULTRA PRO v18 ENTERPRISE 🚀
-FULL FIXED ENTERPRISE SCRIPT
-ULTIMATE FINAL VERSION
-PWA + SIGNATURE + PURPOSE + MOBILE FIX
-========================================= */
+FULL FINAL FIXED INDEX.HTML
+PWA + STAMP + QR + LOGIN + HISTORY
+========================================= -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+AGI ULTRA PRO v18 AI 🚀
+</title>
+
+<meta
+name="theme-color"
+content="#020617">
+
+<link
+rel="manifest"
+href="./manifest.json">
+
+<link
+rel="icon"
+href="./launchericon-192x192.png">
+
+<link
+rel="stylesheet"
+href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;700&display=swap">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
 
 /* =========================================
-GLOBAL CONFIG
+RESET
 ========================================= */
 
-const AGI = {
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-premium:false,
-premiumCode:"INDIA49",
-docPrefix:"IND-AFF-",
-version:"v18 ENTERPRISE FINAL"
+body{
 
-};
+background:
+linear-gradient(
+135deg,
+#020617,
+#0f172a
+);
+
+font-family:'Inter',sans-serif;
+
+color:white;
+
+overflow-x:hidden;
+
+}
 
 /* =========================================
-GLOBAL VARIABLES
+TOPBAR
 ========================================= */
 
-let signaturePad = null;
+.topbar{
+
+padding:18px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+
+gap:16px;
+
+background:
+linear-gradient(
+135deg,
+#111827,
+#1e293b
+);
+
+border-bottom:
+1px solid rgba(255,255,255,.08);
+
+position:sticky;
+
+top:0;
+
+z-index:9999;
+
+}
+
+.logo h1{
+
+font-size:34px;
+font-weight:800;
+
+}
+
+.logo p{
+
+opacity:.8;
+margin-top:6px;
+
+}
+
+.top-actions{
+
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+
+}
+
+button{
+
+border:none;
+
+padding:14px 18px;
+
+border-radius:14px;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:.25s;
+
+color:white;
+
+}
+
+button:hover{
+
+transform:translateY(-2px);
+
+}
+
+.primary{
+background:#2563eb;
+}
+
+.green{
+background:#059669;
+}
+
+.orange{
+background:#ea580c;
+}
+
+.red{
+background:#dc2626;
+}
+
+.purple{
+background:#7c3aed;
+}
+
+/* =========================================
+MAIN
+========================================= */
+
+.main{
+
+max-width:1700px;
+
+margin:auto;
+
+padding:24px;
+
+display:grid;
+
+grid-template-columns:400px 1fr;
+
+gap:30px;
+
+}
+
+/* =========================================
+SIDEBAR
+========================================= */
+
+.sidebar{
+
+background:#111827;
+
+padding:25px;
+
+border-radius:24px;
+
+}
+
+/* =========================================
+INPUTS
+========================================= */
+
+.label{
+
+display:block;
+
+margin-top:16px;
+
+margin-bottom:8px;
+
+font-weight:700;
+
+}
+
+.input,
+.select,
+.textarea{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:#1f2937;
+
+color:white;
+
+font-size:14px;
+
+outline:none;
+
+}
+
+.textarea{
+
+min-height:120px;
+
+resize:vertical;
+
+}
+
+/* =========================================
+BUTTON GRID
+========================================= */
+
+.btn-grid{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:12px;
+
+margin-top:20px;
+
+}
+
+/* =========================================
+SIGNATURE
+========================================= */
+
+#signaturePad{
+
+width:100%;
+
+height:220px;
+
+background:white;
+
+border-radius:16px;
+
+margin-top:10px;
+
+}
+
+/* =========================================
+ANALYTICS
+========================================= */
+
+.analytics{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(180px,1fr));
+
+gap:20px;
+
+margin-bottom:25px;
+
+}
+
+.stat{
+
+background:#111827;
+
+padding:20px;
+
+border-radius:22px;
+
+text-align:center;
+
+}
+
+.stat h3{
+
+font-size:32px;
+
+margin-top:10px;
+
+}
+
+/* =========================================
+PREVIEW
+========================================= */
+
+.preview{
+
+background:white;
+
+color:#111827;
+
+border-radius:24px;
+
+padding:40px;
+
+min-height:1100px;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+/* =========================================
+WATERMARK
+========================================= */
+
+.watermark{
+
+position:absolute;
+
+top:50%;
+left:50%;
+
+transform:
+translate(-50%,-50%)
+rotate(-30deg);
+
+font-size:90px;
+
+font-weight:800;
+
+color:rgba(0,0,0,.04);
+
+pointer-events:none;
+
+}
+
+/* =========================================
+STAMP
+========================================= */
+
+.stamp{
+
+position:absolute;
+
+top:25px;
+right:25px;
+
+width:90px;
+height:90px;
+
+border:3px solid #dc2626;
+
+border-radius:50%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:22px;
+font-weight:800;
+
+color:#dc2626;
+
+transform:rotate(-15deg);
+
+}
+
+/* =========================================
+DOC
+========================================= */
+
+.doc-title{
+
+text-align:center;
+
+font-size:48px;
+
+font-family:
+'Cormorant Garamond',
+serif;
+
+margin-top:20px;
+
+}
+
+.doc-sub{
+
+text-align:center;
+
+margin-top:10px;
+
+margin-bottom:40px;
+
+letter-spacing:2px;
+
+}
+
+.doc-content{
+
+line-height:2;
+
+font-size:18px;
+
+}
+
+/* =========================================
+TOAST
+========================================= */
+
+.agi-toast{
+
+position:fixed;
+
+bottom:20px;
+left:20px;
+
+background:#111827;
+
+padding:14px 18px;
+
+border-radius:14px;
+
+z-index:999999;
+
+font-weight:700;
+
+}
+
+/* =========================================
+SUPPORT
+========================================= */
+
+#supportBtn{
+
+position:fixed;
+
+bottom:20px;
+right:20px;
+
+z-index:999999;
+
+background:#059669;
+
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+
+@media(max-width:1100px){
+
+.main{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.main{
+
+padding:14px;
+
+}
+
+.top-actions{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+width:100%;
+
+}
+
+.preview{
+
+padding:18px;
+
+}
+
+.doc-title{
+
+font-size:34px;
+
+}
+
+.watermark{
+
+font-size:50px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================================
+TOPBAR
+========================================= -->
+
+<div class="topbar">
+
+<div class="logo">
+
+<h1>
+⚖️ AGI ULTRA PRO v18 AI
+</h1>
+
+<p>
+Enterprise Legal SaaS Platform
+</p>
+
+</div>
+
+<div class="top-actions">
+
+<button
+class="green"
+onclick="generateQRCode()">
+QR
+</button>
+
+<button
+class="purple"
+onclick="shareWhatsApp()">
+WhatsApp
+</button>
+
+<button
+class="orange"
+onclick="downloadPDF()">
+PDF
+</button>
+
+<button
+class="primary"
+id="installAppBtn"
+onclick="triggerInstallApp()">
+📲 PWA
+</button>
+
+<button
+class="green"
+onclick="location.href='signup.html'">
+Signup
+</button>
+
+<button
+class="primary"
+onclick="location.href='login.html'">
+Login
+</button>
+
+<button
+class="orange"
+onclick="localStorage.clear();showToast('History Deleted ✔')">
+Delete History
+</button>
+
+<button
+class="red"
+onclick="logout()">
+Logout
+</button>
+
+<button
+class="red"
+onclick="location.href='premium.html'">
+⭐ Premium
+</button>
+
+</div>
+
+</div>
+
+<!-- =========================================
+MAIN
+========================================= -->
+
+<div class="main">
+
+<!-- =========================================
+FORM
+========================================= -->
+
+<div class="sidebar">
+
+<h2>
+Generate Affidavit
+</h2>
+
+<label class="label">
+Purpose
+</label>
+
+<select
+class="select"
+id="purposeType">
+
+<option>Name Change</option>
+<option>Marriage Affidavit</option>
+<option>Income Proof</option>
+<option>Property Declaration</option>
+<option>Business Declaration</option>
+<option>Educational Affidavit</option>
+<option>Custom Purpose</option>
+
+</select>
+
+<label class="label">
+Full Name
+</label>
+
+<input
+class="input"
+id="name">
+
+<label class="label">
+Father Name
+</label>
+
+<input
+class="input"
+id="father">
+
+<label class="label">
+Age
+</label>
+
+<input
+class="input"
+id="age">
+
+<label class="label">
+Address
+</label>
+
+<textarea
+class="textarea"
+id="address"></textarea>
+
+<label class="label">
+Stamp Amount
+</label>
+
+<select
+class="select"
+id="stampAmount">
+
+<option>₹10</option>
+<option>₹20</option>
+<option>₹50</option>
+<option>₹100</option>
+<option>₹200</option>
+
+</select>
+
+<label class="label">
+Details
+</label>
+
+<textarea
+class="textarea"
+id="details"></textarea>
+
+<label class="label">
+Signature
+</label>
+
+<canvas id="signaturePad"></canvas>
+
+<div class="btn-grid">
+
+<button
+class="orange"
+onclick="clearSignaturePad()">
+Clear Sign
+</button>
+
+<button
+class="primary"
+onclick="generateAffidavit()">
+Generate
+</button>
+
+<button
+class="green"
+onclick="downloadPDF()">
+PDF
+</button>
+
+<button
+class="purple"
+onclick="exportPNG()">
+PNG
+</button>
+
+</div>
+
+</div>
+
+<!-- =========================================
+PREVIEW
+========================================= -->
+
+<div>
+
+<div class="analytics">
+
+<div class="stat">
+📄
+<h3 id="totalDocs">
+0
+</h3>
+<p>Total Docs</p>
+</div>
+
+<div class="stat">
+⭐
+<h3>
+Premium
+</h3>
+<p>Enterprise</p>
+</div>
+
+<div class="stat">
+🤖
+<h3>
+AI
+</h3>
+<p>Smart Engine</p>
+</div>
+
+</div>
+
+<div class="preview">
+
+<div class="watermark">
+AGI ULTRA
+</div>
+
+<div id="previewArea">
+
+<div class="stamp">
+₹10
+</div>
+
+<div class="doc-title">
+AFFIDAVIT
+</div>
+
+<div class="doc-sub">
+BEFORE THE NOTARY PUBLIC
+</div>
+
+<div class="doc-content">
+
+<p>
+Your affidavit preview will appear here.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================================
+SUPPORT
+========================================= -->
+
+<button
+id="supportBtn">
+Support
+</button>
+
+<script>
+
+/* =========================================
+GLOBAL
+========================================= */
+
+let signaturePad;
 let deferredPrompt = null;
 
 /* =========================================
-GET ELEMENT VALUE
+SIGNATURE
 ========================================= */
 
-function getVal(id){
+function initializeSignaturePad(){
 
-const el =
-document.getElementById(id);
+const canvas =
+document.getElementById(
+"signaturePad"
+);
 
-if(!el) return "";
+signaturePad =
+new SignaturePad(canvas,{
 
-return String(el.value || "").trim();
+backgroundColor:"white",
+penColor:"black"
+
+});
+
+}
+
+function clearSignaturePad(){
+
+signaturePad.clear();
+
+showToast(
+"Signature Cleared ✔"
+);
 
 }
 
@@ -46,13 +869,6 @@ TOAST
 
 function showToast(msg){
 
-const oldToast =
-document.querySelector(".agi-toast");
-
-if(oldToast){
-oldToast.remove();
-}
-
 const toast =
 document.createElement("div");
 
@@ -60,19 +876,6 @@ toast.className =
 "agi-toast";
 
 toast.innerText = msg;
-
-toast.style.position = "fixed";
-toast.style.bottom = "20px";
-toast.style.left = "20px";
-toast.style.background = "#111827";
-toast.style.color = "white";
-toast.style.padding = "14px 18px";
-toast.style.borderRadius = "14px";
-toast.style.zIndex = "999999";
-toast.style.fontWeight = "700";
-toast.style.boxShadow =
-"0 10px 25px rgba(0,0,0,.3)";
-toast.style.maxWidth = "300px";
 
 document.body.appendChild(toast);
 
@@ -85,231 +888,33 @@ toast.remove();
 }
 
 /* =========================================
-LOADER
-========================================= */
-
-function showLoader(){
-
-const loader =
-document.getElementById(
-"globalLoader"
-);
-
-if(loader){
-
-loader.style.display =
-"flex";
-
-}
-
-}
-
-function hideLoader(){
-
-const loader =
-document.getElementById(
-"globalLoader"
-);
-
-if(loader){
-
-loader.style.display =
-"none";
-
-}
-
-}
-
-/* =========================================
-CLOCK
-========================================= */
-
-function startClock(){
-
-const clock =
-document.getElementById(
-"liveClock"
-);
-
-if(!clock) return;
-
-setInterval(()=>{
-
-clock.innerHTML =
-new Date()
-.toLocaleString();
-
-},1000);
-
-}
-
-/* =========================================
-SIGNATURE PAD PERFECT FIX
-========================================= */
-
-function resizeSignatureCanvas(){
-
-const canvas =
-document.getElementById(
-"signaturePad"
-);
-
-if(!canvas) return;
-
-const ratio =
-Math.max(window.devicePixelRatio || 1,1);
-
-canvas.width =
-canvas.offsetWidth * ratio;
-
-canvas.height =
-220 * ratio;
-
-canvas.style.width =
-"100%";
-
-canvas.style.height =
-"220px";
-
-const ctx =
-canvas.getContext("2d");
-
-ctx.scale(ratio,ratio);
-
-}
-
-function initializeSignaturePad(){
-
-const canvas =
-document.getElementById(
-"signaturePad"
-);
-
-if(
-canvas &&
-typeof SignaturePad !==
-"undefined"
-){
-
-resizeSignatureCanvas();
-
-signaturePad =
-new SignaturePad(canvas,{
-
-backgroundColor:
-"white",
-
-penColor:
-"black",
-
-minWidth:1,
-maxWidth:2.5
-
-});
-
-window.addEventListener(
-"resize",
-()=>{
-
-const data =
-signaturePad.toData();
-
-resizeSignatureCanvas();
-
-signaturePad.clear();
-
-signaturePad.fromData(data);
-
-});
-
-}
-
-}
-
-function clearSignaturePad(){
-
-if(signaturePad){
-
-signaturePad.clear();
-
-showToast(
-"Signature Cleared ✔"
-);
-
-}
-
-}
-
-/* =========================================
-DOC ID
-========================================= */
-
-function generateDocID(){
-
-const d =
-new Date()
-.toISOString()
-.slice(0,10)
-.replace(/-/g,"");
-
-const r =
-Math.random()
-.toString(36)
-.substring(2,7)
-.toUpperCase();
-
-return `${AGI.docPrefix}${d}-${r}`;
-
-}
-
-/* =========================================
-GENERATE AFFIDAVIT
+GENERATE
 ========================================= */
 
 function generateAffidavit(){
 
-try{
+const name =
+document.getElementById("name").value;
 
-showLoader();
+const father =
+document.getElementById("father").value;
 
-const preview =
-document.getElementById(
-"previewArea"
-);
+const age =
+document.getElementById("age").value;
 
-if(!preview){
+const address =
+document.getElementById("address").value;
 
-hideLoader();
+const details =
+document.getElementById("details").value;
 
-showToast(
-"Preview area missing ❌"
-);
+const purpose =
+document.getElementById("purposeType").value;
 
-return;
+const stamp =
+document.getElementById("stampAmount").value;
 
-}
-
-const data = {
-
-name:getVal("name"),
-father:getVal("father"),
-age:getVal("age"),
-address:getVal("address"),
-details:getVal("details"),
-place:getVal("place"),
-date:getVal("date"),
-purpose:getVal("purposeType"),
-lang:getVal("lang")
-
-};
-
-if(
-!data.name ||
-!data.father ||
-!data.age
-){
-
-hideLoader();
+if(!name || !father || !age){
 
 showToast(
 "Fill required fields ❌"
@@ -319,102 +924,59 @@ return;
 
 }
 
-const docID =
-generateDocID();
+let sign = "";
 
-let signatureHTML = "";
+if(!signaturePad.isEmpty()){
 
-if(
-signaturePad &&
-!signaturePad.isEmpty()
-){
-
-signatureHTML = `
-
-<div style="
-margin-top:30px;
-display:flex;
-justify-content:flex-start;
-align-items:flex-start;
-">
-
-<img
+sign =
+`<img
 src="${signaturePad.toDataURL()}"
-style="
-height:90px;
-max-width:240px;
-object-fit:contain;
-display:block;
-">
-
-</div>
-
-`;
+style="height:90px;">`;
 
 }
 
-preview.innerHTML = `
+document.getElementById(
+"previewArea"
+).innerHTML = `
 
 <div class="stamp">
-₹10
+${stamp}
 </div>
 
-<div class="meezan-logo">
-⚖️ MEEZAN LEGAL SERVICES
-</div>
-
-<div class="title">
+<div class="doc-title">
 AFFIDAVIT
 </div>
 
-<div class="subtitle">
+<div class="doc-sub">
 BEFORE THE NOTARY PUBLIC
 </div>
 
-<div class="preview-content">
+<div class="doc-content">
 
 <p>
-
 I,
-<b>${data.name}</b>,
+<b>${name}</b>,
 S/o
-<b>${data.father}</b>,
+<b>${father}</b>,
 aged about
-<b>${data.age}</b>
+<b>${age}</b>
 years,
 resident of
-<b>${data.address}</b>.
-
+<b>${address}</b>.
 </p>
 
 <p>
-
-${data.details || "Affidavit details not provided."}
-
-</p>
-
-<p>
-
 Purpose:
-<b>${data.purpose || "General Affidavit"}</b>
-
+<b>${purpose}</b>
 </p>
 
 <p>
-
-Place:
-<b>${data.place}</b>
-
+${details}
 </p>
 
-<p>
+<br><br>
 
-Date:
-<b>${data.date}</b>
-
-</p>
-
-${signatureHTML}
+${sign}
 
 <div id="qrCodeContainer"
 style="
@@ -424,52 +986,42 @@ justify-content:center;
 ">
 </div>
 
-<div class="doc-id">
-
-${docID}
-
-</div>
-
 </div>
 
 `;
 
-generateQRCode(docID);
+generateQRCode();
 
-saveHistory(
-docID,
-data.name,
-data.purpose,
-data.date
+let total =
+Number(
+localStorage.getItem(
+"totalDocs"
+) || 0
 );
 
-updateAnalytics();
+total++;
 
-hideLoader();
+localStorage.setItem(
+"totalDocs",
+total
+);
+
+document.getElementById(
+"totalDocs"
+).innerText =
+total;
 
 showToast(
 "Affidavit Generated ✔"
 );
 
-}catch(err){
-
-console.log(err);
-
-hideLoader();
-
-showToast(
-"Generation Failed ❌"
-);
-
-}
-
 }
 
 /* =========================================
-QR CODE
+QR
 ========================================= */
 
-function generateQRCode(docID){
+function generateQRCode(){
 
 const qr =
 document.getElementById(
@@ -480,22 +1032,9 @@ if(!qr) return;
 
 qr.innerHTML = "";
 
-if(typeof QRCode==="undefined"){
-
-showToast(
-"QR Library Missing ❌"
-);
-
-return;
-
-}
-
 new QRCode(qr,{
 
-text:
-location.origin +
-"/verify.html?id=" +
-docID,
+text:location.href,
 
 width:140,
 height:140
@@ -510,59 +1049,29 @@ PDF
 
 function downloadPDF(){
 
-const area =
+html2pdf()
+.from(
 document.getElementById(
 "previewArea"
+)
+)
+.save(
+"Affidavit.pdf"
 );
-
-if(!area){
-
-showToast(
-"Nothing to export ❌"
-);
-
-return;
-
-}
-
-html2pdf()
-.set({
-
-margin:5,
-filename:"Affidavit.pdf",
-image:{type:"jpeg",quality:1},
-html2canvas:{scale:2},
-jsPDF:{unit:"mm",format:"a4"}
-
-})
-.from(area)
-.save();
 
 }
 
 /* =========================================
-PNG EXPORT
+PNG
 ========================================= */
 
 function exportPNG(){
 
-const area =
+html2canvas(
 document.getElementById(
 "previewArea"
-);
-
-if(!area){
-
-showToast(
-"Nothing to export ❌"
-);
-
-return;
-
-}
-
-html2canvas(area)
-.then(canvas=>{
+)
+).then(canvas=>{
 
 const link =
 document.createElement("a");
@@ -585,238 +1094,54 @@ WHATSAPP
 
 function shareWhatsApp(){
 
-const area =
+const text =
 document.getElementById(
 "previewArea"
-);
-
-if(!area) return;
-
-const text =
-area.innerText;
+).innerText;
 
 window.open(
-
 `https://wa.me/?text=${encodeURIComponent(text)}`,
-
 "_blank"
-
 );
 
 }
 
 /* =========================================
-EMAIL
+LOGOUT
 ========================================= */
 
-function emailPDF(){
-
-window.location.href =
-"mailto:?subject=Affidavit";
-
-}
-
-/* =========================================
-VOICE INPUT
-========================================= */
-
-function startVoiceInput(){
-
-if(
-!("webkitSpeechRecognition"
-in window)
-){
+function logout(){
 
 showToast(
-"Voice not supported ❌"
+"Logged out ✔"
 );
 
-return;
+setTimeout(()=>{
+
+location.href =
+"login.html";
+
+},1000);
 
 }
 
-const recognition =
-new webkitSpeechRecognition();
-
-recognition.lang =
-"en-IN";
-
-recognition.start();
-
-recognition.onresult =
-function(event){
+/* =========================================
+SUPPORT
+========================================= */
 
 document.getElementById(
-"details"
-).value =
-event.results[0][0]
-.transcript;
+"supportBtn"
+).onclick = ()=>{
 
-showToast(
-"Voice Captured ✔"
+window.open(
+"https://wa.me/917780936452",
+"_blank"
 );
 
 };
 
-}
-
 /* =========================================
-AI QUICK
-========================================= */
-
-function generateAIQuickAffidavit(){
-
-const prompt =
-getVal("aiPrompt");
-
-if(!prompt){
-
-showToast(
-"Enter AI prompt ❌"
-);
-
-return;
-
-}
-
-document.getElementById(
-"details"
-).value =
-prompt;
-
-generateAffidavit();
-
-}
-
-/* =========================================
-LEGAL AI
-========================================= */
-
-function openLegalAI(){
-
-const box =
-document.getElementById(
-"legalAiBox"
-);
-
-if(!box) return;
-
-if(
-box.style.display === "block"
-){
-
-box.style.display = "none";
-
-}else{
-
-box.style.display = "block";
-
-}
-
-}
-
-function askLegalAI(){
-
-const q =
-getVal("legalQuestion");
-
-const res =
-document.getElementById(
-"legalAIResponse"
-);
-
-if(!q){
-
-showToast(
-"Enter question ❌"
-);
-
-return;
-
-}
-
-res.innerHTML = `
-
-<b>AI Legal Assistant:</b>
-
-<br><br>
-
-Legal guidance regarding:
-
-<br><br>
-
-"${q}"
-
-<br><br>
-
-Please verify with legal authority.
-
-`;
-
-}
-
-/* =========================================
-HISTORY
-========================================= */
-
-function saveHistory(
-id,
-name,
-purpose,
-date
-){
-
-let history =
-JSON.parse(
-localStorage.getItem(
-"agiHistory"
-) || "[]"
-);
-
-history.unshift({
-
-id,
-name,
-purpose,
-date
-
-});
-
-localStorage.setItem(
-
-"agiHistory",
-
-JSON.stringify(history)
-
-);
-
-}
-
-function updateAnalytics(){
-
-const total =
-JSON.parse(
-localStorage.getItem(
-"agiHistory"
-)||"[]"
-).length;
-
-const totalBox =
-document.getElementById(
-"totalDocs"
-);
-
-if(totalBox){
-
-totalBox.innerText =
-total;
-
-}
-
-}
-
-/* =========================================
-PWA INSTALL PERFECT FIX
+PWA
 ========================================= */
 
 window.addEventListener(
@@ -831,253 +1156,44 @@ showToast(
 "PWA Ready 🚀"
 );
 
-const installBtn =
-document.getElementById(
-"installAppBtn"
-);
-
-if(installBtn){
-
-installBtn.style.display =
-"block";
-
-installBtn.style.position =
-"fixed";
-
-installBtn.style.bottom =
-"90px";
-
-installBtn.style.right =
-"20px";
-
-installBtn.style.zIndex =
-"999999";
-
-}
-
 });
 
 async function triggerInstallApp(){
 
-try{
-
 if(!deferredPrompt){
 
 showToast(
-"Chrome → Add to Home Screen"
+"Use Chrome → Add to Home Screen"
 );
 
 return;
 
 }
 
-await deferredPrompt.prompt();
-
-const choice =
-await deferredPrompt.userChoice;
-
-if(choice.outcome === "accepted"){
-
-showToast(
-"PWA Installed ✔"
-);
-
-}else{
-
-showToast(
-"Install Cancelled"
-);
-
-}
-
-deferredPrompt = null;
-
-const installBtn =
-document.getElementById(
-"installAppBtn"
-);
-
-if(installBtn){
-
-installBtn.style.display =
-"none";
-
-}
-
-}catch(err){
-
-console.log(err);
-
-showToast(
-"PWA Failed ❌"
-);
-
-}
-
-}
-
-window.addEventListener(
-"appinstalled",
-()=>{
-
-showToast(
-"App Installed ✔"
-);
-
-});
-
-/* =========================================
-BACK BUTTON FIX
-========================================= */
-
-function goBackPage(){
-
-if(window.history.length > 1){
-
-window.history.back();
-
-}else{
-
-window.location.href =
-"./index.html";
-
-}
+deferredPrompt.prompt();
 
 }
 
 /* =========================================
-SUPPORT BUTTON
+LOAD
 ========================================= */
 
-function initializeSupport(){
-
-const supportBtn =
-document.getElementById(
-"supportBtn"
-);
-
-if(!supportBtn) return;
-
-supportBtn.style.position =
-"fixed";
-
-supportBtn.style.left =
-"15px";
-
-supportBtn.style.bottom =
-"15px";
-
-supportBtn.style.zIndex =
-"999999";
-
-supportBtn.addEventListener(
-"click",
-()=>{
-
-window.open(
-"https://wa.me/917780936452",
-"_blank"
-);
-
-});
-
-}
-
-/* =========================================
-ONLINE / OFFLINE
-========================================= */
-
-window.addEventListener(
-"offline",
-()=>{
-
-showToast(
-"Offline ⚠️"
-);
-
-});
-
-window.addEventListener(
-"online",
-()=>{
-
-showToast(
-"Back Online ✔"
-);
-
-});
-
-/* =========================================
-PREVENT BUTTON HIDE BUG
-========================================= */
-
-window.addEventListener(
-"scroll",
-()=>{
-
-const btn =
-document.querySelector(
-".main-generate"
-);
-
-if(btn){
-
-btn.style.opacity = "1";
-btn.style.visibility = "visible";
-btn.style.display = "block";
-
-}
-
-});
-
-/* =========================================
-ANALYTICS CARD CLICK FIX
-========================================= */
-
-window.addEventListener(
-"load",
-()=>{
-
-const cards =
-document.querySelectorAll(
-".analytics-box"
-);
-
-cards.forEach(card=>{
-
-card.style.cursor =
-"pointer";
-
-card.style.zIndex =
-"999";
-
-});
-
-});
-
-/* =========================================
-ON LOAD
-========================================= */
-
-window.addEventListener(
-"load",
-()=>{
+window.onload = ()=>{
 
 initializeSignaturePad();
 
-initializeSupport();
-
-startClock();
-
-hideLoader();
-
-updateAnalytics();
+document.getElementById(
+"totalDocs"
+).innerText =
+localStorage.getItem(
+"totalDocs"
+) || 0;
 
 showToast(
 "AGI ULTRA Ready 🚀"
 );
 
-});
+};
 
 /* =========================================
 SERVICE WORKER
@@ -1085,29 +1201,13 @@ SERVICE WORKER
 
 if("serviceWorker" in navigator){
 
-window.addEventListener(
-"load",
-async ()=>{
-
-try{
-
-await navigator.serviceWorker.register(
+navigator.serviceWorker.register(
 "./sw.js"
 );
 
-console.log(
-"SW Registered"
-);
-
-}catch(err){
-
-console.log(
-"SW Failed",
-err
-);
-
 }
 
-});
+</script>
 
-}
+</body>
+</html>
