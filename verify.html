@@ -1,6 +1,6 @@
 <!-- =========================================
 AGI ULTRA PRO v18 VERIFY 🚀
-ULTIMATE ENTERPRISE VERIFY SYSTEM
+FINAL FIXED ENTERPRISE VERIFY SYSTEM
 ========================================= -->
 
 <!DOCTYPE html>
@@ -10,26 +10,36 @@ ULTIMATE ENTERPRISE VERIFY SYSTEM
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
+<meta
+name="viewport"
 content="width=device-width, initial-scale=1.0">
 
 <title>
 AGI ULTRA PRO v18 VERIFY 🚀
 </title>
 
-<meta name="theme-color"
+<meta
+name="theme-color"
 content="#020617">
 
-<meta name="description"
+<meta
+name="description"
 content="Enterprise AI Legal Verification System">
 
-<link rel="manifest"
-href="manifest.json">
+<link
+rel="manifest"
+href="./manifest.json">
 
-<link rel="preconnect"
+<link
+rel="icon"
+href="./launchericon-192x192.png">
+
+<link
+rel="preconnect"
 href="https://fonts.googleapis.com">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
 rel="stylesheet">
 
 <style>
@@ -42,6 +52,11 @@ RESET
 margin:0;
 padding:0;
 box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+overflow-x:hidden;
 }
 
 body{
@@ -81,7 +96,7 @@ max-width:760px;
 background:
 rgba(255,255,255,.05);
 
-backdrop-filter:blur(12px);
+backdrop-filter:blur(14px);
 
 padding:40px;
 
@@ -327,8 +342,11 @@ BUTTONS
 margin-top:25px;
 
 display:flex;
+
 gap:14px;
+
 justify-content:center;
+
 flex-wrap:wrap;
 
 position:relative;
@@ -449,27 +467,27 @@ MOBILE
 @media(max-width:700px){
 
 .verify-box{
-
 padding:25px;
-
 }
 
 h2{
-
 font-size:22px;
-
 }
 
 .logo{
-
 font-size:28px;
-
 }
 
 .doc-card{
-
 padding:16px;
+}
 
+.actions{
+flex-direction:column;
+}
+
+.actions button{
+width:100%;
 }
 
 }
@@ -534,35 +552,40 @@ id="statusBar">
 
 <div class="actions">
 
-<button class="primary"
+<button
+class="primary"
 onclick="goHome()">
 
 🏠 Home
 
 </button>
 
-<button class="green"
+<button
+class="green"
 onclick="printPage()">
 
 🖨 Print
 
 </button>
 
-<button class="orange"
+<button
+class="orange"
 onclick="downloadResult()">
 
 📥 Save
 
 </button>
 
-<button class="purple"
+<button
+class="purple"
 onclick="copyDocID()">
 
 📋 Copy ID
 
 </button>
 
-<button class="red"
+<button
+class="red"
 onclick="scanAgain()">
 
 🔄 Verify Again
@@ -588,22 +611,30 @@ SERVICE WORKER
 if("serviceWorker" in navigator){
 
 navigator.serviceWorker.register(
-"sw.js"
+"./sw.js"
 );
 
 }
 
 /* =========================================
-GET URL ID
+GET URL PARAMS
 ========================================= */
 
-let currentID =
+const urlParams =
 new URLSearchParams(
 location.search
-).get("id");
+);
+
+let currentID =
+
+urlParams.get("id") ||
+
+urlParams.get("verify") ||
+
+"";
 
 /* =========================================
-RESULT BOX
+RESULT
 ========================================= */
 
 const result =
@@ -624,7 +655,7 @@ document.getElementById(
 }
 
 /* =========================================
-VERIFY FUNCTION
+VERIFY
 ========================================= */
 
 function verifyDocument(id){
@@ -662,8 +693,19 @@ localStorage.getItem(
 
 if(data){
 
-let d =
-JSON.parse(data);
+let d = {};
+
+try{
+
+d = JSON.parse(data);
+
+}catch(error){
+
+console.log(
+"Invalid JSON"
+);
+
+}
 
 result.innerHTML = `
 
@@ -772,6 +814,7 @@ MANUAL VERIFY
 function manualVerify(){
 
 const id =
+
 document.getElementById(
 "manualID"
 ).value.trim();
@@ -819,12 +862,13 @@ alert(
 }
 
 /* =========================================
-DOWNLOAD RESULT
+DOWNLOAD
 ========================================= */
 
 function downloadResult(){
 
 const blob =
+
 new Blob(
 [
 document.body.innerText
@@ -841,7 +885,12 @@ a.href =
 URL.createObjectURL(blob);
 
 a.download =
-"verification.txt";
+
+"verification-" +
+
+(currentID || "document") +
+
+".txt";
 
 a.click();
 
@@ -853,8 +902,8 @@ HOME
 
 function goHome(){
 
-location.href =
-"index.html";
+window.location.href =
+"./index.html";
 
 }
 
@@ -874,22 +923,57 @@ VERIFY AGAIN
 
 function scanAgain(){
 
-location.reload();
+window.location.href =
+"./verify.html";
 
 }
 
 /* =========================================
-LIVE STATUS
+LIVE TITLE
 ========================================= */
 
 setInterval(()=>{
 
 document.title =
+
 "VERIFY • " +
+
 new Date()
 .toLocaleTimeString();
 
 },1000);
+
+/* =========================================
+AUTO FOCUS
+========================================= */
+
+document.getElementById(
+"manualID"
+).focus();
+
+/* =========================================
+ONLINE STATUS
+========================================= */
+
+window.addEventListener(
+"offline",
+()=>{
+
+setStatus(
+"⚠ Offline Mode Active"
+);
+
+});
+
+window.addEventListener(
+"online",
+()=>{
+
+setStatus(
+"✅ Connection Restored"
+);
+
+});
 
 /* =========================================
 AUTO VERIFY
