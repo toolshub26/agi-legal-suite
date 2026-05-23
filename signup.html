@@ -5,17 +5,20 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
+<meta
+name="viewport"
 content="width=device-width, initial-scale=1.0">
 
 <title>
 AGI ULTRA PRO v18 SIGNUP 🚀
 </title>
 
-<link rel="preconnect"
+<link
+rel="preconnect"
 href="https://fonts.googleapis.com">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
 rel="stylesheet">
 
 <style>
@@ -38,7 +41,7 @@ background:
 linear-gradient(
 135deg,
 #020617,
-#0f172a
+#0f172a"
 );
 
 min-height:100vh;
@@ -384,7 +387,8 @@ AGI ULTRA PRO v18 AI 🚀
 FIREBASE
 ========================================= -->
 
-<script type="module"
+<script
+type="module"
 src="firebase.js"></script>
 
 <script>
@@ -410,12 +414,12 @@ async function signup(){
 const fullname =
 document.getElementById(
 "fullname"
-).value;
+).value.trim();
 
 const email =
 document.getElementById(
 "email"
-).value;
+).value.trim();
 
 const password =
 document.getElementById(
@@ -442,6 +446,16 @@ return;
 
 }
 
+if(password.length < 6){
+
+setStatus(
+"Password minimum 6 characters ❌"
+);
+
+return;
+
+}
+
 if(
 password !== confirmPassword
 ){
@@ -462,7 +476,8 @@ try{
 
 await window.signupUser(
 email,
-password
+password,
+fullname
 );
 
 localStorage.setItem(
@@ -470,8 +485,13 @@ localStorage.setItem(
 fullname
 );
 
+localStorage.setItem(
+"loggedUser",
+email
+);
+
 setStatus(
-"Account Created ✅"
+"Account Created Successfully ✅"
 );
 
 setTimeout(()=>{
@@ -482,6 +502,8 @@ location.href =
 },1500);
 
 }catch(error){
+
+console.error(error);
 
 setStatus(
 "Signup Failed ❌"
@@ -498,14 +520,20 @@ GOOGLE SIGNUP
 async function googleSignup(){
 
 setStatus(
-"Google Signup..."
+"Opening Google Signup..."
 );
 
 try{
 
 await window.loginWithGoogle();
 
+setStatus(
+"Google Signup Successful ✅"
+);
+
 }catch(error){
+
+console.error(error);
 
 setStatus(
 "Google Signup Failed ❌"
