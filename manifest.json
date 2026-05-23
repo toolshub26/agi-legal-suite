@@ -1,9 +1,7 @@
 {
   "name": "AGI ULTRA PRO v18 AI",
   "short_name": "AGI PRO",
-
-  "description": "AGI ULTRA PRO v18 AI Enterprise Legal SaaS Platform with Affidavit Generator, OCR Scanner, QR Verification, AI Legal Assistant, Cloud Backup, Premium Dashboard and PWA Support.",
-
+  "description": "AGI ULTRA PRO v18 Enterprise Legal SaaS Platform with Affidavit Generator, QR Verification, AI Assistant, Cloud Backup, Premium Dashboard and PWA Support.",
   "lang": "en",
   "dir": "ltr",
 
@@ -17,6 +15,7 @@
 
   "display_override": [
     "standalone",
+    "window-controls-overlay",
     "minimal-ui",
     "browser"
   ],
@@ -101,11 +100,8 @@
 
     {
       "name": "Generate Affidavit",
-
       "short_name": "Generate",
-
       "description": "Open affidavit generator instantly",
-
       "url": "./index.html#generate",
 
       "icons": [
@@ -119,11 +115,8 @@
 
     {
       "name": "Legal AI Assistant",
-
       "short_name": "Legal AI",
-
       "description": "Ask legal questions using AI",
-
       "url": "./index.html#legalai",
 
       "icons": [
@@ -137,11 +130,8 @@
 
     {
       "name": "Admin Dashboard",
-
       "short_name": "Admin",
-
       "description": "Open admin enterprise panel",
-
       "url": "./admin.html",
 
       "icons": [
@@ -155,11 +145,8 @@
 
     {
       "name": "Verify QR",
-
       "short_name": "Verify",
-
       "description": "Verify affidavit QR instantly",
-
       "url": "./verify.html",
 
       "icons": [
