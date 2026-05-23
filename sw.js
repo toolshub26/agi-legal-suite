@@ -1,13 +1,14 @@
 /* =========================================
 AGI ULTRA PRO v18 ENTERPRISE SW 🚀
-FINAL STABLE PWA + OFFLINE SYSTEM
+ULTIMATE FINAL STABLE PWA SYSTEM
+FREE + PREMIUM CACHE FIXED
 ========================================= */
 
 const CACHE_NAME =
-"agi-ultra-v18-enterprise-v3";
+"agi-ultra-v18-final-v10";
 
 /* =========================================
-FILES TO CACHE
+STATIC FILES
 ========================================= */
 
 const STATIC_ASSETS = [
@@ -15,14 +16,11 @@ const STATIC_ASSETS = [
 "./",
 "./index.html",
 "./premium.html",
-"./dashboard.html",
 "./verify.html",
 "./login.html",
 "./signup.html",
 
 "./manifest.json",
-"./firebase.js",
-"./style.css",
 
 "./launchericon-48x48.png",
 "./launchericon-72x72.png",
@@ -53,18 +51,22 @@ STATIC_ASSETS
 
 })
 
+.then(()=>{
+
+return self.skipWaiting();
+
+})
+
 .catch((error)=>{
 
 console.log(
-"Cache Install Error:",
+"SW INSTALL ERROR:",
 error
 );
 
 })
 
 );
-
-self.skipWaiting();
 
 }
 );
@@ -99,9 +101,13 @@ return caches.delete(key);
 
 })
 
-);
+.then(()=>{
 
-self.clients.claim();
+return self.clients.claim();
+
+})
+
+);
 
 }
 );
@@ -138,17 +144,49 @@ caches.match(event.request)
 
 .then((cachedResponse)=>{
 
+/* =========================================
+RETURN CACHE + UPDATE CACHE
+========================================= */
+
 if(cachedResponse){
+
+fetch(event.request)
+
+.then((freshResponse)=>{
+
+if(
+freshResponse &&
+freshResponse.status === 200
+){
+
+caches.open(CACHE_NAME)
+
+.then((cache)=>{
+
+cache.put(
+event.request,
+freshResponse.clone()
+);
+
+});
+
+}
+
+})
+
+.catch(()=>{});
 
 return cachedResponse;
 
 }
 
+/* =========================================
+NETWORK FETCH
+========================================= */
+
 return fetch(event.request)
 
 .then((networkResponse)=>{
-
-/* INVALID RESPONSE */
 
 if(
 !networkResponse ||
@@ -159,8 +197,6 @@ networkResponse.type !== "basic"
 return networkResponse;
 
 }
-
-/* SAVE CACHE */
 
 const responseClone =
 networkResponse.clone();
@@ -182,10 +218,13 @@ return networkResponse;
 
 .catch(()=>{
 
-/* FALLBACK */
+/* =========================================
+OFFLINE FALLBACK
+========================================= */
 
 if(
-event.request.headers.get("accept")
+event.request.headers
+.get("accept")
 .includes("text/html")
 ){
 
@@ -230,6 +269,14 @@ return caches.delete(key);
 
 );
 
+})
+
+.then(()=>{
+
+console.log(
+"ALL CACHE CLEARED 🚀"
+);
+
 });
 
 }
@@ -237,9 +284,9 @@ return caches.delete(key);
 });
 
 /* =========================================
-END
+READY
 ========================================= */
 
 console.log(
-"AGI ULTRA PWA READY 🚀"
+"AGI ULTRA FINAL PWA READY 🚀"
 );
