@@ -1,7 +1,7 @@
 <!-- =========================================
 AGI ULTRA PRO v18 ENTERPRISE 🚀
-FINAL COMPLETE INDEX.HTML
-70+ AFFIDAVIT PURPOSES + PWA + MOBILE FIX
+FINAL FIXED INDEX.HTML
+AUTH + DYNAMIC STAMP + PWA + HISTORY
 ========================================= -->
 
 <!DOCTYPE html>
@@ -53,10 +53,6 @@ href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&fa
 
 <style>
 
-/* =========================================
-RESET
-========================================= */
-
 *{
 margin:0;
 padding:0;
@@ -87,9 +83,7 @@ min-height:100vh;
 
 }
 
-/* =========================================
-TOPBAR
-========================================= */
+/* TOPBAR */
 
 .topbar{
 
@@ -123,10 +117,6 @@ border-bottom:
 
 }
 
-/* =========================================
-LOGO
-========================================= */
-
 .logo h1{
 
 font-size:30px;
@@ -142,10 +132,6 @@ opacity:.8;
 margin-top:6px;
 
 }
-
-/* =========================================
-BUTTONS
-========================================= */
 
 .top-actions{
 
@@ -201,9 +187,7 @@ background:#dc2626;
 background:#7c3aed;
 }
 
-/* =========================================
-MAIN
-========================================= */
+/* MAIN */
 
 .main{
 
@@ -223,9 +207,7 @@ align-items:start;
 
 }
 
-/* =========================================
-SIDEBAR
-========================================= */
+/* SIDEBAR */
 
 .sidebar{
 
@@ -241,9 +223,7 @@ top:110px;
 
 }
 
-/* =========================================
-INPUTS
-========================================= */
+/* INPUTS */
 
 .label{
 
@@ -287,9 +267,7 @@ resize:vertical;
 
 }
 
-/* =========================================
-BUTTON GRID
-========================================= */
+/* BUTTON GRID */
 
 .btn-grid{
 
@@ -305,9 +283,7 @@ margin-bottom:20px;
 
 }
 
-/* =========================================
-SIGNATURE
-========================================= */
+/* SIGNATURE */
 
 #signaturePad{
 
@@ -325,9 +301,7 @@ touch-action:none;
 
 }
 
-/* =========================================
-ANALYTICS
-========================================= */
+/* ANALYTICS */
 
 .analytics{
 
@@ -362,9 +336,7 @@ margin-top:10px;
 
 }
 
-/* =========================================
-PREVIEW
-========================================= */
+/* PREVIEW */
 
 .preview{
 
@@ -383,10 +355,6 @@ position:relative;
 overflow:hidden;
 
 }
-
-/* =========================================
-WATERMARK
-========================================= */
 
 .watermark{
 
@@ -409,9 +377,7 @@ pointer-events:none;
 
 }
 
-/* =========================================
-STAMP
-========================================= */
+/* STAMP */
 
 .stamp{
 
@@ -438,11 +404,25 @@ color:#dc2626;
 
 transform:rotate(-15deg);
 
+animation:pulse 2s infinite;
+
 }
 
-/* =========================================
-DOC
-========================================= */
+@keyframes pulse{
+
+0%{
+transform:rotate(-15deg) scale(1);
+}
+
+50%{
+transform:rotate(-15deg) scale(1.05);
+}
+
+100%{
+transform:rotate(-15deg) scale(1);
+}
+
+}
 
 .doc-title{
 
@@ -478,10 +458,6 @@ font-size:18px;
 
 }
 
-/* =========================================
-SIGNATURE FIX
-========================================= */
-
 .signature-box{
 
 margin-top:30px;
@@ -492,36 +468,25 @@ justify-content:flex-start;
 
 }
 
-/* =========================================
-RESPONSIVE
-========================================= */
+/* RESPONSIVE */
 
 @media(max-width:1100px){
 
 .main{
-
 grid-template-columns:1fr;
-
 }
 
 .sidebar{
-
 position:relative;
-
 top:0;
-
 }
 
 .btn-grid{
-
 grid-template-columns:1fr;
-
 }
 
 .preview{
-
 padding:20px;
-
 }
 
 }
@@ -529,31 +494,21 @@ padding:20px;
 @media(max-width:768px){
 
 .main{
-
 padding:14px;
-
 gap:20px;
-
 }
 
 .preview{
-
 padding:18px;
-
 min-height:auto;
-
 }
 
 .doc-title{
-
 font-size:32px;
-
 }
 
 .watermark{
-
 font-size:50px;
-
 }
 
 .top-actions{
@@ -575,6 +530,8 @@ gap:10px;
 </head>
 
 <body>
+
+<!-- TOPBAR -->
 
 <div class="topbar">
 
@@ -625,6 +582,38 @@ onclick="triggerInstallApp()">
 </button>
 
 <button
+class="green"
+onclick="window.location.href='signup.html'">
+
+Signup
+
+</button>
+
+<button
+class="primary"
+onclick="window.location.href='login.html'">
+
+Login
+
+</button>
+
+<button
+class="orange"
+onclick="deleteHistory()">
+
+Delete History
+
+</button>
+
+<button
+class="red"
+onclick="logoutUser()">
+
+Logout
+
+</button>
+
+<button
 class="red"
 onclick="window.location.href='premium.html'">
 
@@ -636,7 +625,11 @@ onclick="window.location.href='premium.html'">
 
 </div>
 
+<!-- MAIN -->
+
 <div class="main">
+
+<!-- SIDEBAR -->
 
 <div class="sidebar">
 
@@ -655,94 +648,9 @@ id="purposeType">
 <option>Name Change</option>
 <option>Marriage Affidavit</option>
 <option>Income Proof</option>
-<option>Birth Affidavit</option>
-<option>Address Proof</option>
-<option>Identity Proof</option>
-<option>Nationality Affidavit</option>
-<option>Character Certificate</option>
-<option>Religion Declaration</option>
-<option>Cast Certificate Affidavit</option>
-<option>Single Status Affidavit</option>
-<option>Family Member Certificate</option>
-<option>Minor Child Affidavit</option>
-<option>Parent Consent Affidavit</option>
-<option>Legal Heir Affidavit</option>
-<option>Succession Affidavit</option>
-<option>Family Settlement Affidavit</option>
-<option>Divorce Declaration</option>
-<option>Marriage Separation Affidavit</option>
-<option>Death Declaration</option>
-<option>Lost Document</option>
-<option>Document Correction</option>
-<option>Duplicate Marksheet Affidavit</option>
-<option>Passport Correction</option>
-<option>Aadhaar Correction</option>
-<option>PAN Card Correction</option>
-<option>Voter ID Correction</option>
-<option>Driving License Affidavit</option>
-<option>Police Lost Report</option>
-<option>Certificate Verification</option>
-<option>Educational Affidavit</option>
-<option>Gap Certificate</option>
-<option>Migration Certificate</option>
-<option>Scholarship Affidavit</option>
-<option>University Declaration</option>
-<option>Internship Affidavit</option>
-<option>College Admission Affidavit</option>
-<option>Exam Declaration</option>
-<option>Student Verification</option>
 <option>Property Declaration</option>
-<option>Land Ownership Affidavit</option>
-<option>Property Transfer Affidavit</option>
-<option>Tenant Verification</option>
-<option>House Rent Affidavit</option>
-<option>Rental Agreement</option>
-<option>Property Dispute Declaration</option>
-<option>Building Ownership</option>
-<option>House Possession Affidavit</option>
-<option>Business Declaration</option>
-<option>Company Declaration</option>
-<option>Business Partnership Affidavit</option>
-<option>GST Declaration</option>
-<option>Financial Declaration</option>
-<option>Loan Affidavit</option>
-<option>Shop Ownership Declaration</option>
-<option>Startup Declaration</option>
-<option>Trade License Affidavit</option>
-<option>Employment Affidavit</option>
-<option>Experience Certificate</option>
-<option>NOC Affidavit</option>
-<option>Salary Declaration</option>
-<option>Job Verification</option>
-<option>Resignation Declaration</option>
-<option>Bank Verification</option>
-<option>SIM Ownership Affidavit</option>
-<option>Mobile Number Verification</option>
-<option>ATM Card Loss Affidavit</option>
-<option>Cheque Book Declaration</option>
-<option>Electricity Bill Declaration</option>
-<option>Water Bill Declaration</option>
-<option>Gas Connection Affidavit</option>
-<option>Internet Connection Affidavit</option>
 <option>Court Declaration</option>
-<option>Court Case Declaration</option>
-<option>Police Verification</option>
-<option>Notary Declaration</option>
-<option>Bail Declaration</option>
-<option>Witness Affidavit</option>
-<option>Visa Affidavit</option>
-<option>Travel Consent Affidavit</option>
-<option>Immigration Affidavit</option>
-<option>Overseas Declaration</option>
-<option>Foreign Travel Declaration</option>
 <option>Vehicle Ownership</option>
-<option>Vehicle Sale Affidavit</option>
-<option>Vehicle Transfer Affidavit</option>
-<option>Medical Declaration</option>
-<option>Health Certificate Affidavit</option>
-<option>Domicile Affidavit</option>
-<option>Residence Certificate</option>
-<option>Affidavit of Support</option>
 <option>Custom Purpose</option>
 
 </select>
@@ -770,6 +678,25 @@ Age
 <input
 class="input"
 id="age">
+
+<!-- STAMP -->
+
+<label class="label">
+Stamp Amount
+</label>
+
+<select
+class="select"
+id="stampAmount">
+
+<option value="10">₹10</option>
+<option value="20">₹20</option>
+<option value="30">₹30</option>
+<option value="50">₹50</option>
+<option value="100">₹100</option>
+<option value="200">₹200</option>
+
+</select>
 
 <label class="label">
 Details
@@ -822,6 +749,8 @@ PNG
 </div>
 
 </div>
+
+<!-- RIGHT -->
 
 <div>
 
@@ -895,6 +824,8 @@ initializeSignaturePad();
 
 };
 
+/* SIGNATURE */
+
 function initializeSignaturePad(){
 
 const canvas =
@@ -949,6 +880,8 @@ signaturePad.clear();
 
 }
 
+/* GENERATE */
+
 function generateAffidavit(){
 
 const name =
@@ -976,19 +909,23 @@ document.getElementById(
 "purposeType"
 ).value;
 
-if(purpose === "Custom Purpose"){
+let stamp =
+document.getElementById(
+"stampAmount"
+).value;
 
-const customPurpose =
-prompt(
-"Enter Custom Affidavit Purpose"
-);
+/* AUTO STAMP */
 
-if(customPurpose){
-
-purpose = customPurpose;
-
+if(
+purpose.includes("Court")
+){
+stamp = "100";
 }
 
+if(
+purpose.includes("Property")
+){
+stamp = "200";
 }
 
 if(!name || !father || !age){
@@ -1013,7 +950,7 @@ document.getElementById(
 ).innerHTML = `
 
 <div class="stamp">
-₹10
+₹${stamp}
 </div>
 
 <div class="doc-title">
@@ -1086,6 +1023,8 @@ totalDocs;
 
 }
 
+/* QR */
+
 function generateQRCode(){
 
 const qr =
@@ -1109,6 +1048,8 @@ height:140
 
 }
 
+/* PDF */
+
 function downloadPDF(){
 
 html2pdf()
@@ -1122,6 +1063,8 @@ document.getElementById(
 );
 
 }
+
+/* PNG */
 
 function exportPNG(){
 
@@ -1146,6 +1089,8 @@ link.click();
 
 }
 
+/* WHATSAPP */
+
 function shareWhatsApp(){
 
 const text =
@@ -1159,6 +1104,8 @@ window.open(
 );
 
 }
+
+/* PWA */
 
 window.addEventListener(
 "beforeinstallprompt",
@@ -1190,6 +1137,39 @@ deferredPrompt = null;
 
 }
 
+/* DELETE HISTORY */
+
+function deleteHistory(){
+
+localStorage.clear();
+
+alert(
+"History Deleted 🗑️"
+);
+
+location.reload();
+
+}
+
+/* LOGOUT */
+
+function logoutUser(){
+
+localStorage.removeItem(
+"user"
+);
+
+alert(
+"Logged Out 🚪"
+);
+
+location.href =
+"login.html";
+
+}
+
+/* SERVICE WORKER */
+
 if("serviceWorker" in navigator){
 
 window.addEventListener(
@@ -1198,7 +1178,13 @@ window.addEventListener(
 
 navigator.serviceWorker.register(
 "./sw.js"
+).then(()=>{
+
+console.log(
+"PWA Ready 🚀"
 );
+
+});
 
 });
 
