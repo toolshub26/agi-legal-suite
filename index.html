@@ -1,6 +1,7 @@
 <!-- =========================================
 AGI ULTRA PRO v18 ENTERPRISE 🚀
-FINAL FULL FIXED INDEX.HTML
+FINAL COMPLETE FREE VERSION INDEX.HTML
+FREE + PREMIUM SEPARATED FIXED
 ========================================= -->
 
 <!DOCTYPE html>
@@ -10,29 +11,30 @@ FINAL FULL FIXED INDEX.HTML
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
+<meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
 <title>
-AGI ULTRA PRO v18 ENTERPRISE 🚀
+AGI ULTRA PRO v18 FREE 🚀
 </title>
 
-<meta
-name="theme-color"
+<meta name="theme-color"
 content="#020617">
 
-<link
-rel="manifest"
+<link rel="manifest"
 href="./manifest.json">
 
-<link
-rel="icon"
+<link rel="icon"
 href="./launchericon-192x192.png">
 
-<link
-rel="stylesheet"
-href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;700&display=swap">
+<link rel="apple-touch-icon"
+href="./launchericon-192x192.png">
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;700&display=swap"
+rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -56,8 +58,8 @@ overflow-x:hidden;
 }
 
 body{
-background:linear-gradient(135deg,#020617,#0f172a);
 font-family:'Inter',sans-serif;
+background:linear-gradient(135deg,#020617,#0f172a);
 color:white;
 overflow-x:hidden;
 min-height:100vh;
@@ -72,10 +74,10 @@ justify-content:space-between;
 align-items:center;
 flex-wrap:wrap;
 gap:16px;
+background:#111827;
 position:sticky;
 top:0;
 z-index:9999;
-background:linear-gradient(135deg,#111827,#1e293b);
 border-bottom:1px solid rgba(255,255,255,.08);
 }
 
@@ -85,8 +87,8 @@ font-weight:800;
 }
 
 .logo p{
-opacity:.8;
 margin-top:6px;
+opacity:.8;
 }
 
 .top-actions{
@@ -134,12 +136,11 @@ background:#111827;
 padding:25px;
 border-radius:24px;
 position:sticky;
-top:110px;
-max-height:calc(100vh - 130px);
-overflow-y:auto;
+top:100px;
+height:auto;
 }
 
-/* INPUTS */
+/* LABEL */
 
 .label{
 display:block;
@@ -147,6 +148,8 @@ margin-top:16px;
 margin-bottom:8px;
 font-weight:700;
 }
+
+/* INPUTS */
 
 .input,
 .select,
@@ -157,7 +160,7 @@ border:none;
 border-radius:14px;
 background:#1f2937;
 color:white;
-font-size:16px;
+font-size:14px;
 outline:none;
 }
 
@@ -166,17 +169,16 @@ min-height:110px;
 resize:vertical;
 }
 
-/* BUTTON GRID */
+/* GRID */
 
 .btn-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:12px;
 margin-top:20px;
-margin-bottom:20px;
 }
 
-/* SIGNATURE */
+/* SIGN */
 
 #signaturePad{
 width:100%;
@@ -184,8 +186,6 @@ height:180px;
 background:white;
 border-radius:16px;
 margin-top:10px;
-touch-action:none;
-max-width:100%;
 }
 
 /* ANALYTICS */
@@ -215,20 +215,10 @@ margin-top:10px;
 background:white;
 color:#111827;
 border-radius:24px;
-padding:20px;
-position:relative;
-overflow:hidden;
-}
-
-#previewArea{
-width:100%;
-max-width:794px;
-min-height:1123px;
-margin:auto;
-background:white;
 padding:40px;
-overflow:hidden;
 position:relative;
+overflow:hidden;
+min-height:1000px;
 }
 
 .watermark{
@@ -248,20 +238,20 @@ top:25px;
 right:25px;
 width:90px;
 height:90px;
-border:3px solid #dc2626;
+border:3px solid red;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
 font-size:20px;
 font-weight:800;
-color:#dc2626;
+color:red;
 transform:rotate(-15deg);
 }
 
 .doc-title{
 text-align:center;
-font-size:46px;
+font-size:50px;
 font-family:'Cormorant Garamond',serif;
 margin-top:20px;
 }
@@ -274,20 +264,14 @@ letter-spacing:2px;
 }
 
 .doc-content{
-line-height:1.6;
-font-size:16px;
-word-break:break-word;
+font-size:18px;
+line-height:2;
 }
 
 .signature-box{
 margin-top:30px;
 display:flex;
 justify-content:flex-start;
-}
-
-.signature-box img{
-max-width:180px;
-height:auto;
 }
 
 .doc-footer{
@@ -314,7 +298,6 @@ grid-template-columns:1fr;
 .sidebar{
 position:relative;
 top:0;
-max-height:none;
 }
 
 .btn-grid{
@@ -322,7 +305,8 @@ grid-template-columns:1fr;
 }
 
 .preview{
-padding:10px;
+padding:20px;
+min-height:auto;
 }
 
 }
@@ -331,15 +315,6 @@ padding:10px;
 
 .main{
 padding:14px;
-gap:20px;
-}
-
-.preview{
-padding:10px;
-}
-
-#previewArea{
-padding:20px;
 }
 
 .doc-title{
@@ -351,39 +326,9 @@ font-size:50px;
 }
 
 .top-actions{
-width:100%;
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:10px;
-}
-
-}
-
-/* PRINT */
-
-@media print{
-
-body *{
-visibility:hidden;
-}
-
-#previewArea,
-#previewArea *{
-visibility:visible;
-}
-
-#previewArea{
-position:absolute;
-left:0;
-top:0;
 width:100%;
-padding:20px;
-}
-
-.topbar,
-.sidebar,
-.analytics{
-display:none !important;
 }
 
 }
@@ -394,67 +339,61 @@ display:none !important;
 
 <body>
 
+<!-- TOPBAR -->
+
 <div class="topbar">
 
 <div class="logo">
 
 <h1>
-⚖️ AGI ULTRA PRO v18 AI
+⚖️ AGI ULTRA FREE
 </h1>
 
 <p>
-Enterprise Legal SaaS Platform
+Free Affidavit Generator
 </p>
 
 </div>
 
 <div class="top-actions">
 
-<button
-class="green"
-onclick="generateQRCode(lastDocId)">
-QR
-</button>
-
-<button
-class="purple"
-onclick="shareWhatsApp()">
-WhatsApp
-</button>
-
-<button
-class="orange"
+<button class="green"
 onclick="downloadPDF()">
 PDF
 </button>
 
-<button
-class="primary"
+<button class="purple"
+onclick="shareWhatsApp()">
+WhatsApp
+</button>
+
+<button class="orange"
+onclick="window.location.href='verify.html'">
+Verify
+</button>
+
+<button class="primary"
 onclick="window.location.href='login.html'">
 Login
 </button>
 
-<button
-class="green"
+<button class="green"
 onclick="window.location.href='signup.html'">
 Signup
 </button>
 
-<button
-class="red"
+<!-- FIXED PREMIUM BUTTON -->
+
+<button class="red"
 onclick="window.location.href='premium.html'">
 ⭐ Premium
 </button>
 
-<button
-class="orange"
-onclick="deleteHistory()">
-Delete History
-</button>
-
 </div>
 
 </div>
+
+<!-- MAIN -->
 
 <div class="main">
 
@@ -470,8 +409,7 @@ Generate Affidavit
 Language
 </label>
 
-<select
-class="select"
+<select class="select"
 id="lang">
 
 <option>English</option>
@@ -485,8 +423,7 @@ id="lang">
 Country
 </label>
 
-<select
-class="select"
+<select class="select"
 id="country">
 
 <option>India</option>
@@ -497,12 +434,13 @@ id="country">
 
 </select>
 
+<!-- FULL PURPOSES FIXED -->
+
 <label class="label">
 Purpose
 </label>
 
-<select
-class="select"
+<select class="select"
 id="purposeType">
 
 <option>Name Change Affidavit</option>
@@ -518,32 +456,22 @@ id="purposeType">
 <option>Property Declaration Affidavit</option>
 <option>Affidavit for Visa</option>
 <option>Affidavit for Loan</option>
-<option>Affidavit for GST</option>
-<option>Affidavit for PAN Card</option>
-<option>Affidavit for Aadhaar</option>
 <option>Affidavit for Bank</option>
-<option>Affidavit for FIR</option>
 <option>Affidavit for Court</option>
-<option>Affidavit for Scholarship</option>
-<option>Affidavit for Education</option>
 <option>Affidavit for Employment</option>
-<option>Affidavit for Salary</option>
 <option>Affidavit for Pension</option>
-<option>Affidavit for Electricity</option>
 <option>Affidavit for Driving License</option>
+<option>Affidavit for Minor Child</option>
 <option>Affidavit for Divorce</option>
-<option>Affidavit for Business</option>
-<option>Affidavit for Company</option>
+<option>Affidavit for Legal Heir</option>
 <option>Affidavit for Insurance</option>
+<option>Affidavit for Travel</option>
 <option>Affidavit for Immigration</option>
-<option>Affidavit for Character Certificate</option>
+<option>Affidavit for Internship</option>
 <option>Affidavit for Name Correction</option>
 <option>Affidavit for Address Change</option>
-<option>Affidavit for Religion Change</option>
 <option>Affidavit for Gender Change</option>
 <option>Affidavit for Partnership</option>
-<option>Affidavit for NGO</option>
-<option>Affidavit for Trust</option>
 <option>Affidavit for Criminal Case</option>
 <option>Affidavit for Civil Case</option>
 <option>Affidavit for Death Certificate</option>
@@ -551,12 +479,18 @@ id="purposeType">
 <option>Affidavit for Medical Claim</option>
 <option>Affidavit for Police Verification</option>
 <option>Affidavit for Rental Agreement</option>
+<option>Affidavit for Shop License</option>
 <option>Affidavit for Court Marriage</option>
 <option>Affidavit for Duplicate Certificate</option>
+<option>Affidavit for Duplicate Degree</option>
+<option>Affidavit for School Transfer</option>
+<option>Affidavit for College Admission</option>
 <option>Affidavit for Property Transfer</option>
+<option>Affidavit for Witness</option>
+<option>Affidavit for Online Fraud</option>
 <option>Affidavit for Vehicle Transfer</option>
 <option>Affidavit for Passport Renewal</option>
-<option>Custom Affidavit</option>
+<option>Affidavit for Foreign Travel</option>
 
 </select>
 
@@ -564,32 +498,35 @@ id="purposeType">
 Full Name
 </label>
 
-<input
-class="input"
+<input class="input"
 id="name">
 
 <label class="label">
 Father Name
 </label>
 
-<input
-class="input"
+<input class="input"
 id="father">
 
 <label class="label">
 Age
 </label>
 
-<input
-class="input"
+<input class="input"
 id="age">
+
+<label class="label">
+Address
+</label>
+
+<textarea class="textarea"
+id="address"></textarea>
 
 <label class="label">
 Details
 </label>
 
-<textarea
-class="textarea"
+<textarea class="textarea"
 id="details"></textarea>
 
 <label class="label">
@@ -600,26 +537,22 @@ Signature
 
 <div class="btn-grid">
 
-<button
-class="orange"
+<button class="orange"
 onclick="clearSignature()">
-Clear Sign
+Clear
 </button>
 
-<button
-class="primary"
+<button class="primary"
 onclick="generateAffidavit()">
 Generate
 </button>
 
-<button
-class="green"
+<button class="green"
 onclick="downloadPDF()">
 PDF
 </button>
 
-<button
-class="purple"
+<button class="purple"
 onclick="exportPNG()">
 PNG
 </button>
@@ -636,20 +569,22 @@ PNG
 
 <div class="stat">
 📄
-<h3 id="totalDocs">0</h3>
+<h3 id="totalDocs">
+0
+</h3>
 <p>Total Docs</p>
 </div>
 
 <div class="stat">
 ⭐
-<h3>Premium</h3>
-<p>Enterprise</p>
+<h3>FREE</h3>
+<p>Version</p>
 </div>
 
 <div class="stat">
 🤖
 <h3>AI</h3>
-<p>Smart Engine</p>
+<p>Enabled</p>
 </div>
 
 </div>
@@ -657,7 +592,7 @@ PNG
 <div class="preview">
 
 <div class="watermark">
-AGI ULTRA
+FREE VERSION
 </div>
 
 <div id="previewArea">
@@ -700,17 +635,15 @@ let lastDocId = "";
 
 window.onload = ()=>{
 
-initializeSignaturePad();
-loadHistory();
-
-};
-
-/* SIGNATURE */
-
-function initializeSignaturePad(){
-
 const canvas =
-document.getElementById("signaturePad");
+document.getElementById(
+"signaturePad"
+);
+
+canvas.width =
+canvas.offsetWidth;
+
+canvas.height = 180;
 
 signaturePad =
 new SignaturePad(canvas,{
@@ -718,7 +651,9 @@ backgroundColor:"white",
 penColor:"black"
 });
 
-}
+};
+
+/* SIGNATURE */
 
 function clearSignature(){
 signaturePad.clear();
@@ -746,6 +681,9 @@ document.getElementById("lang").value;
 const country =
 document.getElementById("country").value;
 
+const purpose =
+document.getElementById("purposeType").value;
+
 const name =
 document.getElementById("name").value;
 
@@ -755,87 +693,44 @@ document.getElementById("father").value;
 const age =
 document.getElementById("age").value;
 
+const address =
+document.getElementById("address").value;
+
 const details =
 document.getElementById("details").value;
-
-const purpose =
-document.getElementById("purposeType").value;
 
 if(!name || !father || !age){
 
 alert("Fill required fields ❌");
+
 return;
 
 }
 
 let affidavitText = "";
-let textDirection = "ltr";
 
 if(lang==="Urdu"){
 
-textDirection = "rtl";
-
-affidavitText = `
-میں ${name} ولد ${father}
-عمر ${age} سال
-یہ حلفیہ بیان دیتا ہوں کہ:
-
-1۔ یہ بیان ${purpose} کے لئے دیا جا رہا ہے۔
-
-2۔ ${details}
-
-3۔ تمام معلومات درست ہیں۔
-`;
+affidavitText =
+`میں ${name} ولد ${father} عمر ${age} سال حلفیہ بیان دیتا ہوں۔`;
 
 }
 else if(lang==="Hindi"){
 
-affidavitText = `
-मैं ${name},
-पिता ${father},
-उम्र ${age} वर्ष
-शपथपूर्वक घोषणा करता हूँ कि:
-
-1. यह शपथ पत्र ${purpose} हेतु दिया जा रहा है।
-
-2. ${details}
-
-3. सभी जानकारी सत्य है।
-`;
+affidavitText =
+`मैं ${name}, पिता ${father}, उम्र ${age} वर्ष शपथपूर्वक घोषणा करता हूँ।`;
 
 }
 else if(lang==="Arabic"){
 
-textDirection = "rtl";
-
-affidavitText = `
-أنا ${name}
-ابن ${father}
-وعمري ${age} سنة
-أقر بما يلي:
-
-1. تم إصدار هذا الإقرار لغرض ${purpose}
-
-2. ${details}
-
-3. جميع المعلومات صحيحة.
-`;
+affidavitText =
+`أنا ${name} ابن ${father} أقر بأن عمري ${age} سنة.`;
 
 }
 else{
 
-affidavitText = `
-I, ${name},
-S/o ${father},
-aged about ${age} years,
-do hereby solemnly affirm:
-
-1. This affidavit is submitted for ${purpose}.
-
-2. ${details}
-
-3. All statements are true and correct.
-`;
+affidavitText =
+`I, ${name}, S/o ${father}, aged about ${age} years, resident of ${address}, do hereby solemnly affirm and declare as under.`;
 
 }
 
@@ -851,7 +746,9 @@ generateDocID();
 
 lastDocId = docID;
 
-document.getElementById("previewArea").innerHTML = `
+document.getElementById(
+"previewArea"
+).innerHTML = `
 
 <div class="stamp">
 ₹10
@@ -865,11 +762,10 @@ AFFIDAVIT
 BEFORE THE NOTARY PUBLIC
 </div>
 
-<div class="doc-content"
-dir="${textDirection}">
+<div class="doc-content">
 
 <p>
-${affidavitText.replace(/\n/g,"<br>")}
+${affidavitText}
 </p>
 
 <p>
@@ -877,21 +773,30 @@ ${affidavitText.replace(/\n/g,"<br>")}
 ${country}
 </p>
 
-<div class="signature-box">
+<p>
+<b>Purpose:</b>
+${purpose}
+</p>
+
+<p>
+${details}
+</p>
 
 ${
 signature
 ?
-`<img
-src="${signature}">
+`
+<div class="signature-box">
+<img src="${signature}"
+style="height:90px;">
+</div>
 `
 :
 ""
 }
 
+<div id="qrCodeContainer">
 </div>
-
-<div id="qrCodeContainer"></div>
 
 <div class="doc-footer">
 
@@ -899,7 +804,7 @@ ${docID}
 
 <br><br>
 
-Powered by AGI ULTRA PRO v18
+Powered by AGI ULTRA FREE
 
 </div>
 
@@ -919,45 +824,12 @@ date:new Date().toLocaleDateString()
 })
 );
 
-saveHistory(docID,name);
-
 totalDocs++;
 
-document.getElementById("totalDocs").innerText =
+document.getElementById(
+"totalDocs"
+).innerText =
 totalDocs;
-
-}
-
-/* HISTORY */
-
-function saveHistory(id,name){
-
-let history =
-JSON.parse(
-localStorage.getItem("agiHistory") || "[]"
-);
-
-history.unshift({
-id,
-name
-});
-
-localStorage.setItem(
-"agiHistory",
-JSON.stringify(history)
-);
-
-}
-
-function loadHistory(){
-
-let history =
-JSON.parse(
-localStorage.getItem("agiHistory") || "[]"
-);
-
-document.getElementById("totalDocs").innerText =
-history.length;
 
 }
 
@@ -966,9 +838,9 @@ history.length;
 function generateQRCode(docID){
 
 const qr =
-document.getElementById("qrCodeContainer");
-
-if(!qr) return;
+document.getElementById(
+"qrCodeContainer"
+);
 
 qr.innerHTML = "";
 
@@ -987,44 +859,15 @@ height:140
 
 function downloadPDF(){
 
-const element =
+html2pdf()
+.from(
 document.getElementById(
 "previewArea"
+)
+)
+.save(
+"Affidavit.pdf"
 );
-
-const options = {
-
-margin:0,
-
-filename:
-"Affidavit.pdf",
-
-image:{
-type:"jpeg",
-quality:1
-},
-
-html2canvas:{
-scale:2,
-useCORS:true
-},
-
-jsPDF:{
-unit:"pt",
-format:"a4",
-orientation:"portrait"
-},
-
-pagebreak:{
-mode:["avoid-all"]
-}
-
-};
-
-html2pdf()
-.set(options)
-.from(element)
-.save();
 
 }
 
@@ -1033,7 +876,9 @@ html2pdf()
 function exportPNG(){
 
 html2canvas(
-document.getElementById("previewArea")
+document.getElementById(
+"previewArea"
+)
 ).then(canvas=>{
 
 const link =
@@ -1051,29 +896,19 @@ link.click();
 
 }
 
-/* WHATSAPP */
+/* SHARE */
 
 function shareWhatsApp(){
 
 const text =
-document.getElementById("previewArea").innerText;
+document.getElementById(
+"previewArea"
+).innerText;
 
 window.open(
 `https://wa.me/?text=${encodeURIComponent(text)}`,
 "_blank"
 );
-
-}
-
-/* DELETE */
-
-function deleteHistory(){
-
-localStorage.removeItem("agiHistory");
-
-alert("History Deleted 🗑️");
-
-location.reload();
 
 }
 
