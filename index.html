@@ -1,7 +1,6 @@
 <!-- =========================================
 AGI ULTRA PRO v18 ENTERPRISE 🚀
 FINAL FULL FIXED INDEX.HTML
-MULTILINGUAL + COUNTRY + PREMIUM FIX
 ========================================= -->
 
 <!DOCTYPE html>
@@ -29,10 +28,6 @@ href="./manifest.json">
 
 <link
 rel="icon"
-href="./launchericon-192x192.png">
-
-<link
-rel="apple-touch-icon"
 href="./launchericon-192x192.png">
 
 <link
@@ -140,6 +135,8 @@ padding:25px;
 border-radius:24px;
 position:sticky;
 top:110px;
+max-height:calc(100vh - 130px);
+overflow-y:auto;
 }
 
 /* INPUTS */
@@ -160,7 +157,7 @@ border:none;
 border-radius:14px;
 background:#1f2937;
 color:white;
-font-size:14px;
+font-size:16px;
 outline:none;
 }
 
@@ -188,6 +185,7 @@ background:white;
 border-radius:16px;
 margin-top:10px;
 touch-action:none;
+max-width:100%;
 }
 
 /* ANALYTICS */
@@ -217,9 +215,20 @@ margin-top:10px;
 background:white;
 color:#111827;
 border-radius:24px;
-padding:40px;
+padding:20px;
 position:relative;
 overflow:hidden;
+}
+
+#previewArea{
+width:100%;
+max-width:794px;
+min-height:1123px;
+margin:auto;
+background:white;
+padding:40px;
+overflow:hidden;
+position:relative;
 }
 
 .watermark{
@@ -265,14 +274,20 @@ letter-spacing:2px;
 }
 
 .doc-content{
-line-height:1.8;
-font-size:18px;
+line-height:1.6;
+font-size:16px;
+word-break:break-word;
 }
 
 .signature-box{
 margin-top:30px;
 display:flex;
 justify-content:flex-start;
+}
+
+.signature-box img{
+max-width:180px;
+height:auto;
 }
 
 .doc-footer{
@@ -299,6 +314,7 @@ grid-template-columns:1fr;
 .sidebar{
 position:relative;
 top:0;
+max-height:none;
 }
 
 .btn-grid{
@@ -306,7 +322,7 @@ grid-template-columns:1fr;
 }
 
 .preview{
-padding:20px;
+padding:10px;
 }
 
 }
@@ -319,7 +335,11 @@ gap:20px;
 }
 
 .preview{
-padding:18px;
+padding:10px;
+}
+
+#previewArea{
+padding:20px;
 }
 
 .doc-title{
@@ -339,13 +359,40 @@ gap:10px;
 
 }
 
+/* PRINT */
+
+@media print{
+
+body *{
+visibility:hidden;
+}
+
+#previewArea,
+#previewArea *{
+visibility:visible;
+}
+
+#previewArea{
+position:absolute;
+left:0;
+top:0;
+width:100%;
+padding:20px;
+}
+
+.topbar,
+.sidebar,
+.analytics{
+display:none !important;
+}
+
+}
+
 </style>
 
 </head>
 
 <body>
-
-<!-- TOPBAR -->
 
 <div class="topbar">
 
@@ -383,8 +430,8 @@ PDF
 
 <button
 class="primary"
-onclick="triggerInstallApp()">
-📲 PWA
+onclick="window.location.href='login.html'">
+Login
 </button>
 
 <button
@@ -394,9 +441,9 @@ Signup
 </button>
 
 <button
-class="primary"
-onclick="window.location.href='login.html'">
-Login
+class="red"
+onclick="window.location.href='premium.html'">
+⭐ Premium
 </button>
 
 <button
@@ -405,23 +452,9 @@ onclick="deleteHistory()">
 Delete History
 </button>
 
-<button
-class="red"
-onclick="logoutUser()">
-Logout
-</button>
-
-<button
-class="red"
-onclick="window.location.href='premium.html'">
-⭐ Premium
-</button>
-
 </div>
 
 </div>
-
-<!-- MAIN -->
 
 <div class="main">
 
@@ -472,13 +505,58 @@ Purpose
 class="select"
 id="purposeType">
 
-<option>Name Change</option>
+<option>Name Change Affidavit</option>
+<option>Address Proof Affidavit</option>
+<option>Birth Affidavit</option>
 <option>Marriage Affidavit</option>
-<option>Income Proof</option>
-<option>Property Declaration</option>
-<option>Court Declaration</option>
-<option>Vehicle Ownership</option>
-<option>Custom Purpose</option>
+<option>Income Proof Affidavit</option>
+<option>Passport Affidavit</option>
+<option>Nationality Affidavit</option>
+<option>Gap Certificate Affidavit</option>
+<option>Lost Document Affidavit</option>
+<option>Vehicle Ownership Affidavit</option>
+<option>Property Declaration Affidavit</option>
+<option>Affidavit for Visa</option>
+<option>Affidavit for Loan</option>
+<option>Affidavit for GST</option>
+<option>Affidavit for PAN Card</option>
+<option>Affidavit for Aadhaar</option>
+<option>Affidavit for Bank</option>
+<option>Affidavit for FIR</option>
+<option>Affidavit for Court</option>
+<option>Affidavit for Scholarship</option>
+<option>Affidavit for Education</option>
+<option>Affidavit for Employment</option>
+<option>Affidavit for Salary</option>
+<option>Affidavit for Pension</option>
+<option>Affidavit for Electricity</option>
+<option>Affidavit for Driving License</option>
+<option>Affidavit for Divorce</option>
+<option>Affidavit for Business</option>
+<option>Affidavit for Company</option>
+<option>Affidavit for Insurance</option>
+<option>Affidavit for Immigration</option>
+<option>Affidavit for Character Certificate</option>
+<option>Affidavit for Name Correction</option>
+<option>Affidavit for Address Change</option>
+<option>Affidavit for Religion Change</option>
+<option>Affidavit for Gender Change</option>
+<option>Affidavit for Partnership</option>
+<option>Affidavit for NGO</option>
+<option>Affidavit for Trust</option>
+<option>Affidavit for Criminal Case</option>
+<option>Affidavit for Civil Case</option>
+<option>Affidavit for Death Certificate</option>
+<option>Affidavit for Domicile</option>
+<option>Affidavit for Medical Claim</option>
+<option>Affidavit for Police Verification</option>
+<option>Affidavit for Rental Agreement</option>
+<option>Affidavit for Court Marriage</option>
+<option>Affidavit for Duplicate Certificate</option>
+<option>Affidavit for Property Transfer</option>
+<option>Affidavit for Vehicle Transfer</option>
+<option>Affidavit for Passport Renewal</option>
+<option>Custom Affidavit</option>
 
 </select>
 
@@ -505,23 +583,6 @@ Age
 <input
 class="input"
 id="age">
-
-<label class="label">
-Stamp Amount
-</label>
-
-<select
-class="select"
-id="stampAmount">
-
-<option value="10">₹10</option>
-<option value="20">₹20</option>
-<option value="30">₹30</option>
-<option value="50">₹50</option>
-<option value="100">₹100</option>
-<option value="200">₹200</option>
-
-</select>
 
 <label class="label">
 Details
@@ -633,7 +694,6 @@ Your affidavit preview will appear here.
 
 let signaturePad;
 let totalDocs = 0;
-let deferredPrompt = null;
 let lastDocId = "";
 
 /* LOAD */
@@ -652,36 +712,11 @@ function initializeSignaturePad(){
 const canvas =
 document.getElementById("signaturePad");
 
-resizeCanvas();
-
 signaturePad =
 new SignaturePad(canvas,{
 backgroundColor:"white",
 penColor:"black"
 });
-
-window.addEventListener(
-"resize",
-resizeCanvas
-);
-
-}
-
-function resizeCanvas(){
-
-const canvas =
-document.getElementById("signaturePad");
-
-const ratio =
-Math.max(window.devicePixelRatio || 1,1);
-
-canvas.width =
-canvas.offsetWidth * ratio;
-
-canvas.height =
-180 * ratio;
-
-canvas.getContext("2d").scale(ratio,ratio);
 
 }
 
@@ -723,52 +758,84 @@ document.getElementById("age").value;
 const details =
 document.getElementById("details").value;
 
-let purpose =
+const purpose =
 document.getElementById("purposeType").value;
-
-let stamp =
-document.getElementById("stampAmount").value;
-
-if(purpose.includes("Court")){
-stamp = "100";
-}
-
-if(purpose.includes("Property")){
-stamp = "200";
-}
 
 if(!name || !father || !age){
 
 alert("Fill required fields ❌");
-
 return;
 
 }
 
 let affidavitText = "";
+let textDirection = "ltr";
 
 if(lang==="Urdu"){
 
-affidavitText =
-`میں ${name} ولد ${father} عمر ${age} سال حلفیہ بیان دیتا ہوں۔`;
+textDirection = "rtl";
+
+affidavitText = `
+میں ${name} ولد ${father}
+عمر ${age} سال
+یہ حلفیہ بیان دیتا ہوں کہ:
+
+1۔ یہ بیان ${purpose} کے لئے دیا جا رہا ہے۔
+
+2۔ ${details}
+
+3۔ تمام معلومات درست ہیں۔
+`;
 
 }
 else if(lang==="Hindi"){
 
-affidavitText =
-`मैं ${name}, पिता ${father}, उम्र ${age} वर्ष शपथपूर्वक घोषणा करता हूँ।`;
+affidavitText = `
+मैं ${name},
+पिता ${father},
+उम्र ${age} वर्ष
+शपथपूर्वक घोषणा करता हूँ कि:
+
+1. यह शपथ पत्र ${purpose} हेतु दिया जा रहा है।
+
+2. ${details}
+
+3. सभी जानकारी सत्य है।
+`;
 
 }
 else if(lang==="Arabic"){
 
-affidavitText =
-`أنا ${name} ابن ${father} أقر بأن عمري ${age} سنة.`;
+textDirection = "rtl";
+
+affidavitText = `
+أنا ${name}
+ابن ${father}
+وعمري ${age} سنة
+أقر بما يلي:
+
+1. تم إصدار هذا الإقرار لغرض ${purpose}
+
+2. ${details}
+
+3. جميع المعلومات صحيحة.
+`;
 
 }
 else{
 
-affidavitText =
-`I, ${name}, S/o ${father}, aged about ${age} years, do hereby solemnly affirm.`;
+affidavitText = `
+I, ${name},
+S/o ${father},
+aged about ${age} years,
+do hereby solemnly affirm:
+
+1. This affidavit is submitted for ${purpose}.
+
+2. ${details}
+
+3. All statements are true and correct.
+`;
 
 }
 
@@ -787,7 +854,7 @@ lastDocId = docID;
 document.getElementById("previewArea").innerHTML = `
 
 <div class="stamp">
-₹${stamp}
+₹10
 </div>
 
 <div class="doc-title">
@@ -798,24 +865,16 @@ AFFIDAVIT
 BEFORE THE NOTARY PUBLIC
 </div>
 
-<div class="doc-content">
+<div class="doc-content"
+dir="${textDirection}">
 
 <p>
-${affidavitText}
+${affidavitText.replace(/\n/g,"<br>")}
 </p>
 
 <p>
-Country:
-<b>${country}</b>
-</p>
-
-<p>
-Purpose:
-<b>${purpose}</b>
-</p>
-
-<p>
-${details}
+<b>Country:</b>
+${country}
 </p>
 
 <div class="signature-box">
@@ -824,12 +883,8 @@ ${
 signature
 ?
 `<img
-src="${signature}"
-style="
-height:90px;
-max-width:220px;
-object-fit:contain;
-">`
+src="${signature}">
+`
 :
 ""
 }
@@ -932,17 +987,43 @@ height:140
 
 function downloadPDF(){
 
+const element =
+document.getElementById(
+"previewArea"
+);
+
+const options = {
+
+margin:0,
+
+filename:
+"Affidavit.pdf",
+
+image:{
+type:"jpeg",
+quality:1
+},
+
+html2canvas:{
+scale:2,
+useCORS:true
+},
+
+jsPDF:{
+unit:"pt",
+format:"a4",
+orientation:"portrait"
+},
+
+pagebreak:{
+mode:["avoid-all"]
+}
+
+};
+
 html2pdf()
-.set({
-margin:5,
-filename:"Affidavit.pdf",
-image:{type:"jpeg",quality:1},
-html2canvas:{scale:2},
-jsPDF:{unit:"mm",format:"a4"}
-})
-.from(
-document.getElementById("previewArea")
-)
+.set(options)
+.from(element)
 .save();
 
 }
@@ -984,78 +1065,15 @@ window.open(
 
 }
 
-/* PWA */
-
-window.addEventListener(
-"beforeinstallprompt",
-(e)=>{
-
-e.preventDefault();
-
-deferredPrompt = e;
-
-});
-
-async function triggerInstallApp(){
-
-if(!deferredPrompt){
-
-alert(
-"Chrome → Add to Home Screen"
-);
-
-return;
-
-}
-
-await deferredPrompt.prompt();
-
-await deferredPrompt.userChoice;
-
-deferredPrompt = null;
-
-}
-
 /* DELETE */
 
 function deleteHistory(){
 
-localStorage.clear();
+localStorage.removeItem("agiHistory");
 
 alert("History Deleted 🗑️");
 
 location.reload();
-
-}
-
-/* LOGOUT */
-
-function logoutUser(){
-
-localStorage.removeItem("user");
-
-alert("Logged Out 🚪");
-
-location.href = "login.html";
-
-}
-
-/* SERVICE WORKER */
-
-if("serviceWorker" in navigator){
-
-window.addEventListener(
-"load",
-()=>{
-
-navigator.serviceWorker.register("./sw.js")
-.then(()=>{
-
-console.log("PWA Ready 🚀");
-
-});
-
-});
 
 }
 
