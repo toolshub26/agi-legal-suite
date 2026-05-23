@@ -1,7 +1,7 @@
 <!-- =========================================
 AGI ULTRA PRO v18 ENTERPRISE 🚀
 FINAL COMPLETE FREE VERSION INDEX.HTML
-FULLY FIXED + 100+ PURPOSES + PRINT FIX
+FULLY FIXED + RESPONSIVE + PRINT FIX
 ========================================= -->
 
 <!DOCTYPE html>
@@ -140,16 +140,12 @@ top:100px;
 height:auto;
 }
 
-/* LABEL */
-
 .label{
 display:block;
 margin-top:16px;
 margin-bottom:8px;
 font-weight:700;
 }
-
-/* INPUTS */
 
 .input,
 .select,
@@ -169,16 +165,12 @@ min-height:120px;
 resize:vertical;
 }
 
-/* GRID */
-
 .btn-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:12px;
 margin-top:20px;
 }
-
-/* SIGN */
 
 #signaturePad{
 width:100%;
@@ -219,7 +211,7 @@ border-radius:24px;
 padding:50px;
 position:relative;
 overflow:hidden;
-min-height:1200px;
+min-height:950px;
 }
 
 .watermark{
@@ -252,7 +244,9 @@ transform:rotate(-15deg);
 
 .doc-title{
 text-align:center;
-font-size:50px;
+font-size:42px;
+line-height:1.2;
+word-break:break-word;
 font-family:'Cormorant Garamond',serif;
 margin-top:20px;
 }
@@ -311,6 +305,10 @@ color:#111827;
 
 @media print{
 
+body{
+background:white !important;
+}
+
 body *{
 visibility:hidden;
 }
@@ -325,8 +323,9 @@ position:absolute;
 left:0;
 top:0;
 width:100%;
-padding:20px;
+padding:25px;
 background:white;
+color:black;
 }
 
 .topbar,
@@ -335,9 +334,16 @@ background:white;
 display:none !important;
 }
 
+.preview{
+box-shadow:none;
+min-height:auto;
+padding:0;
+margin:0;
 }
 
-/* RESPONSIVE */
+}
+
+/* MOBILE */
 
 @media(max-width:1100px){
 
@@ -368,7 +374,19 @@ padding:14px;
 }
 
 .doc-title{
-font-size:32px;
+font-size:30px;
+line-height:1.2;
+}
+
+.doc-content{
+font-size:16px;
+line-height:1.8;
+}
+
+.stamp{
+width:75px;
+height:75px;
+font-size:18px;
 }
 
 .watermark{
@@ -392,8 +410,6 @@ padding:18px;
 </head>
 
 <body>
-
-<!-- TOPBAR -->
 
 <div class="topbar">
 
@@ -455,11 +471,7 @@ onclick="window.location.href='premium.html'">
 
 </div>
 
-<!-- MAIN -->
-
 <div class="main">
-
-<!-- SIDEBAR -->
 
 <div class="sidebar">
 
@@ -471,175 +483,73 @@ Generate Affidavit
 Language
 </label>
 
-<select class="select"
-id="lang">
-
+<select class="select" id="lang">
 <option>English</option>
 <option>Urdu</option>
 <option>Hindi</option>
 <option>Arabic</option>
-
 </select>
 
 <label class="label">
 Country
 </label>
 
-<select class="select"
-id="country">
-
+<select class="select" id="country">
 <option>India</option>
 <option>Pakistan</option>
 <option>Saudi Arabia</option>
 <option>UAE</option>
 <option>Bangladesh</option>
-
 </select>
 
 <label class="label">
 Purpose
 </label>
 
-<select class="select"
-id="purposeType"
-size="12"
-style="height:320px;">
-
+<select class="select" id="purposeType">
 <option>Name Change Affidavit</option>
-<option>Address Proof Affidavit</option>
-<option>Birth Affidavit</option>
 <option>Marriage Affidavit</option>
 <option>Income Proof Affidavit</option>
 <option>Passport Affidavit</option>
-<option>Nationality Affidavit</option>
-<option>Gap Certificate Affidavit</option>
-<option>Lost Document Affidavit</option>
-<option>Vehicle Ownership Affidavit</option>
-<option>Property Declaration Affidavit</option>
-<option>Affidavit for Visa</option>
-<option>Affidavit for Loan</option>
-<option>Affidavit for Bank</option>
-<option>Affidavit for Court</option>
-<option>Affidavit for Employment</option>
-<option>Affidavit for Pension</option>
-<option>Affidavit for Driving License</option>
-<option>Affidavit for Minor Child</option>
-<option>Affidavit for Divorce</option>
-<option>Affidavit for Legal Heir</option>
-<option>Affidavit for Insurance</option>
-<option>Affidavit for Travel</option>
-<option>Affidavit for Immigration</option>
-<option>Affidavit for Internship</option>
-<option>Affidavit for Name Correction</option>
-<option>Affidavit for Address Change</option>
-<option>Affidavit for Gender Change</option>
-<option>Affidavit for Partnership</option>
-<option>Affidavit for Criminal Case</option>
-<option>Affidavit for Civil Case</option>
-<option>Affidavit for Death Certificate</option>
-<option>Affidavit for Domicile</option>
-<option>Affidavit for Medical Claim</option>
-<option>Affidavit for Police Verification</option>
-<option>Affidavit for Rental Agreement</option>
-<option>Affidavit for Shop License</option>
-<option>Affidavit for Court Marriage</option>
-<option>Affidavit for Duplicate Certificate</option>
-<option>Affidavit for Duplicate Degree</option>
-<option>Affidavit for School Transfer</option>
-<option>Affidavit for College Admission</option>
-<option>Affidavit for Property Transfer</option>
-<option>Affidavit for Witness</option>
-<option>Affidavit for Online Fraud</option>
-<option>Affidavit for Vehicle Transfer</option>
-<option>Affidavit for Passport Renewal</option>
-<option>Affidavit for Foreign Travel</option>
-<option>Affidavit for Aadhaar</option>
-<option>Affidavit for PAN Card</option>
-<option>Affidavit for GST</option>
-<option>Affidavit for Electricity</option>
-<option>Affidavit for Water Connection</option>
-<option>Affidavit for Gas Connection</option>
-<option>Affidavit for SIM Ownership</option>
-<option>Affidavit for Scholarship</option>
-<option>Affidavit for Hostel</option>
-<option>Affidavit for University</option>
-<option>Affidavit for Degree</option>
-<option>Affidavit for Diploma</option>
-<option>Affidavit for Marksheet</option>
-<option>Affidavit for Startup</option>
-<option>Affidavit for Business</option>
-<option>Affidavit for Company</option>
-<option>Affidavit for Trade License</option>
-<option>Affidavit for Tender</option>
-<option>Affidavit for NGO</option>
-<option>Affidavit for YouTube</option>
-<option>Affidavit for Social Media</option>
-<option>Affidavit for Freelancing</option>
-<option>Affidavit for Online Seller</option>
-<option>Affidavit for Amazon Seller</option>
-<option>Affidavit for Flipkart Seller</option>
-<option>Affidavit for Customs</option>
-<option>Affidavit for Export</option>
-<option>Affidavit for Import</option>
-<option>Affidavit for Immigration Case</option>
-<option>Affidavit for Character Certificate</option>
-<option>Affidavit for Police Case</option>
-<option>Affidavit for Bail</option>
-<option>Affidavit for Family Court</option>
-<option>Affidavit for High Court</option>
-<option>Affidavit for Supreme Court</option>
-<option>Affidavit for Website Ownership</option>
-<option>Affidavit for Domain Ownership</option>
-<option>Affidavit for Internship Completion</option>
-<option>Affidavit for Salary Proof</option>
-<option>Affidavit for Experience</option>
-<option>Affidavit for Birth Registration</option>
-<option>Affidavit for Death Registration</option>
-<option>Affidavit for Child Custody</option>
-<option>Affidavit for Adoption</option>
-<option>Affidavit for Guardianship</option>
-<option>Affidavit for Research</option>
-<option>Affidavit for Patent</option>
-<option>Affidavit for Trademark</option>
-<option>Affidavit for Copyright</option>
+<option>Property Declaration</option>
+<option>Gap Certificate</option>
+<option>Vehicle Ownership</option>
+<option>Rental Agreement</option>
+<option>Address Proof</option>
+<option>Birth Certificate</option>
+<option>Death Certificate</option>
 <option>Custom Purpose</option>
-
 </select>
 
 <label class="label">
 Full Name
 </label>
 
-<input class="input"
-id="name">
+<input class="input" id="name">
 
 <label class="label">
 Father Name
 </label>
 
-<input class="input"
-id="father">
+<input class="input" id="father">
 
 <label class="label">
 Age
 </label>
 
-<input class="input"
-id="age">
+<input class="input" id="age">
 
 <label class="label">
 Address
 </label>
 
-<textarea class="textarea"
-id="address"></textarea>
+<textarea class="textarea" id="address"></textarea>
 
 <label class="label">
 Details
 </label>
 
-<textarea class="textarea"
-id="details"></textarea>
+<textarea class="textarea" id="details"></textarea>
 
 <label class="label">
 Signature
@@ -673,17 +583,13 @@ PNG
 
 </div>
 
-<!-- RIGHT -->
-
 <div>
 
 <div class="analytics">
 
 <div class="stat">
 📄
-<h3 id="totalDocs">
-0
-</h3>
+<h3 id="totalDocs">0</h3>
 <p>Total Docs</p>
 </div>
 
@@ -741,22 +647,14 @@ Your affidavit preview will appear here.
 
 let signaturePad;
 let totalDocs = 0;
-let lastDocId = "";
-
-/* LOAD */
 
 window.onload = ()=>{
 
 const canvas =
-document.getElementById(
-"signaturePad"
-);
+document.getElementById("signaturePad");
 
 const ratio =
-Math.max(
-window.devicePixelRatio || 1,
-1
-);
+Math.max(window.devicePixelRatio || 1,1);
 
 canvas.width =
 canvas.offsetWidth * ratio;
@@ -775,13 +673,9 @@ penColor:"black"
 
 };
 
-/* SIGNATURE */
-
 function clearSignature(){
 signaturePad.clear();
 }
-
-/* DOC ID */
 
 function generateDocID(){
 
@@ -792,8 +686,6 @@ Math.random()
 .toUpperCase();
 
 }
-
-/* GENERATE */
 
 function generateAffidavit(){
 
@@ -824,7 +716,6 @@ document.getElementById("details").value;
 if(!name || !father || !age){
 
 alert("Fill required fields ❌");
-
 return;
 
 }
@@ -836,20 +727,17 @@ if(lang==="Urdu"){
 affidavitText =
 `میں ${name} ولد ${father} عمر ${age} سال حلفیہ بیان دیتا ہوں۔`;
 
-}
-else if(lang==="Hindi"){
+}else if(lang==="Hindi"){
 
 affidavitText =
 `मैं ${name}, पिता ${father}, उम्र ${age} वर्ष शपथपूर्वक घोषणा करता हूँ।`;
 
-}
-else if(lang==="Arabic"){
+}else if(lang==="Arabic"){
 
 affidavitText =
 `أنا ${name} ابن ${father} أقر بأن عمري ${age} سنة.`;
 
-}
-else{
+}else{
 
 affidavitText =
 `I, ${name}, S/o ${father}, aged about ${age} years, resident of ${address}, do hereby solemnly affirm and declare as under.`;
@@ -858,19 +746,13 @@ affidavitText =
 
 const signature =
 signaturePad.isEmpty()
-?
-""
-:
-signaturePad.toDataURL();
+? ""
+: signaturePad.toDataURL();
 
 const docID =
 generateDocID();
 
-lastDocId = docID;
-
-document.getElementById(
-"previewArea"
-).innerHTML = `
+document.getElementById("previewArea").innerHTML = `
 
 <div class="stamp">
 ₹10
@@ -886,9 +768,7 @@ BEFORE THE NOTARY PUBLIC
 
 <div class="doc-content">
 
-<p>
-${affidavitText}
-</p>
+<p>${affidavitText}</p>
 
 <p>
 <b>Country:</b>
@@ -901,24 +781,23 @@ ${purpose}
 </p>
 
 <p>
+<b>Address:</b>
+${address}
+</p>
+
+<p>
 ${details}
 </p>
 
-${
-signature
-?
-`
+${signature
+? `
 <div class="signature-box">
-<img src="${signature}"
-style="height:90px;">
+<img src="${signature}" style="height:90px;">
 </div>
 `
-:
-""
-}
+: ""}
 
-<div id="qrCodeContainer">
-</div>
+<div id="qrCodeContainer"></div>
 
 <div class="doc-footer">
 
@@ -931,31 +810,16 @@ Powered by AGI ULTRA FREE
 </div>
 
 </div>
-
 `;
 
 generateQRCode(docID);
 
-localStorage.setItem(
-"doc_" + docID,
-JSON.stringify({
-name,
-purpose,
-country,
-date:new Date().toLocaleDateString()
-})
-);
-
 totalDocs++;
 
-document.getElementById(
-"totalDocs"
-).innerText =
-totalDocs;
+document.getElementById("totalDocs")
+.innerText = totalDocs;
 
 }
-
-/* QR */
 
 function generateQRCode(docID){
 
@@ -977,8 +841,6 @@ height:140
 
 }
 
-/* PDF */
-
 function downloadPDF(){
 
 html2pdf()
@@ -998,22 +860,16 @@ format:"a4"
 }
 })
 .from(
-document.getElementById(
-"previewArea"
-)
+document.getElementById("previewArea")
 )
 .save();
 
 }
 
-/* PNG */
-
 function exportPNG(){
 
 html2canvas(
-document.getElementById(
-"previewArea"
-)
+document.getElementById("previewArea")
 ).then(canvas=>{
 
 const link =
@@ -1031,14 +887,11 @@ link.click();
 
 }
 
-/* SHARE */
-
 function shareWhatsApp(){
 
 const text =
-document.getElementById(
-"previewArea"
-).innerText;
+document.getElementById("previewArea")
+.innerText;
 
 window.open(
 `https://wa.me/?text=${encodeURIComponent(text)}`,
@@ -1047,12 +900,18 @@ window.open(
 
 }
 
-/* THEME */
-
 function toggleTheme(){
 
 document.body.classList.toggle(
 "light-mode"
+);
+
+}
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register(
+"./sw.js"
 );
 
 }
