@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
   <meta name="theme-color" content="#0a192f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <title>AGI ULTRA PRO v18 – Premium + Free Mode</title>
   <style>
     * {
@@ -43,7 +45,6 @@
       margin: 0;
       padding: 0;
     }
-    /* Topbar */
     .topbar {
       position: sticky;
       top: 0;
@@ -80,7 +81,6 @@
       font-weight: bold;
       color: #0a192f;
       cursor: pointer;
-      transition: 0.2s;
     }
     .glass-btn {
       background: rgba(255,255,240,0.1);
@@ -90,7 +90,6 @@
       border-radius: 40px;
       color: var(--text-primary);
       cursor: pointer;
-      transition: 0.2s;
     }
     .glass-btn:hover, .premium-btn:hover {
       transform: scale(0.97);
@@ -356,6 +355,16 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    .fee-display {
+      display: inline-block;
+      background: var(--gold);
+      color: #0a192f;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      margin-left: 12px;
+    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -388,7 +397,16 @@
     <div class="field"><label>Full Name *</label><input type="text" id="fullName" value="Abdul Rahman Khan"></div>
     <div class="field"><label>Father's Name *</label><input type="text" id="fatherName" value="Mohammed Salim"></div>
     <div class="field"><label>Address *</label><input type="text" id="address" value="House 42, Street 8, Dubai, UAE"></div>
-    <div class="field"><label>Country</label><select id="countrySelect"><option>India</option><option>UAE</option><option>USA</option><option>UK</option><option>Canada</option></select></div>
+    <div class="field">
+      <label>Country <span id="feeDisplay" class="fee-display">Fee: ₹0</span></label>
+      <select id="countrySelect">
+        <option value="India">India</option>
+        <option value="UAE">UAE</option>
+        <option value="USA">USA</option>
+        <option value="UK">UK</option>
+        <option value="Canada">Canada</option>
+      </select>
+    </div>
     <div class="field"><label>Language (instantly changes)</label><select id="langSelect"><option value="en">English</option><option value="ur">Urdu</option><option value="hi">Hindi</option><option value="ar">Arabic (RTL)</option></select></div>
     <div class="field"><label>📌 Purpose (filter)</label><input type="text" id="purposeSearch" placeholder="Search purposes..."></div>
     <div class="purpose-scroll"><select id="purposeDropdown" size="8"></select></div>
@@ -447,7 +465,24 @@
       "Engineering Council","Architect Certification"
     ];
     for(let i=0;i<30;i++) premiumPurposes.push(`Legal Purpose ${i+100}`);
-    const freePurposes = premiumPurposes.slice(0, 20); // first 20 only
+    const freePurposes = premiumPurposes.slice(0, 20);
+
+    // Country based pricing (₹10 to ₹200)
+    function getFeeForCountry(country) {
+      switch(country) {
+        case 'India': return '₹49';
+        case 'UAE': return '₹199';
+        case 'USA': return '₹199';
+        case 'UK': return '₹179';
+        case 'Canada': return '₹159';
+        default: return '₹99';
+      }
+    }
+    function updateFeeDisplay() {
+      const country = document.getElementById('countrySelect').value;
+      const fee = getFeeForCountry(country);
+      document.getElementById('feeDisplay').innerText = `Fee: ${fee}`;
+    }
 
     function getCurrentPurposeList() {
       return isPremiumMode ? premiumPurposes : freePurposes;
@@ -467,9 +502,8 @@
         aiContainer.style.display = 'none';
         document.getElementById('watermarkElem').innerText = 'FREE VERSION';
       }
-      // refresh purpose list
       populatePurposes(document.getElementById('purposeSearch').value);
-      renderAffidavit(); // re-render to update watermark and maybe AI effect
+      renderAffidavit();
     }
 
     // ---------------------------- MULTILINGUAL ----------------------------
@@ -528,7 +562,7 @@
     function getToday() { return new Date().toLocaleDateString('en-GB'); }
     function validateFields() { let valid = true; ['fullName','fatherName','address'].forEach(id => { const el = document.getElementById(id); if(!el.value.trim()) { el.classList.add('error'); valid=false; } else el.classList.remove('error'); }); if(!valid) showToast("Please fill required fields", true); return valid; }
     function enhanceStatement(text, country) {
-      if(!isPremiumMode) return text; // no AI in free mode
+      if(!isPremiumMode) return text;
       if(!document.getElementById('aiEnhanceToggle').checked) return text;
       let enhanced = text.replace(/declare/gi, 'solemnly declare under oath').replace(/true/gi, 'true and correct');
       if(country === 'UAE') enhanced += " according to UAE Federal Law No. 5/1985.";
@@ -643,7 +677,7 @@
     document.getElementById('copyTextBtn').addEventListener('click', () => { const text = document.getElementById('dynamicAffidavitContent').innerText; navigator.clipboard.writeText(text); showToast("Copied"); });
     document.getElementById('printNowBtn').addEventListener('click', () => window.print());
 
-    // ---------------------------- MODE SWITCHING (FIXED NAVIGATION) ----------------------------
+    // ---------------------------- MODE SWITCHING & EVENTS ----------------------------
     document.getElementById('freeModeBtn').onclick = () => {
       if(isPremiumMode) {
         isPremiumMode = false;
@@ -664,7 +698,11 @@
     document.getElementById('watermarkToggle').addEventListener('change', () => renderAffidavit());
     document.getElementById('sealColorSelect').addEventListener('change', () => renderAffidavit());
     document.getElementById('templateSelect').addEventListener('change', () => renderAffidavit());
-    ['fullName','fatherName','address','countrySelect','swornStatement'].forEach(id => document.getElementById(id).addEventListener('input', () => { if(debounceTimer) clearTimeout(debounceTimer); debounceTimer = setTimeout(() => renderAffidavit(), 300); }));
+    ['fullName','fatherName','address','swornStatement'].forEach(id => document.getElementById(id).addEventListener('input', () => { if(debounceTimer) clearTimeout(debounceTimer); debounceTimer = setTimeout(() => renderAffidavit(), 300); }));
+    document.getElementById('countrySelect').addEventListener('change', () => {
+      updateFeeDisplay();
+      renderAffidavit();
+    });
     document.getElementById('purposeDropdown').addEventListener('change', () => renderAffidavit());
     document.getElementById('themeToggleBtn').addEventListener('click', () => { document.body.classList.toggle('light'); localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark'); });
     if(localStorage.getItem('theme') === 'light') document.body.classList.add('light');
@@ -678,9 +716,10 @@
       history = JSON.parse(localStorage.getItem("affidavitHistory") || "[]");
       updateAnalytics();
       renderHistory();
-      isPremiumMode = true; // default premium
+      isPremiumMode = true;
       applyModeUI();
       populatePurposes('');
+      updateFeeDisplay();
       recoverDraft();
     }
     init();
