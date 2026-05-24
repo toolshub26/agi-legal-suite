@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0a192f">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>AGI ULTRA PRO v18 – Premium + Free Mode (Final)</title>
+  <title>AGI ULTRA PRO v18 – Final Enterprise</title>
   <style>
     * {
       margin: 0;
@@ -230,7 +230,7 @@
     .qr-container {
       margin-top: 16px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
     }
     .footer-note {
       font-size: 0.7rem;
@@ -394,21 +394,14 @@
 <div class="main-dashboard">
   <div class="form-panel">
     <h2>📝 Affidavit Details <span id="saveBadge" style="display:none; font-size:0.7rem; background:var(--gold); padding:2px 8px; border-radius:20px;">Saved</span></h2>
-    <div class="field"><label>Full Name *</label><input type="text" id="fullName" value="John Doe"></div>
-    <div class="field"><label>Father's Name *</label><input type="text" id="fatherName" value="Richard Doe"></div>
-    <div class="field"><label>Address *</label><input type="text" id="address" value="123 Main St, New York, USA"></div>
-    <div class="field">
-      <label>Country <span id="feeDisplay" class="fee-display">Fee: ₹0</span></label>
-      <select id="countrySelect">
-        <option value="India">India</option>
-        <option value="UAE">UAE</option>
-        <option value="USA">USA</option>
-        <option value="UK">UK</option>
-        <option value="Canada">Canada</option>
-      </select>
-    </div>
+    <div class="field"><label>Full Name *</label><input type="text" id="fullName" value="Abdul Rahman Khan"></div>
+    <div class="field"><label>Father's Name *</label><input type="text" id="fatherName" value="Mohammed Salim"></div>
+    <div class="field"><label>Address (Street, Area) *</label><input type="text" id="address" value="House 42, Street 8"></div>
+    <div class="field"><label>State *</label><input type="text" id="state" value="Dubai"></div>
+    <div class="field"><label>District *</label><input type="text" id="district" value="Bur Dubai"></div>
+    <div class="field"><label>Country * (type any country)</label><input type="text" id="countryInput" value="UAE" placeholder="e.g., India, Pakistan, USA, Canada"></div>
     <div class="field"><label>Language (instantly changes)</label><select id="langSelect"><option value="en">English</option><option value="ur">Urdu</option><option value="hi">Hindi</option><option value="ar">Arabic (RTL)</option></select></div>
-    <div class="field"><label>📌 Purpose (filter)</label><input type="text" id="purposeSearch" placeholder="Search purposes..."></div>
+    <div class="field"><label>📌 Purpose (filter)</label><input type="text" id="purposeSearch" placeholder="Search 100+ purposes..."></div>
     <div class="purpose-scroll"><select id="purposeDropdown" size="8"></select></div>
     <div class="field"><label>Sworn Statement</label><textarea id="swornStatement" rows="2">I hereby declare that the facts mentioned are true and accurate.</textarea></div>
     <div class="settings-bar">
@@ -443,7 +436,7 @@
 <script>
   (function(){
     // ---------------------------- MODE STATE ----------------------------
-    let isPremiumMode = true;  // true = premium, false = free
+    let isPremiumMode = true;
     const premiumPurposes = [
       "Name Change","Marriage","Income Proof","Passport Verification","Court Submission","Property Transfer",
       "Bank Loan","Education Loan","Visa Application","Aadhaar Correction","GST Registration","Police Verification",
@@ -462,10 +455,14 @@
       "Letters of Administration","Legal Notice","Cease and Desist","Tender Document","Government Tender",
       "RTI Affidavit","Election Affidavit","NOC from Landlord","Construction Permit","Environmental Clearance",
       "Factory License","Trade License","FSSAI License","Drug License","Medical Practice","Nursing Registration",
-      "Engineering Council","Architect Certification"
+      "Engineering Council","Architect Certification","Will Registration","Succession Certificate","Partnership Deed",
+      "Merger Filing","Non-Criminal Record","Police Clearance","Character Certificate","Student Visa","Work Permit",
+      "Family Visa","Sponsorship Affidavit","Real Estate Transfer","Mortgage Affidavit","Rental Agreement","Tenancy Dispute",
+      "Labor Dispute","Arbitration","Mediation","Contract Review","Trademark Opposition","Patent Filing",
+      "Utility Model","Industrial Design","Geographical Indication","Startup India","MSME Registration","IEC Code"
     ];
     for(let i=0;i<30;i++) premiumPurposes.push(`Legal Purpose ${i+100}`);
-    const freePurposes = premiumPurposes.slice(0, 20); // first 20 only
+    const freePurposes = premiumPurposes.slice(0, 20);
 
     function getCurrentPurposeList() {
       return isPremiumMode ? premiumPurposes : freePurposes;
@@ -491,10 +488,10 @@
 
     // ---------------------------- MULTILINGUAL AFFIDAVIT ----------------------------
     const translations = {
-      en: { title:"AFFIDAVIT", notary:"BEFORE THE NOTARY PUBLIC", intro:"I, {name}, son/daughter of {father}, resident of {address}, do hereby solemnly affirm:", c1:"1. That the deponent is competent to swear this affidavit.", c2:"2. Purpose of affidavit: {purpose}.", c3:"3. Sworn statement: {statement}.", c4:"4. I declare under penalty of perjury that above is true.", verified:"Verified under law of {country}.", place:"Place: ___________", date:"Date: {date}", leftSig:"Signature of Deponent", rightSig:"Signature & Seal of Notary", footer:"Document ID: " },
-      ur: { title:"حلف نامہ", notary:"عدالتی حلف نامہ", intro:"میں {name} ولد {father} ساکن {address} حلفیہ بیان دیتا ہوں:", c1:"1۔ حلف نامہ دینے والا قانونی اہل ہے۔", c2:"2۔ مقصد: {purpose}", c3:"3۔ حلفیہ بیان: {statement}", c4:"4۔ بیان درست ہے۔", verified:"قانون {country} کے تحت توثیق شدہ", place:"مقام: ___________", date:"تاریخ: {date}", leftSig:"حلف نامہ دہندہ کے دستخط", rightSig:"نوٹری عوامی دستخط و مہر", footer:"دستاویز نمبر: " },
-      hi: { title:"शपथ पत्र", notary:"नोटरी पब्लिक के समक्ष", intro:"मैं {name}, पुत्र/पुत्री {father}, निवासी {address}, सत्यनिष्ठा से शपथ लेता/लेती हूँ:", c1:"1. शपथकर्ता साक्ष्य देने योग्य है।", c2:"2. प्रयोजन: {purpose}", c3:"3. शपथ वक्तव्य: {statement}", c4:"4. सभी तथ्य सही हैं।", verified:"{country} के अधिनियम के अधीन सत्यापित", place:"स्थान: ___________", date:"तिथि: {date}", leftSig:"शपथकर्ता के हस्ताक्षर", rightSig:"नोटरी के हस्ताक्षर एवं मुहर", footer:"दस्तावेज़ आईडी: " },
-      ar: { title:"إفادة خطية", notary:"أمام كاتب العدل", intro:"أنا {name} ابن {father} المقيم في {address} أشهد بأن:", c1:"١. المقر قانوني ومختص.", c2:"٢. الغرض: {purpose}.", c3:"٣. البيان: {statement}.", c4:"٤. كل ما ورد صحيح.", verified:"موثق بموجب قانون {country}.", place:"المكان: ___________", date:"التاريخ: {date}", leftSig:"توقيع المقر", rightSig:"توقيع وختم كاتب العدل", footer:"معرف المستند: " }
+      en: { title:"AFFIDAVIT", notary:"BEFORE THE NOTARY PUBLIC", intro:"I, {name}, son/daughter of {father}, resident of {address}, {state} state, {district} district, {country}, do hereby solemnly affirm:", c1:"1. That the deponent is competent to swear this affidavit.", c2:"2. Purpose of affidavit: {purpose}.", c3:"3. Sworn statement: {statement}.", c4:"4. I declare under penalty of perjury that above is true.", verified:"Verified under law of {country}.", place:"Place: ___________", date:"Date: {date}", leftSig:"Signature of Deponent", rightSig:"Signature & Seal of Notary", footer:"Document ID: " },
+      ur: { title:"حلف نامہ", notary:"عدالتی حلف نامہ", intro:"میں {name} ولد {father} ساکن {address}، ریاست {state}، ضلع {district}، ملک {country} حلفیہ بیان دیتا ہوں:", c1:"1۔ حلف نامہ دینے والا قانونی اہل ہے۔", c2:"2۔ مقصد: {purpose}", c3:"3۔ حلفیہ بیان: {statement}", c4:"4۔ بیان درست ہے۔", verified:"قانون {country} کے تحت توثیق شدہ", place:"مقام: ___________", date:"تاریخ: {date}", leftSig:"حلف نامہ دہندہ کے دستخط", rightSig:"نوٹری عوامی دستخط و مہر", footer:"دستاویز نمبر: " },
+      hi: { title:"शपथ पत्र", notary:"नोटरी पब्लिक के समक्ष", intro:"मैं {name}, पुत्र/पुत्री {father}, निवासी {address}, राज्य {state}, जिला {district}, देश {country}, सत्यनिष्ठा से शपथ लेता/लेती हूँ:", c1:"1. शपथकर्ता साक्ष्य देने योग्य है।", c2:"2. प्रयोजन: {purpose}", c3:"3. शपथ वक्तव्य: {statement}", c4:"4. सभी तथ्य सही हैं।", verified:"{country} के अधिनियम के अधीन सत्यापित", place:"स्थान: ___________", date:"तिथि: {date}", leftSig:"शपथकर्ता के हस्ताक्षर", rightSig:"नोटरी के हस्ताक्षर एवं मुहर", footer:"दस्तावेज़ आईडी: " },
+      ar: { title:"إفادة خطية", notary:"أمام كاتب العدل", intro:"أنا {name} ابن {father} المقيم في {address}، ولاية {state}، منطقة {district}، بلد {country} أشهد بأن:", c1:"١. المقر قانوني ومختص.", c2:"٢. الغرض: {purpose}.", c3:"٣. البيان: {statement}.", c4:"٤. كل ما ورد صحيح.", verified:"موثق بموجب قانون {country}.", place:"المكان: ___________", date:"التاريخ: {date}", leftSig:"توقيع المقر", rightSig:"توقيع وختم كاتب العدل", footer:"معرف المستند: " }
     };
 
     function getLang() { return document.getElementById('langSelect').value; }
@@ -543,13 +540,13 @@
     let currentDocID = "", totalDocs = 0, totalExports = 0, history = [], qrInstance = null;
     let debounceTimer = null, saveTimer = null;
     function getToday() { return new Date().toLocaleDateString('en-GB'); }
-    function validateFields() { let valid = true; ['fullName','fatherName','address'].forEach(id => { const el = document.getElementById(id); if(!el.value.trim()) { el.classList.add('error'); valid=false; } else el.classList.remove('error'); }); if(!valid) showToast("Please fill required fields", true); return valid; }
+    function validateFields() { let valid = true; ['fullName','fatherName','address','state','district','countryInput'].forEach(id => { const el = document.getElementById(id); if(!el.value.trim()) { el.classList.add('error'); valid=false; } else el.classList.remove('error'); }); if(!valid) showToast("Please fill all required fields", true); return valid; }
     function enhanceStatement(text, country) {
       if(!isPremiumMode) return text;
       if(!document.getElementById('aiEnhanceToggle').checked) return text;
       let enhanced = text.replace(/declare/gi, 'solemnly declare under oath').replace(/true/gi, 'true and correct');
-      if(country === 'UAE') enhanced += " according to UAE Federal Law No. 5/1985.";
-      else if(country === 'India') enhanced += " under the Indian Evidence Act, 1872.";
+      if(country.toLowerCase() === 'uae') enhanced += " according to UAE Federal Law No. 5/1985.";
+      else if(country.toLowerCase() === 'india') enhanced += " under the Indian Evidence Act, 1872.";
       return enhanced;
     }
     function renderAffidavit() {
@@ -558,16 +555,18 @@
       let name = sanitize(document.getElementById('fullName').value.trim()); if(!name) name = "Deponent";
       let father = sanitize(document.getElementById('fatherName').value.trim()); if(!father) father = "N/A";
       let address = sanitize(document.getElementById('address').value.trim()); if(!address) address = "Not Provided";
-      let statement = enhanceStatement(sanitize(document.getElementById('swornStatement').value), document.getElementById('countrySelect').value);
+      let state = sanitize(document.getElementById('state').value.trim()); if(!state) state = "";
+      let district = sanitize(document.getElementById('district').value.trim()); if(!district) district = "";
+      let country = sanitize(document.getElementById('countryInput').value.trim()); if(!country) country = "Not Provided";
+      let statement = enhanceStatement(sanitize(document.getElementById('swornStatement').value), country);
       const purpose = sanitize(document.getElementById('purposeDropdown').value);
-      const country = sanitize(document.getElementById('countrySelect').value);
       const template = document.getElementById('templateSelect').value;
       const dateStr = getToday();
       let content = `<div style="text-align:center;"><h1>${t.title}</h1><p>${t.notary}</p></div>`;
       if(template==='court') content = `<div style="border:2px solid #333; padding:1rem;">${content}`;
       else if(template==='modern') content = `<div style="background:#f9f3e7; padding:1rem;">${content}`;
       else if(template==='compact') content = `<div style="font-size:0.9rem;">${content}`;
-      content += `<p>${t.intro.replace('{name}',name).replace('{father}',father).replace('{address}',address)}</p>`;
+      content += `<p>${t.intro.replace('{name}',name).replace('{father}',father).replace('{address}',address).replace('{state}',state).replace('{district}',district).replace('{country}',country)}</p>`;
       content += `<p>${t.c1}</p><p>${t.c2.replace('{purpose}',purpose)}</p><p>${t.c3.replace('{statement}',statement)}</p><p>${t.c4}</p>`;
       content += `<p>${t.verified.replace('{country}',country)}</p>`;
       content += `<div style="display:flex; justify-content:space-between; margin:20px 0;"><span>${t.place}</span><span>${t.date.replace('{date}',dateStr)}</span></div>`;
@@ -578,9 +577,9 @@
       document.getElementById('dynamicAffidavitContent').innerHTML = content;
       document.getElementById('affidavitContainer').setAttribute('dir', lang==='ar' ? 'rtl' : 'ltr');
       document.getElementById('docFooter').innerHTML = `${t.footer} ${currentDocID} • AGI ${isPremiumMode ? 'PRO' : 'FREE'}`;
-      // QR
+      // QR placed left side via CSS flex-start
       const qrDiv = document.getElementById('qrArea');
-      const qrText = `AGI:${currentDocID}|${name}|${country}`;
+      const qrText = `AGI:${currentDocID}|${name}|${country}|${purpose}`;
       if (!qrInstance) { while(qrDiv.firstChild) qrDiv.removeChild(qrDiv.firstChild); qrInstance = new QRCode(qrDiv, { text: qrText, width: 90, height: 90, correctLevel: QRCode.CorrectLevel.H }); }
       else { qrInstance.clear(); qrInstance.makeCode(qrText); }
       // watermark & seal
@@ -588,9 +587,8 @@
       const seal = document.getElementById('sealColorSelect').value;
       const stampDiv = document.getElementById('stampElem'); stampDiv.className = `stamp ${seal}`;
       stampDiv.innerText = seal==='gold' ? '⚖️ NOTARY GOLD SEAL' : (seal==='blue' ? '🔵 NOTARY SEAL' : '📜 NOTARY SEAL');
-      // autosave draft
       if(saveTimer) clearTimeout(saveTimer);
-      saveTimer = setTimeout(() => { const draft = { name, father, address, country, purpose, statement, docID: currentDocID, signature: currentSignatureDataURL, template, sealColor: seal, watermark: document.getElementById('watermarkToggle').checked }; localStorage.setItem("draftAffidavit", JSON.stringify(draft)); const badge = document.getElementById('saveBadge'); badge.style.display = 'inline-block'; setTimeout(() => badge.style.display = 'none', 800); }, 500);
+      saveTimer = setTimeout(() => { const draft = { name, father, address, state, district, country, purpose, statement, docID: currentDocID, signature: currentSignatureDataURL, template, sealColor: seal, watermark: document.getElementById('watermarkToggle').checked }; localStorage.setItem("draftAffidavit", JSON.stringify(draft)); const badge = document.getElementById('saveBadge'); badge.style.display = 'inline-block'; setTimeout(() => badge.style.display = 'none', 800); }, 500);
     }
 
     // ---------------------------- HISTORY & GENERATE ----------------------------
@@ -626,7 +624,8 @@
         try {
           const d = JSON.parse(draft);
           document.getElementById('fullName').value = d.name; document.getElementById('fatherName').value = d.father;
-          document.getElementById('address').value = d.address; document.getElementById('countrySelect').value = d.country;
+          document.getElementById('address').value = d.address; document.getElementById('state').value = d.state;
+          document.getElementById('district').value = d.district; document.getElementById('countryInput').value = d.country;
           if(d.purpose) document.getElementById('purposeDropdown').value = d.purpose;
           document.getElementById('swornStatement').value = d.statement;
           currentDocID = d.docID || ("AGI-"+Date.now()+"-"+Math.floor(Math.random()*10000));
@@ -640,22 +639,16 @@
       } else { currentDocID = "AGI-"+Date.now()+"-"+Math.floor(Math.random()*10000); renderAffidavit(); }
     }
 
-    // ---------------------------- DYNAMIC PRICING ----------------------------
-    function getFeeForCountry(country) {
-      switch(country) {
-        case 'India': return '₹49';
-        case 'UAE': return '₹199';
-        case 'USA': return '₹199';
-        case 'UK': return '₹179';
-        case 'Canada': return '₹159';
-        default: return '₹99';
-      }
-    }
+    // ---------------------------- DYNAMIC PRICING (optional) ----------------------------
+    // Removed pricing display as country is now text input – but kept fee display optional
     function updateFeeDisplay() {
-      const country = document.getElementById('countrySelect').value;
-      const fee = getFeeForCountry(country);
+      const country = document.getElementById('countryInput').value;
+      let fee = "₹99";
+      if(country.toLowerCase() === 'india') fee = "₹49";
+      else if(['uae','usa','canada','uk','australia'].includes(country.toLowerCase())) fee = "₹199";
       document.getElementById('feeDisplay').innerText = `Fee: ${fee}`;
     }
+    document.getElementById('countryInput').addEventListener('input', updateFeeDisplay);
 
     // ---------------------------- EXPORT FUNCTIONS ----------------------------
     async function withLoading(fn, successMsg) {
@@ -698,11 +691,7 @@
     document.getElementById('watermarkToggle').addEventListener('change', () => renderAffidavit());
     document.getElementById('sealColorSelect').addEventListener('change', () => renderAffidavit());
     document.getElementById('templateSelect').addEventListener('change', () => renderAffidavit());
-    ['fullName','fatherName','address','swornStatement'].forEach(id => document.getElementById(id).addEventListener('input', () => { if(debounceTimer) clearTimeout(debounceTimer); debounceTimer = setTimeout(() => renderAffidavit(), 300); }));
-    document.getElementById('countrySelect').addEventListener('change', () => {
-      updateFeeDisplay();
-      renderAffidavit();
-    });
+    ['fullName','fatherName','address','state','district','countryInput','swornStatement'].forEach(id => document.getElementById(id).addEventListener('input', () => { if(debounceTimer) clearTimeout(debounceTimer); debounceTimer = setTimeout(() => renderAffidavit(), 300); }));
     document.getElementById('purposeDropdown').addEventListener('change', () => renderAffidavit());
     document.getElementById('themeToggleBtn').addEventListener('click', () => { document.body.classList.toggle('light'); localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark'); });
     if(localStorage.getItem('theme') === 'light') document.body.classList.add('light');
