@@ -1,150 +1,20 @@
 {
-  "name": "AGI ULTRA PRO v18 AI",
-  "short_name": "AGI PRO",
-
-  "description": "Enterprise Legal SaaS Platform with AI Affidavit Generator, QR Verification, Dashboard, Cloud Backup and PWA Support.",
-
-  "lang": "en",
-  "dir": "ltr",
-
-  "id": "/",
-
-  "start_url": "./index.html",
-
-  "scope": "./",
-
+  "name": "AGI Ultra Pro Affidavit",
+  "short_name": "AGI Legal",
+  "start_url": "index.html",
   "display": "standalone",
-
-  "display_override": [
-    "standalone",
-    "window-controls-overlay",
-    "minimal-ui"
-  ],
-
-  "orientation": "portrait-primary",
-
-  "background_color": "#020617",
-
-  "theme_color": "#0f172a",
-
-  "categories": [
-    "business",
-    "productivity",
-    "utilities",
-    "finance",
-    "legal"
-  ],
-
+  "theme_color": "#0a192f",
+  "background_color": "#0a192f",
   "icons": [
-
     {
-      "src": "./launchericon-48x48.png",
-      "sizes": "48x48",
-      "type": "image/png"
-    },
-
-    {
-      "src": "./launchericon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png"
-    },
-
-    {
-      "src": "./launchericon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-
-    {
-      "src": "./launchericon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    },
-
-    {
-      "src": "./launchericon-192x192.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23d4af37'/%3E%3Ctext x='50' y='67' font-size='50' text-anchor='middle' fill='%230a192f'%3E⚖️%3C/text%3E%3C/svg%3E",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml"
     },
-
     {
-      "src": "./launchericon-512x512.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23d4af37'/%3E%3Ctext x='50' y='67' font-size='50' text-anchor='middle' fill='%230a192f'%3E⚖️%3C/text%3E%3C/svg%3E",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml"
     }
-
-  ],
-
-  "screenshots": [
-
-    {
-      "src": "./screenshot-desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Enterprise Dashboard"
-    },
-
-    {
-      "src": "./screenshot-mobile.png",
-      "sizes": "720x1280",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Mobile Affidavit Generator"
-    }
-
-  ],
-
-  "shortcuts": [
-
-    {
-      "name": "Generate Affidavit",
-      "short_name": "Generate",
-      "description": "Open affidavit generator instantly",
-      "url": "./index.html",
-
-      "icons": [
-        {
-          "src": "./launchericon-192x192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    },
-
-    {
-      "name": "Verify QR",
-      "short_name": "Verify",
-      "description": "Verify affidavit instantly",
-      "url": "./verify.html",
-
-      "icons": [
-        {
-          "src": "./launchericon-192x192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    },
-
-    {
-      "name": "Dashboard",
-      "short_name": "Dashboard",
-      "description": "Open enterprise dashboard",
-      "url": "./dashboard.html",
-
-      "icons": [
-        {
-          "src": "./launchericon-192x192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    }
-
-  ],
-
-  "prefer_related_applications": false
+  ]
 }
