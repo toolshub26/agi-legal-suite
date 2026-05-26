@@ -1,3 +1,5 @@
+Replace your old block with this fixed version ✅
+
 <script>
 
 (function(){
@@ -117,7 +119,9 @@ async function loadPurposesFromJSON(){
 
   try{
 
-    const response = await fetch("purposes.json");
+    /* FIXED */
+    const response =
+      await fetch("./purposes.json");
 
     if(!response.ok){
       throw new Error("purposes.json missing");
@@ -125,13 +129,15 @@ async function loadPurposesFromJSON(){
 
     const data = await response.json();
 
-    premiumPurposes = Object.values(data).flat();
+    premiumPurposes =
+      Object.values(data).flat();
 
     if(!premiumPurposes.length){
       throw new Error("Empty purposes");
     }
 
-    freePurposes = premiumPurposes.slice(0,20);
+    freePurposes =
+      premiumPurposes.slice(0,20);
 
     populatePurposes();
 
@@ -139,7 +145,10 @@ async function loadPurposesFromJSON(){
 
   }catch(error){
 
-    console.warn("Fallback purposes active");
+    console.warn(
+      "Fallback purposes active",
+      error
+    );
 
     premiumPurposes =
       Object.values(fallbackPurposes).flat();
@@ -172,7 +181,9 @@ function getCurrentPurposeList(){
 function populatePurposes(filter = ""){
 
   const select =
-    document.getElementById("purposeDropdown");
+    document.getElementById(
+      "purposeDropdown"
+    );
 
   if(!select) return;
 
@@ -214,31 +225,49 @@ function populatePurposes(filter = ""){
    SEARCH FILTER
 ========================= */
 
-const purposeSearch =
-document.getElementById("purposeSearch");
+document.addEventListener(
+  "DOMContentLoaded",
+  ()=>{
 
-if(purposeSearch){
+    const purposeSearch =
+      document.getElementById(
+        "purposeSearch"
+      );
 
-  purposeSearch.addEventListener(
-    "input",
-    (e)=>{
+    if(purposeSearch){
 
-      populatePurposes(e.target.value);
+      purposeSearch.addEventListener(
+        "input",
+        (e)=>{
+
+          populatePurposes(
+            e.target.value
+          );
+
+        }
+      );
 
     }
-  );
 
-}
+    /* LOAD PURPOSES */
+    loadPurposesFromJSON();
+
+  }
+);
 
 /* =========================
    FREE / PREMIUM MODE
 ========================= */
 
 const freeBtn =
-document.getElementById("freeModeBtn");
+document.getElementById(
+  "freeModeBtn"
+);
 
 const premiumBtn =
-document.getElementById("premiumModeBtn");
+document.getElementById(
+  "premiumModeBtn"
+);
 
 if(freeBtn){
 
@@ -248,7 +277,9 @@ if(freeBtn){
 
     populatePurposes();
 
-    showToast("FREE mode enabled");
+    showToast(
+      "FREE mode enabled"
+    );
 
   };
 
@@ -262,7 +293,9 @@ if(premiumBtn){
 
     populatePurposes();
 
-    showToast("PREMIUM mode enabled");
+    showToast(
+      "PREMIUM mode enabled"
+    );
 
   };
 
@@ -295,7 +328,8 @@ function showToast(message){
    FIX PURPOSE DROPDOWN UI
 ========================= */
 
-const style = document.createElement("style");
+const style =
+document.createElement("style");
 
 style.innerHTML = `
 
@@ -317,19 +351,6 @@ style.innerHTML = `
 `;
 
 document.head.appendChild(style);
-
-/* =========================
-   INIT
-========================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  ()=>{
-
-    loadPurposesFromJSON();
-
-  }
-);
 
 })();
 
