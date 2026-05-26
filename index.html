@@ -1,360 +1,484 @@
-<script>
-
-(function(){
-
-/* =========================
-   SAFE v28 PURPOSE SYSTEM
-========================= */
-
-let isPremiumMode = true;
-
-let premiumPurposes = [];
-let freePurposes = [];
-
-/* =========================
-   FALLBACK PURPOSES
-========================= */
-
-const fallbackPurposes = {
-
-  "Legal":[
-    "Name Change",
-    "Affidavit of Truth",
-    "Legal Heir",
-    "Succession Certificate",
-    "Indemnity Bond",
-    "Legal Notice",
-    "Witness Statement",
-    "Power of Attorney"
-  ],
-
-  "Banking":[
-    "Bank Account Opening",
-    "Bank Loan",
-    "Cheque Bounce",
-    "Loan Closure",
-    "Bank Guarantee",
-    "Income Proof"
-  ],
-
-  "Court":[
-    "Court Submission",
-    "Bail Affidavit",
-    "FIR Affidavit",
-    "Anticipatory Bail",
-    "Court Marriage"
-  ],
-
-  "Marriage":[
-    "Marriage",
-    "Love Marriage",
-    "Second Marriage",
-    "Single Status",
-    "Divorce Affidavit"
-  ],
-
-  "Property":[
-    "Property Transfer",
-    "Property Mutation",
-    "Rental Agreement",
-    "Property Dispute",
-    "Tenant Verification"
-  ],
-
-  "Visa":[
-    "Visa Application",
-    "Student Visa",
-    "Work Permit",
-    "Family Visa",
-    "Immigration"
-  ],
-
-  "Police":[
-    "Police Verification",
-    "Police Clearance",
-    "Cyber Crime Complaint",
-    "Online Fraud Complaint"
-  ],
-
-  "Education":[
-    "University Degree",
-    "Migration Certificate",
-    "Bonafide Certificate",
-    "Duplicate Marksheet"
-  ],
-
-  "Government":[
-    "Aadhaar Correction",
-    "Domicile Certificate",
-    "Nationality Certificate",
-    "Income Certificate"
-  ],
-
-  "Medical":[
-    "Medical Consent",
-    "Hospital Declaration",
-    "Medical Insurance Claim"
-  ],
-
-  "Business":[
-    "GST Registration",
-    "MSME Registration",
-    "Trade License",
-    "Partnership Deed"
-  ],
+<!DOCTYPE html>
+<html lang="en">
 
-  "Vehicle":[
-    "Vehicle Sale",
-    "Vehicle Purchase",
-    "Car Transfer",
-    "Bike Transfer"
-  ]
+<head>
 
-};
+  <meta charset="UTF-8" />
 
-/* =========================
-   LOAD PURPOSES
-========================= */
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-async function loadPurposesFromJSON(){
+  <meta name="theme-color" content="#0a192f" />
 
-  try{
+  <meta name="mobile-web-app-capable" content="yes" />
 
-    const response =
-      await fetch("./purposes.json");
+  <meta name="apple-mobile-web-app-capable" content="yes" />
 
-    if(!response.ok){
-      throw new Error("purposes.json missing");
-    }
+  <title>
+    AGI ULTRA PRO v28
+  </title>
 
-    const data = await response.json();
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css" />
 
-    premiumPurposes =
-      Object.values(data).flat();
+</head>
 
-    if(!premiumPurposes.length){
-      throw new Error("Empty purposes");
-    }
+<body class="dark">
 
-    freePurposes =
-      premiumPurposes.slice(0,20);
+  <!-- OFFLINE -->
+  <div id="offlineBanner"
+    class="offline-banner">
 
-    populatePurposes();
+    ⚠️ You are offline
 
-    console.log("Purposes loaded");
+  </div>
 
-  }catch(error){
+  <!-- TOPBAR -->
+  <header class="topbar">
 
-    console.warn(
-      "Fallback purposes active",
-      error
-    );
+    <div class="logo-area">
 
-    premiumPurposes =
-      Object.values(fallbackPurposes).flat();
+      ⚖️ AGI ULTRA PRO v28
 
-    freePurposes =
-      premiumPurposes.slice(0,20);
+      <span id="modeBadge"
+        class="mode-badge">
 
-    populatePurposes();
+        PREMIUM
 
-  }
+      </span>
 
-}
+    </div>
 
-/* =========================
-   GET PURPOSES
-========================= */
+    <div class="btn-group">
 
-function getCurrentPurposeList(){
+      <button id="freeModeBtn"
+        class="glass-btn">
 
-  return isPremiumMode
-    ? premiumPurposes
-    : freePurposes;
+        📄 Free
 
-}
+      </button>
 
-/* =========================
-   POPULATE PURPOSES
-========================= */
+      <button id="premiumModeBtn"
+        class="premium-btn">
 
-function populatePurposes(filter = ""){
+        👑 Premium
 
-  const select =
-    document.getElementById(
-      "purposeDropdown"
-    );
+      </button>
 
-  if(!select) return;
+      <button id="pdfExportBtn"
+        class="glass-btn">
 
-  const current = select.value;
+        📑 PDF
 
-  select.innerHTML = "";
+      </button>
 
-  const filtered =
-    getCurrentPurposeList().filter(item =>
-      item.toLowerCase()
-      .includes(filter.toLowerCase())
-    );
+      <button id="pngExportBtn"
+        class="glass-btn">
 
-  filtered.forEach(item => {
+        🖼️ PNG
 
-    const option =
-      document.createElement("option");
+      </button>
 
-    option.value = item;
-    option.textContent = item;
+      <button id="copyTextBtn"
+        class="glass-btn">
 
-    select.appendChild(option);
+        📋 Copy
 
-  });
+      </button>
 
-  if(filtered.includes(current)){
+      <button id="themeToggleBtn"
+        class="glass-btn">
 
-    select.value = current;
+        🌓 Theme
 
-  }else if(filtered.length){
+      </button>
 
-    select.selectedIndex = 0;
+      <button id="printNowBtn"
+        class="glass-btn">
 
-  }
+        🖨️ Print
 
-}
+      </button>
 
-/* =========================
-   SAFE TOAST
-========================= */
+    </div>
 
-function showToast(message){
+  </header>
 
-  const toast =
-    document.createElement("div");
+  <!-- ANALYTICS -->
+  <section class="cards-row">
 
-  toast.className = "toast";
+    <div class="analytics-card">
 
-  toast.innerText = message;
+      <h3 id="totalDocsCount">0</h3>
 
-  document.body.appendChild(toast);
+      <p>Total Docs</p>
 
-  setTimeout(()=>{
+    </div>
 
-    toast.remove();
+    <div class="analytics-card">
 
-  },2500);
+      <h3 id="totalExportsCount">0</h3>
 
-}
+      <p>Exports</p>
 
-/* =========================
-   DOM READY
-========================= */
+    </div>
 
-document.addEventListener(
-  "DOMContentLoaded",
-  ()=>{
+    <div class="analytics-card">
 
-    /* SEARCH */
+      <h3 id="topPurpose">-</h3>
 
-    const purposeSearch =
-      document.getElementById(
-        "purposeSearch"
-      );
+      <p>Top Purpose</p>
 
-    if(purposeSearch){
+    </div>
 
-      purposeSearch.addEventListener(
-        "input",
-        (e)=>{
+  </section>
 
-          populatePurposes(
-            e.target.value
-          );
+  <!-- MAIN -->
+  <main class="main-dashboard">
 
-        }
-      );
+    <!-- LEFT -->
+    <section class="form-panel">
 
-    }
+      <h2>
+        📝 Affidavit Details
+      </h2>
 
-    /* FREE BUTTON */
+      <!-- NAME -->
+      <div class="field">
 
-    const freeBtn =
-      document.getElementById(
-        "freeModeBtn"
-      );
+        <label>
+          Full Name *
+        </label>
 
-    if(freeBtn){
+        <input type="text"
+          id="fullName" />
 
-      freeBtn.onclick = ()=>{
+      </div>
 
-        isPremiumMode = false;
+      <!-- FATHER -->
+      <div class="field">
 
-        populatePurposes();
+        <label>
+          Father's Name *
+        </label>
 
-        showToast(
-          "FREE mode enabled"
-        );
+        <input type="text"
+          id="fatherName" />
 
-      };
+      </div>
 
-    }
+      <!-- AGE -->
+      <div class="field">
 
-    /* PREMIUM BUTTON */
+        <label>
+          Age *
+        </label>
 
-    const premiumBtn =
-      document.getElementById(
-        "premiumModeBtn"
-      );
+        <input type="number"
+          id="age" />
 
-    if(premiumBtn){
+      </div>
 
-      premiumBtn.onclick = ()=>{
+      <!-- GENDER -->
+      <div class="field">
 
-        isPremiumMode = true;
+        <label>
+          Gender *
+        </label>
 
-        populatePurposes();
+        <select id="gender">
 
-        showToast(
-          "PREMIUM mode enabled"
-        );
+          <option>Male</option>
 
-      };
+          <option>Female</option>
 
-    }
+          <option>Other</option>
 
-    /* LOAD PURPOSES */
+        </select>
 
-    loadPurposesFromJSON();
+      </div>
 
-  }
-);
+      <!-- ADDRESS -->
+      <div class="field">
 
-/* =========================
-   DROPDOWN UI FIX
-========================= */
+        <label>
+          Address *
+        </label>
 
-const style =
-document.createElement("style");
+        <input type="text"
+          id="address" />
 
-style.innerHTML = `
+      </div>
 
-.purpose-scroll select{
-  width:100%;
-  background:transparent;
-  color:#ffffff;
-  border:none;
-  outline:none;
-  font-size:14px;
-}
+      <!-- STATE -->
+      <div class="field">
 
-.purpose-scroll option{
-  padding:10px;
-  background:#132238;
-  color:#ffffff;
-}
+        <label>
+          State *
+        </label>
 
-`;
+        <input type="text"
+          id="state" />
 
-document.head.appendChild(style);
+      </div>
 
-})();
+      <!-- DISTRICT -->
+      <div class="field">
 
-</script>
+        <label>
+          District *
+        </label>
+
+        <input type="text"
+          id="district" />
+
+      </div>
+
+      <!-- COUNTRY -->
+      <div class="field">
+
+        <label>
+          Country *
+        </label>
+
+        <input type="text"
+          id="countryInput" />
+
+      </div>
+
+      <!-- ID -->
+      <div class="field">
+
+        <label>
+          ID Proof Number *
+        </label>
+
+        <input type="text"
+          id="idNumber" />
+
+      </div>
+
+      <!-- LANGUAGE -->
+      <div class="field">
+
+        <label>
+          Language
+        </label>
+
+        <select id="langSelect">
+
+          <option value="en">
+            English
+          </option>
+
+          <option value="ur">
+            Urdu
+          </option>
+
+          <option value="hi">
+            Hindi
+          </option>
+
+          <option value="ar">
+            Arabic
+          </option>
+
+        </select>
+
+      </div>
+
+      <!-- PURPOSE -->
+      <div class="field">
+
+        <label>
+          📌 Purpose
+        </label>
+
+        <input type="text"
+          id="purposeSearch"
+          placeholder="Search purpose..." />
+
+        <div class="purpose-scroll">
+
+          <select id="purposeDropdown"
+            size="8"></select>
+
+        </div>
+
+      </div>
+
+      <!-- STATEMENT -->
+      <div class="field">
+
+        <label>
+          Sworn Statement
+        </label>
+
+        <textarea id="swornStatement"
+          rows="4"></textarea>
+
+      </div>
+
+      <!-- PHOTO -->
+      <div class="field">
+
+        <label>
+          Upload Photo
+        </label>
+
+        <input type="file"
+          id="photoUpload"
+          accept="image/*" />
+
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="settings-bar">
+
+        <select id="templateSelect">
+
+          <option value="standard">
+            Standard
+          </option>
+
+          <option value="court">
+            Court Format
+          </option>
+
+          <option value="modern">
+            Modern Legal
+          </option>
+
+          <option value="compact">
+            Compact
+          </option>
+
+        </select>
+
+        <select id="sealColorSelect">
+
+          <option value="red">
+            Red Seal
+          </option>
+
+          <option value="blue">
+            Blue Seal
+          </option>
+
+          <option value="gold">
+            Gold Seal
+          </option>
+
+        </select>
+
+      </div>
+
+      <!-- SIGNATURE -->
+      <div class="signature-area">
+
+        <label>
+          ✍️ Electronic Signature
+        </label>
+
+        <canvas id="signatureCanvas"
+          width="500"
+          height="150"></canvas>
+
+        <div class="signature-buttons">
+
+          <button id="clearSignatureBtn"
+            class="glass-btn">
+
+            Clear
+
+          </button>
+
+          <button id="saveSignatureBtn"
+            class="premium-btn">
+
+            Save
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- GENERATE -->
+      <button id="generateAffidavitBtn"
+        class="generate-btn">
+
+        ✨ GENERATE NEW ID
+
+      </button>
+
+      <!-- HISTORY -->
+      <div class="history-list">
+
+        <strong>
+          📜 History
+        </strong>
+
+        <div id="historyContainer"></div>
+
+      </div>
+
+    </section>
+
+    <!-- RIGHT -->
+    <section class="preview-panel">
+
+      <div id="affidavitContainer"
+        class="affidavit-paper">
+
+        <div id="watermarkElem"
+          class="watermark-text">
+
+          PREMIUM LEGAL
+
+        </div>
+
+        <div id="stampElem"
+          class="stamp red">
+
+          📜 NOTARY SEAL
+
+        </div>
+
+        <div id="dynamicAffidavitContent">
+
+        </div>
+
+        <div id="qrArea"
+          class="qr-container"></div>
+
+        <div id="docFooter"
+          class="footer-note">
+
+          Document ID
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- LIBRARIES -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+  <!-- MAIN SCRIPT -->
+
+  <script src="./script.js"></script>
+
+</body>
+
+</html>
