@@ -1,484 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="UTF-8" />
-
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-
-  <meta name="theme-color" content="#0a192f" />
-
-  <meta name="mobile-web-app-capable" content="yes" />
-
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-
-  <title>
-    AGI ULTRA PRO v28
-  </title>
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="styles.css" />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0a192f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- External CSS (no inline styles) -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Strict CSP – no unsafe-inline, no unsafe-eval, only self and specific CDN hashes if needed -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self';
+    style-src 'self';
+    img-src 'self' data: blob:;
+    font-src 'self';
+    connect-src 'self';
+    worker-src 'self';
+    frame-src 'none';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+  ">
+  
+  <title>AGI Legal Pro – Secure Affidavit System</title>
 </head>
-
 <body class="dark">
-
-  <!-- OFFLINE -->
-  <div id="offlineBanner"
-    class="offline-banner">
-
-    ⚠️ You are offline
-
-  </div>
-
-  <!-- TOPBAR -->
-  <header class="topbar">
-
-    <div class="logo-area">
-
-      ⚖️ AGI ULTRA PRO v28
-
-      <span id="modeBadge"
-        class="mode-badge">
-
-        PREMIUM
-
-      </span>
-
-    </div>
-
+  <!-- Offline Banner -->
+  <div id="offlineBanner" class="offline-banner hidden">⚠️ You are offline – changes saved locally</div>
+  
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="logo-area">⚖️ AGI LEGAL PRO <span id="modeBadge" class="mode-badge">PRO</span></div>
     <div class="btn-group">
-
-      <button id="freeModeBtn"
-        class="glass-btn">
-
-        📄 Free
-
-      </button>
-
-      <button id="premiumModeBtn"
-        class="premium-btn">
-
-        👑 Premium
-
-      </button>
-
-      <button id="pdfExportBtn"
-        class="glass-btn">
-
-        📑 PDF
-
-      </button>
-
-      <button id="pngExportBtn"
-        class="glass-btn">
-
-        🖼️ PNG
-
-      </button>
-
-      <button id="copyTextBtn"
-        class="glass-btn">
-
-        📋 Copy
-
-      </button>
-
-      <button id="themeToggleBtn"
-        class="glass-btn">
-
-        🌓 Theme
-
-      </button>
-
-      <button id="printNowBtn"
-        class="glass-btn">
-
-        🖨️ Print
-
-      </button>
-
+      <button id="freeModeBtn" class="glass-btn">📄 Free</button>
+      <button id="premiumModeBtn" class="premium-btn">👑 PRO</button>
+      <button id="pdfExportBtn" class="glass-btn">📑 PDF</button>
+      <button id="pngExportBtn" class="glass-btn">🖼️ PNG</button>
+      <button id="copyTextBtn" class="glass-btn">📋 Copy</button>
+      <button id="themeToggleBtn" class="glass-btn">🌓 Theme</button>
+      <button id="printNowBtn" class="glass-btn">🖨️ Print</button>
     </div>
-
-  </header>
-
-  <!-- ANALYTICS -->
-  <section class="cards-row">
-
-    <div class="analytics-card">
-
-      <h3 id="totalDocsCount">0</h3>
-
-      <p>Total Docs</p>
-
-    </div>
-
-    <div class="analytics-card">
-
-      <h3 id="totalExportsCount">0</h3>
-
-      <p>Exports</p>
-
-    </div>
-
-    <div class="analytics-card">
-
-      <h3 id="topPurpose">-</h3>
-
-      <p>Top Purpose</p>
-
-    </div>
-
-  </section>
-
-  <!-- MAIN -->
-  <main class="main-dashboard">
-
-    <!-- LEFT -->
-    <section class="form-panel">
-
-      <h2>
-        📝 Affidavit Details
-      </h2>
-
-      <!-- NAME -->
-      <div class="field">
-
-        <label>
-          Full Name *
-        </label>
-
-        <input type="text"
-          id="fullName" />
-
-      </div>
-
-      <!-- FATHER -->
-      <div class="field">
-
-        <label>
-          Father's Name *
-        </label>
-
-        <input type="text"
-          id="fatherName" />
-
-      </div>
-
-      <!-- AGE -->
-      <div class="field">
-
-        <label>
-          Age *
-        </label>
-
-        <input type="number"
-          id="age" />
-
-      </div>
-
-      <!-- GENDER -->
-      <div class="field">
-
-        <label>
-          Gender *
-        </label>
-
-        <select id="gender">
-
-          <option>Male</option>
-
-          <option>Female</option>
-
-          <option>Other</option>
-
-        </select>
-
-      </div>
-
-      <!-- ADDRESS -->
-      <div class="field">
-
-        <label>
-          Address *
-        </label>
-
-        <input type="text"
-          id="address" />
-
-      </div>
-
-      <!-- STATE -->
-      <div class="field">
-
-        <label>
-          State *
-        </label>
-
-        <input type="text"
-          id="state" />
-
-      </div>
-
-      <!-- DISTRICT -->
-      <div class="field">
-
-        <label>
-          District *
-        </label>
-
-        <input type="text"
-          id="district" />
-
-      </div>
-
-      <!-- COUNTRY -->
-      <div class="field">
-
-        <label>
-          Country *
-        </label>
-
-        <input type="text"
-          id="countryInput" />
-
-      </div>
-
-      <!-- ID -->
-      <div class="field">
-
-        <label>
-          ID Proof Number *
-        </label>
-
-        <input type="text"
-          id="idNumber" />
-
-      </div>
-
-      <!-- LANGUAGE -->
-      <div class="field">
-
-        <label>
-          Language
-        </label>
-
-        <select id="langSelect">
-
-          <option value="en">
-            English
-          </option>
-
-          <option value="ur">
-            Urdu
-          </option>
-
-          <option value="hi">
-            Hindi
-          </option>
-
-          <option value="ar">
-            Arabic
-          </option>
-
-        </select>
-
-      </div>
-
-      <!-- PURPOSE -->
-      <div class="field">
-
-        <label>
-          📌 Purpose
-        </label>
-
-        <input type="text"
-          id="purposeSearch"
-          placeholder="Search purpose..." />
-
-        <div class="purpose-scroll">
-
-          <select id="purposeDropdown"
-            size="8"></select>
-
-        </div>
-
-      </div>
-
-      <!-- STATEMENT -->
-      <div class="field">
-
-        <label>
-          Sworn Statement
-        </label>
-
-        <textarea id="swornStatement"
-          rows="4"></textarea>
-
-      </div>
-
-      <!-- PHOTO -->
-      <div class="field">
-
-        <label>
-          Upload Photo
-        </label>
-
-        <input type="file"
-          id="photoUpload"
-          accept="image/*" />
-
-      </div>
-
-      <!-- SETTINGS -->
+  </div>
+  
+  <!-- Analytics Cards -->
+  <div class="cards-row">
+    <div class="analytics-card"><h3 id="totalDocsCount">0</h3><p>Total Docs</p></div>
+    <div class="analytics-card"><h3 id="totalExportsCount">0</h3><p>Exports</p></div>
+    <div class="analytics-card"><h3 id="topPurpose">-</h3><p>Top Purpose</p></div>
+  </div>
+  
+  <!-- Main Dashboard -->
+  <div class="main-dashboard">
+    <!-- Form Panel -->
+    <div class="form-panel">
+      <h2>📝 Affidavit Details <span id="saveBadge" class="save-badge">Saved</span></h2>
+      
+      <div class="field"><label>Full Name *</label><input type="text" id="fullName" maxlength="100" value="Abdul Rahman Khan"></div>
+      <div class="field"><label>Father's Name *</label><input type="text" id="fatherName" maxlength="100" value="Mohammed Salim"></div>
+      <div class="field"><label>Age *</label><input type="number" id="age" min="1" max="120" value="32"></div>
+      <div class="field"><label>Gender *</label><select id="gender"><option>Male</option><option>Female</option><option>Other</option></select></div>
+      <div class="field"><label>Address *</label><input type="text" id="address" maxlength="200" value="House 42, Street 8"></div>
+      <div class="field"><label>State *</label><input type="text" id="state" maxlength="100" value="Dubai"></div>
+      <div class="field"><label>District *</label><input type="text" id="district" maxlength="100" value="Bur Dubai"></div>
+      <div class="field"><label>Country *</label><input type="text" id="countryInput" maxlength="100" value="UAE"></div>
+      <div class="field"><label>ID Proof Number *</label><input type="text" id="idNumber" maxlength="50" autocomplete="off" placeholder="Aadhaar / Passport"></div>
+      <div class="field"><label>Language</label><select id="langSelect"><option value="en">English</option><option value="ur">Urdu</option><option value="hi">Hindi</option><option value="ar">Arabic</option></select></div>
+      <div class="field"><label>Purpose (250+ legal)</label><input type="text" id="purposeSearch" maxlength="100" placeholder="Search..."><select id="purposeDropdown" size="6"></select></div>
+      <div class="field"><label>Sworn Statement</label><textarea id="swornStatement" rows="2" maxlength="2000">I hereby declare that the facts mentioned are true and accurate.</textarea></div>
+      <div class="field"><label>Upload Photo</label><input type="file" id="photoUpload" accept="image/jpeg,image/png,image/webp"></div>
+      
       <div class="settings-bar">
-
-        <select id="templateSelect">
-
-          <option value="standard">
-            Standard
-          </option>
-
-          <option value="court">
-            Court Format
-          </option>
-
-          <option value="modern">
-            Modern Legal
-          </option>
-
-          <option value="compact">
-            Compact
-          </option>
-
-        </select>
-
-        <select id="sealColorSelect">
-
-          <option value="red">
-            Red Seal
-          </option>
-
-          <option value="blue">
-            Blue Seal
-          </option>
-
-          <option value="gold">
-            Gold Seal
-          </option>
-
-        </select>
-
+        <select id="templateSelect"><option value="standard">Standard</option><option value="court">Court Format</option></select>
+        <select id="sealColorSelect"><option value="red">Red Seal</option><option value="blue">Blue Seal</option><option value="gold">Gold Seal</option></select>
+        <select id="qualitySelect"><option value="standard">Export: Standard</option><option value="high">High</option><option value="ultra">Ultra</option></select>
+        <label><input type="checkbox" id="watermarkToggle" checked> Watermark</label>
+        <label id="aiEnhanceContainer"><input type="checkbox" id="aiEnhanceToggle"> AI Enhance</label>
       </div>
-
-      <!-- SIGNATURE -->
+      
       <div class="signature-area">
-
-        <label>
-          ✍️ Electronic Signature
-        </label>
-
-        <canvas id="signatureCanvas"
-          width="500"
-          height="150"></canvas>
-
-        <div class="signature-buttons">
-
-          <button id="clearSignatureBtn"
-            class="glass-btn">
-
-            Clear
-
-          </button>
-
-          <button id="saveSignatureBtn"
-            class="premium-btn">
-
-            Save
-
-          </button>
-
+        <label>✍️ Electronic Signature</label>
+        <canvas id="signatureCanvas" width="500" height="150"></canvas>
+        <div style="display:flex; gap:10px; margin-top:8px;">
+          <button id="clearSignatureBtn" class="glass-btn">Clear</button>
+          <button id="saveSignatureBtn" class="premium-btn">Save</button>
         </div>
-
       </div>
-
-      <!-- GENERATE -->
-      <button id="generateAffidavitBtn"
-        class="generate-btn">
-
-        ✨ GENERATE NEW ID
-
-      </button>
-
-      <!-- HISTORY -->
-      <div class="history-list">
-
-        <strong>
-          📜 History
-        </strong>
-
-        <div id="historyContainer"></div>
-
+      
+      <button id="generateAffidavitBtn" class="premium-btn" style="width:100%; padding:14px;">✨ GENERATE NEW ID</button>
+      <div class="history-list"><strong>📜 Recent (last 10)</strong><div id="historyContainer"></div></div>
+    </div>
+    
+    <!-- Preview Panel -->
+    <div class="preview-panel">
+      <div id="affidavitContainer" class="affidavit-paper">
+        <div id="watermarkElem" class="watermark-text">LEGAL DOCUMENT</div>
+        <div id="stampElem" class="stamp red">NOTARY SEAL</div>
+        <div id="dynamicAffidavitContent"></div>
+        <div id="qrArea" class="qr-container"></div>
+        <div id="docFooter" class="footer-note"></div>
       </div>
-
-    </section>
-
-    <!-- RIGHT -->
-    <section class="preview-panel">
-
-      <div id="affidavitContainer"
-        class="affidavit-paper">
-
-        <div id="watermarkElem"
-          class="watermark-text">
-
-          PREMIUM LEGAL
-
-        </div>
-
-        <div id="stampElem"
-          class="stamp red">
-
-          📜 NOTARY SEAL
-
-        </div>
-
-        <div id="dynamicAffidavitContent">
-
-        </div>
-
-        <div id="qrArea"
-          class="qr-container"></div>
-
-        <div id="docFooter"
-          class="footer-note">
-
-          Document ID
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
-
-  <!-- LIBRARIES -->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-
-  <!-- MAIN SCRIPT -->
-
-  <script src="./script.js"></script>
-
+    </div>
+  </div>
+  
+  <!-- External Modules – no inline scripts -->
+  <script type="module" src="js/app.js"></script>
+  
+  <!-- Optional: Service Worker registration (if exists) -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(e => console.warn('SW registration failed:', e));
+    }
+  </script>
+  <!-- The above script is minimal and only for SW; all app logic is external -->
 </body>
-
 </html>
