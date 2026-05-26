@@ -1,5 +1,3 @@
-Replace your old block with this fixed version ✅
-
 <script>
 
 (function(){
@@ -9,10 +7,13 @@ Replace your old block with this fixed version ✅
 ========================= */
 
 let isPremiumMode = true;
-let uploadedPhoto = "";
 
 let premiumPurposes = [];
 let freePurposes = [];
+
+/* =========================
+   FALLBACK PURPOSES
+========================= */
 
 const fallbackPurposes = {
 
@@ -119,7 +120,6 @@ async function loadPurposesFromJSON(){
 
   try{
 
-    /* FIXED */
     const response =
       await fetch("./purposes.json");
 
@@ -222,86 +222,6 @@ function populatePurposes(filter = ""){
 }
 
 /* =========================
-   SEARCH FILTER
-========================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  ()=>{
-
-    const purposeSearch =
-      document.getElementById(
-        "purposeSearch"
-      );
-
-    if(purposeSearch){
-
-      purposeSearch.addEventListener(
-        "input",
-        (e)=>{
-
-          populatePurposes(
-            e.target.value
-          );
-
-        }
-      );
-
-    }
-
-    /* LOAD PURPOSES */
-    loadPurposesFromJSON();
-
-  }
-);
-
-/* =========================
-   FREE / PREMIUM MODE
-========================= */
-
-const freeBtn =
-document.getElementById(
-  "freeModeBtn"
-);
-
-const premiumBtn =
-document.getElementById(
-  "premiumModeBtn"
-);
-
-if(freeBtn){
-
-  freeBtn.onclick = ()=>{
-
-    isPremiumMode = false;
-
-    populatePurposes();
-
-    showToast(
-      "FREE mode enabled"
-    );
-
-  };
-
-}
-
-if(premiumBtn){
-
-  premiumBtn.onclick = ()=>{
-
-    isPremiumMode = true;
-
-    populatePurposes();
-
-    showToast(
-      "PREMIUM mode enabled"
-    );
-
-  };
-
-}
-
-/* =========================
    SAFE TOAST
 ========================= */
 
@@ -325,7 +245,90 @@ function showToast(message){
 }
 
 /* =========================
-   FIX PURPOSE DROPDOWN UI
+   DOM READY
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  ()=>{
+
+    /* SEARCH */
+
+    const purposeSearch =
+      document.getElementById(
+        "purposeSearch"
+      );
+
+    if(purposeSearch){
+
+      purposeSearch.addEventListener(
+        "input",
+        (e)=>{
+
+          populatePurposes(
+            e.target.value
+          );
+
+        }
+      );
+
+    }
+
+    /* FREE BUTTON */
+
+    const freeBtn =
+      document.getElementById(
+        "freeModeBtn"
+      );
+
+    if(freeBtn){
+
+      freeBtn.onclick = ()=>{
+
+        isPremiumMode = false;
+
+        populatePurposes();
+
+        showToast(
+          "FREE mode enabled"
+        );
+
+      };
+
+    }
+
+    /* PREMIUM BUTTON */
+
+    const premiumBtn =
+      document.getElementById(
+        "premiumModeBtn"
+      );
+
+    if(premiumBtn){
+
+      premiumBtn.onclick = ()=>{
+
+        isPremiumMode = true;
+
+        populatePurposes();
+
+        showToast(
+          "PREMIUM mode enabled"
+        );
+
+      };
+
+    }
+
+    /* LOAD PURPOSES */
+
+    loadPurposesFromJSON();
+
+  }
+);
+
+/* =========================
+   DROPDOWN UI FIX
 ========================= */
 
 const style =
