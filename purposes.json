@@ -3,49 +3,217 @@
     "Name Change",
     "Affidavit of Truth",
     "Legal Heir",
-    "Succession Certificate"
+    "Succession Certificate",
+    "Indemnity Bond",
+    "Legal Notice",
+    "Witness Statement",
+    "Power of Attorney",
+    "Affidavit of Support",
+    "Affidavit of Residence",
+    "Non-Criminal Record",
+    "Character Certificate",
+    "Affidavit for Minor",
+    "Birth Certificate Correction",
+    "Death Certificate Correction",
+    "Nationality Certificate",
+    "Domicile Certificate",
+    "Income Certificate",
+    "Gap Certificate",
+    "Affidavit for Lost Mobile",
+    "NOC from Landlord",
+    "Affidavit of Heirship",
+    "Affidavit of Truth",
+    "Will Registration",
+    "Probate",
+    "Letters of Administration",
+    "Legal Heir Certificate",
+    "Affidavit of Identity",
+    "Duplicate Document Declaration",
+    "Name Correction"
   ],
 
   "Banking":[
     "Bank Account Opening",
     "Bank Loan",
     "Cheque Bounce",
-    "Loan Closure"
+    "Loan Closure",
+    "Bank Guarantee",
+    "Income Proof",
+    "Mortgage Affidavit",
+    "Financial Declaration",
+    "Credit Dispute",
+    "EMI Settlement",
+    "Bank Statement Verification",
+    "Loan Affidavit",
+    "Savings Account Verification",
+    "Current Account Declaration",
+    "Credit Card Dispute"
   ],
 
   "Court":[
     "Court Submission",
     "Bail Affidavit",
-    "Witness Statement"
+    "Witness Statement",
+    "Anticipatory Bail",
+    "Interim Relief",
+    "Civil Petition",
+    "Criminal Petition",
+    "Court Marriage",
+    "Divorce Affidavit",
+    "Child Custody",
+    "Maintenance Affidavit",
+    "Case Declaration",
+    "Evidence Submission",
+    "Affidavit for Hearing",
+    "Case Settlement"
   ],
 
   "Marriage":[
     "Marriage",
     "Court Marriage",
-    "Single Status"
+    "Single Status",
+    "Love Marriage",
+    "Second Marriage",
+    "Marriage Registration",
+    "Marriage Proof",
+    "Nikah Verification",
+    "Divorce Decree",
+    "Marriage Consent",
+    "Spouse Declaration",
+    "Interfaith Marriage",
+    "Marriage Invitation Verification"
   ],
 
   "Property":[
     "Property Transfer",
     "Property Mutation",
-    "Rental Agreement"
+    "Rental Agreement",
+    "Property Dispute",
+    "Tenant Verification",
+    "Land Ownership",
+    "Sale Agreement",
+    "Purchase Agreement",
+    "Property Tax Declaration",
+    "Property NOC",
+    "Lease Agreement",
+    "Commercial Property",
+    "Residential Property",
+    "Construction Permission",
+    "Property Inheritance"
   ],
 
   "Visa":[
     "Visa Application",
     "Student Visa",
-    "Work Permit"
+    "Work Permit",
+    "Family Visa",
+    "Immigration",
+    "Passport Verification",
+    "Travel Declaration",
+    "Embassy Submission",
+    "Tourist Visa",
+    "Business Visa",
+    "Dependent Visa",
+    "Visa Extension",
+    "Overseas Employment",
+    "International Travel Affidavit"
   ],
 
   "Police":[
     "Police Verification",
     "Police Clearance",
-    "FIR Affidavit"
+    "FIR Affidavit",
+    "Cyber Crime Complaint",
+    "Online Fraud Complaint",
+    "Lost Document",
+    "Lost Passport",
+    "Lost Mobile",
+    "Identity Verification",
+    "Background Verification",
+    "Complaint Letter",
+    "Theft Declaration",
+    "Missing Person",
+    "Online Scam Report"
   ],
 
   "Education":[
     "University Degree",
     "Migration Certificate",
-    "Bonafide Certificate"
+    "Bonafide Certificate",
+    "Duplicate Marksheet",
+    "Educational Loan",
+    "Scholarship Affidavit",
+    "College Admission",
+    "Student Declaration",
+    "Character Certificate",
+    "Transfer Certificate",
+    "Exam Verification",
+    "Internship Declaration",
+    "Education Gap",
+    "Research Ethics",
+    "Degree Verification"
+  ],
+
+  "Government":[
+    "Aadhaar Correction",
+    "PAN Correction",
+    "Voter ID Correction",
+    "Birth Certificate",
+    "Death Certificate",
+    "Income Certificate",
+    "EWS Certificate",
+    "OBC Certificate",
+    "Caste Certificate",
+    "Domicile Certificate",
+    "Nationality Certificate",
+    "RTI Affidavit",
+    "Election Affidavit",
+    "Government Tender",
+    "Public Declaration"
+  ],
+
+  "Medical":[
+    "Medical Consent",
+    "Hospital Declaration",
+    "Medical Insurance Claim",
+    "Health Certificate",
+    "Medical Fitness",
+    "Organ Donation",
+    "Covid Declaration",
+    "Medical Emergency",
+    "Treatment Permission",
+    "Medical Leave"
+  ],
+
+  "Business":[
+    "GST Registration",
+    "MSME Registration",
+    "Trade License",
+    "Partnership Deed",
+    "Business Agreement",
+    "Startup India",
+    "IEC Code",
+    "Trademark Filing",
+    "Copyright Claim",
+    "Patent Filing",
+    "Import Export",
+    "Vendor Agreement",
+    "Company Incorporation",
+    "Board Resolution",
+    "Business Ownership"
+  ],
+
+  "Vehicle":[
+    "Vehicle Sale",
+    "Vehicle Purchase",
+    "Car Transfer",
+    "Bike Transfer",
+    "Vehicle Ownership",
+    "Driving License",
+    "RC Transfer",
+    "Vehicle Insurance",
+    "Accident Declaration",
+    "Commercial Vehicle",
+    "Transport Permit"
   ]
 }
