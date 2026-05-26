@@ -1,7 +1,3 @@
-<!-- SAFE v28 PURPOSE SYSTEM REPLACEMENT -->
-<!-- DELETE OLD premiumPurposes + freePurposes BLOCK -->
-<!-- PASTE THIS INSIDE <script> -->
-
 <script>
 
 (function(){
@@ -11,11 +7,9 @@
 ========================= */
 
 let isPremiumMode = true;
-
 let uploadedPhoto = "";
 
 let premiumPurposes = [];
-
 let freePurposes = [];
 
 const fallbackPurposes = {
@@ -141,15 +135,17 @@ async function loadPurposesFromJSON(){
 
     populatePurposes();
 
-    console.log("Purposes loaded successfully");
+    console.log("Purposes loaded");
 
   }catch(error){
 
-    console.warn("Fallback purposes used");
+    console.warn("Fallback purposes active");
 
-    premiumPurposes = Object.values(fallbackPurposes).flat();
+    premiumPurposes =
+      Object.values(fallbackPurposes).flat();
 
-    freePurposes = premiumPurposes.slice(0,20);
+    freePurposes =
+      premiumPurposes.slice(0,20);
 
     populatePurposes();
 
@@ -158,7 +154,7 @@ async function loadPurposesFromJSON(){
 }
 
 /* =========================
-   PURPOSE LIST
+   GET PURPOSES
 ========================= */
 
 function getCurrentPurposeList(){
@@ -175,7 +171,8 @@ function getCurrentPurposeList(){
 
 function populatePurposes(filter = ""){
 
-  const select = document.getElementById("purposeDropdown");
+  const select =
+    document.getElementById("purposeDropdown");
 
   if(!select) return;
 
@@ -183,18 +180,18 @@ function populatePurposes(filter = ""){
 
   select.innerHTML = "";
 
-  const list = getCurrentPurposeList();
-
-  const filtered = list.filter(item =>
-    item.toLowerCase().includes(filter.toLowerCase())
-  );
+  const filtered =
+    getCurrentPurposeList().filter(item =>
+      item.toLowerCase()
+      .includes(filter.toLowerCase())
+    );
 
   filtered.forEach(item => {
 
-    const option = document.createElement("option");
+    const option =
+      document.createElement("option");
 
     option.value = item;
-
     option.textContent = item;
 
     select.appendChild(option);
@@ -222,16 +219,19 @@ document.getElementById("purposeSearch");
 
 if(purposeSearch){
 
-  purposeSearch.addEventListener("input",(e)=>{
+  purposeSearch.addEventListener(
+    "input",
+    (e)=>{
 
-    populatePurposes(e.target.value);
+      populatePurposes(e.target.value);
 
-  });
+    }
+  );
 
 }
 
 /* =========================
-   MODE BUTTONS
+   FREE / PREMIUM MODE
 ========================= */
 
 const freeBtn =
@@ -274,7 +274,8 @@ if(premiumBtn){
 
 function showToast(message){
 
-  const toast = document.createElement("div");
+  const toast =
+    document.createElement("div");
 
   toast.className = "toast";
 
@@ -291,14 +292,44 @@ function showToast(message){
 }
 
 /* =========================
+   FIX PURPOSE DROPDOWN UI
+========================= */
+
+const style = document.createElement("style");
+
+style.innerHTML = `
+
+.purpose-scroll select{
+  width:100%;
+  background:transparent;
+  color:#ffffff;
+  border:none;
+  outline:none;
+  font-size:14px;
+}
+
+.purpose-scroll option{
+  padding:10px;
+  background:#132238;
+  color:#ffffff;
+}
+
+`;
+
+document.head.appendChild(style);
+
+/* =========================
    INIT
 ========================= */
 
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener(
+  "DOMContentLoaded",
+  ()=>{
 
-  loadPurposesFromJSON();
+    loadPurposesFromJSON();
 
-});
+  }
+);
 
 })();
 
