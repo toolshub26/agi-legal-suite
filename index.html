@@ -5,118 +5,267 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0a192f">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json">
-  
-  <!-- External CSS (no inline styles) -->
-  <link rel="stylesheet" href="styles.css">
-  
-  <!-- Strict CSP – no unsafe-inline, no unsafe-eval, only self and specific CDN hashes if needed -->
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self';
-    style-src 'self';
-    img-src 'self' data: blob:;
-    font-src 'self';
-    connect-src 'self';
-    worker-src 'self';
-    frame-src 'none';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-  ">
-  
-  <title>AGI Legal Pro – Secure Affidavit System</title>
+  <title>AGI Legal – Mobile Affidavit</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#0a192f; font-family:system-ui, -apple-system, 'Segoe UI', sans-serif; color:#eef2ff; padding:16px; }
+    .container { max-width:600px; margin:0 auto; }
+    .card { background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); border-radius:24px; padding:20px; margin-bottom:20px; border:1px solid #d4af37; }
+    h2 { color:#d4af37; margin-bottom:12px; font-size:1.5rem; }
+    label { display:block; margin:12px 0 6px; font-weight:600; }
+    input, select, textarea { width:100%; padding:12px; background:#1e2a3e; border:1px solid #d4af37; border-radius:16px; color:white; font-size:16px; }
+    button { background:linear-gradient(145deg,#b8860b,#d4af37); border:none; padding:12px 18px; border-radius:40px; font-weight:bold; color:#0a192f; cursor:pointer; margin:4px; }
+    .btn-group { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0; }
+    canvas { width:100%; height:150px; background:white; border-radius:12px; margin:10px 0; touch-action:none; }
+    .preview { background:white; color:black; padding:20px; border-radius:16px; margin-top:20px; font-family:'Times New Roman', serif; }
+    .toast { position:fixed; bottom:20px; left:20px; background:#2c3e50; padding:10px 16px; border-radius:40px; color:white; z-index:1000; }
+    .offline { background:#e67e22; text-align:center; padding:6px; display:none; }
+    @media print { .no-print { display:none; } .preview { margin:0; padding:10px; } }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 </head>
-<body class="dark">
-  <!-- Offline Banner -->
-  <div id="offlineBanner" class="offline-banner hidden">⚠️ You are offline – changes saved locally</div>
-  
-  <!-- Top Bar -->
-  <div class="topbar">
-    <div class="logo-area">⚖️ AGI LEGAL PRO <span id="modeBadge" class="mode-badge">PRO</span></div>
+<body>
+<div id="offlineBanner" class="offline">⚠️ Offline mode – changes saved</div>
+<div class="container">
+  <div class="card">
+    <h2>⚖️ AGI LEGAL PRO</h2>
+    <label>Full Name *</label>
+    <input type="text" id="name" maxlength="100" placeholder="Full name" required>
+    <label>Father's Name *</label>
+    <input type="text" id="father" maxlength="100" placeholder="Father's name" required>
+    <label>Age *</label>
+    <input type="number" id="age" min="1" max="120" inputmode="numeric" placeholder="Age" required>
+    <label>Address *</label>
+    <textarea id="address" rows="2" maxlength="300" placeholder="Address" required></textarea>
+    <label>Purpose</label>
+    <select id="purpose"><option>Name Change</option><option>Marriage</option><option>Income Proof</option></select>
+    <label>Statement</label>
+    <textarea id="statement" maxlength="2000" rows="3">I hereby declare that the facts mentioned are true and accurate.</textarea>
+    <label>Upload Photo (optional)</label>
+    <input type="file" id="photoUpload" accept="image/jpeg,image/png,image/webp">
+    <div class="signature-area">
+      <label>✍️ Signature</label>
+      <canvas id="signatureCanvas"></canvas>
+      <div class="btn-group">
+        <button id="clearSig">Clear</button>
+        <button id="saveSig">Save</button>
+      </div>
+    </div>
     <div class="btn-group">
-      <button id="freeModeBtn" class="glass-btn">📄 Free</button>
-      <button id="premiumModeBtn" class="premium-btn">👑 PRO</button>
-      <button id="pdfExportBtn" class="glass-btn">📑 PDF</button>
-      <button id="pngExportBtn" class="glass-btn">🖼️ PNG</button>
-      <button id="copyTextBtn" class="glass-btn">📋 Copy</button>
-      <button id="themeToggleBtn" class="glass-btn">🌓 Theme</button>
-      <button id="printNowBtn" class="glass-btn">🖨️ Print</button>
+      <button id="generateBtn">✨ Generate Affidavit</button>
+      <button id="pdfBtn">📑 PDF</button>
+      <button id="themeBtn">🌓 Theme</button>
     </div>
   </div>
-  
-  <!-- Analytics Cards -->
-  <div class="cards-row">
-    <div class="analytics-card"><h3 id="totalDocsCount">0</h3><p>Total Docs</p></div>
-    <div class="analytics-card"><h3 id="totalExportsCount">0</h3><p>Exports</p></div>
-    <div class="analytics-card"><h3 id="topPurpose">-</h3><p>Top Purpose</p></div>
+  <div class="card" id="previewCard">
+    <h2>Preview</h2>
+    <div id="previewArea" class="preview">Your affidavit will appear here.</div>
+    <div id="qrContainer" style="text-align:center; margin-top:16px;"></div>
   </div>
-  
-  <!-- Main Dashboard -->
-  <div class="main-dashboard">
-    <!-- Form Panel -->
-    <div class="form-panel">
-      <h2>📝 Affidavit Details <span id="saveBadge" class="save-badge">Saved</span></h2>
-      
-      <div class="field"><label>Full Name *</label><input type="text" id="fullName" maxlength="100" value="Abdul Rahman Khan"></div>
-      <div class="field"><label>Father's Name *</label><input type="text" id="fatherName" maxlength="100" value="Mohammed Salim"></div>
-      <div class="field"><label>Age *</label><input type="number" id="age" min="1" max="120" value="32"></div>
-      <div class="field"><label>Gender *</label><select id="gender"><option>Male</option><option>Female</option><option>Other</option></select></div>
-      <div class="field"><label>Address *</label><input type="text" id="address" maxlength="200" value="House 42, Street 8"></div>
-      <div class="field"><label>State *</label><input type="text" id="state" maxlength="100" value="Dubai"></div>
-      <div class="field"><label>District *</label><input type="text" id="district" maxlength="100" value="Bur Dubai"></div>
-      <div class="field"><label>Country *</label><input type="text" id="countryInput" maxlength="100" value="UAE"></div>
-      <div class="field"><label>ID Proof Number *</label><input type="text" id="idNumber" maxlength="50" autocomplete="off" placeholder="Aadhaar / Passport"></div>
-      <div class="field"><label>Language</label><select id="langSelect"><option value="en">English</option><option value="ur">Urdu</option><option value="hi">Hindi</option><option value="ar">Arabic</option></select></div>
-      <div class="field"><label>Purpose (250+ legal)</label><input type="text" id="purposeSearch" maxlength="100" placeholder="Search..."><select id="purposeDropdown" size="6"></select></div>
-      <div class="field"><label>Sworn Statement</label><textarea id="swornStatement" rows="2" maxlength="2000">I hereby declare that the facts mentioned are true and accurate.</textarea></div>
-      <div class="field"><label>Upload Photo</label><input type="file" id="photoUpload" accept="image/jpeg,image/png,image/webp"></div>
-      
-      <div class="settings-bar">
-        <select id="templateSelect"><option value="standard">Standard</option><option value="court">Court Format</option></select>
-        <select id="sealColorSelect"><option value="red">Red Seal</option><option value="blue">Blue Seal</option><option value="gold">Gold Seal</option></select>
-        <select id="qualitySelect"><option value="standard">Export: Standard</option><option value="high">High</option><option value="ultra">Ultra</option></select>
-        <label><input type="checkbox" id="watermarkToggle" checked> Watermark</label>
-        <label id="aiEnhanceContainer"><input type="checkbox" id="aiEnhanceToggle"> AI Enhance</label>
-      </div>
-      
-      <div class="signature-area">
-        <label>✍️ Electronic Signature</label>
-        <canvas id="signatureCanvas" width="500" height="150"></canvas>
-        <div style="display:flex; gap:10px; margin-top:8px;">
-          <button id="clearSignatureBtn" class="glass-btn">Clear</button>
-          <button id="saveSignatureBtn" class="premium-btn">Save</button>
-        </div>
-      </div>
-      
-      <button id="generateAffidavitBtn" class="premium-btn" style="width:100%; padding:14px;">✨ GENERATE NEW ID</button>
-      <div class="history-list"><strong>📜 Recent (last 10)</strong><div id="historyContainer"></div></div>
-    </div>
-    
-    <!-- Preview Panel -->
-    <div class="preview-panel">
-      <div id="affidavitContainer" class="affidavit-paper">
-        <div id="watermarkElem" class="watermark-text">LEGAL DOCUMENT</div>
-        <div id="stampElem" class="stamp red">NOTARY SEAL</div>
-        <div id="dynamicAffidavitContent"></div>
-        <div id="qrArea" class="qr-container"></div>
-        <div id="docFooter" class="footer-note"></div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- External Modules – no inline scripts -->
-  <script type="module" src="js/app.js"></script>
-  
-  <!-- Optional: Service Worker registration (if exists) -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').catch(e => console.warn('SW registration failed:', e));
+</div>
+<script>
+  (function(){
+    // DOM elements
+    const nameInput = document.getElementById('name');
+    const fatherInput = document.getElementById('father');
+    const ageInput = document.getElementById('age');
+    const addressInput = document.getElementById('address');
+    const purposeSelect = document.getElementById('purpose');
+    const statementInput = document.getElementById('statement');
+    const photoUpload = document.getElementById('photoUpload');
+    const generateBtn = document.getElementById('generateBtn');
+    const pdfBtn = document.getElementById('pdfBtn');
+    const themeBtn = document.getElementById('themeBtn');
+    const clearSigBtn = document.getElementById('clearSig');
+    const saveSigBtn = document.getElementById('saveSig');
+    const previewDiv = document.getElementById('previewArea');
+    const qrContainer = document.getElementById('qrContainer');
+    const offlineBanner = document.getElementById('offlineBanner');
+    const canvas = document.getElementById('signatureCanvas');
+
+    let uploadedPhoto = '';
+    let signaturePad = null;
+    let signatureDataURL = '';
+
+    // Image validation (size & type)
+    const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
+    function validateImage(file) {
+      const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+      if (!allowed.includes(file.type)) {
+        showToast('Only JPG, PNG, WEBP allowed', true);
+        return false;
+      }
+      if (file.size > MAX_IMAGE_SIZE) {
+        showToast('Image too large (max 2MB)', true);
+        return false;
+      }
+      return true;
     }
-  </script>
-  <!-- The above script is minimal and only for SW; all app logic is external -->
+
+    photoUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (!validateImage(file)) {
+        photoUpload.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        uploadedPhoto = ev.target.result;
+        showToast('Photo uploaded');
+        generateAffidavit();
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Signature pad
+    function initSignature() {
+      const rect = canvas.getBoundingClientRect();
+      const ratio = window.devicePixelRatio || 1;
+      canvas.width = rect.width * ratio;
+      canvas.height = rect.height * ratio;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(ratio, ratio);
+      if(signaturePad) signaturePad.clear();
+      else signaturePad = new SignaturePad(canvas, { minDistance:1, throttle:16, backgroundColor:'white', penColor:'black' });
+      if(signatureDataURL) {
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
+        img.src = signatureDataURL;
+      }
+    }
+    window.addEventListener('resize', initSignature);
+    initSignature();
+    clearSigBtn.onclick = () => { signaturePad.clear(); signatureDataURL = ''; showToast('Signature cleared'); };
+    saveSigBtn.onclick = () => { if(!signaturePad.isEmpty()) { signatureDataURL = signaturePad.toDataURL(); showToast('Signature saved'); } else showToast('Draw signature first', true); };
+
+    // XSS escaping
+    function escapeHtml(str) {
+      if(!str) return '';
+      return str.replace(/[&<>"']/g, m => ({
+        '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+      }[m]));
+    }
+
+    function showToast(msg, err=false) {
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.innerText = msg;
+      if(err) t.style.borderLeft = '3px solid red';
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 3000);
+    }
+
+    // IndexedDB drafts
+    function saveDraft(data) {
+      const req = indexedDB.open('AGI_Legal_Mobile', 1);
+      req.onupgradeneeded = e => { if(!e.target.result.objectStoreNames.contains('drafts')) e.target.result.createObjectStore('drafts',{keyPath:'id'}); };
+      req.onsuccess = e => {
+        const db = e.target.result;
+        const tx = db.transaction('drafts','readwrite');
+        tx.objectStore('drafts').put({id:'current', data});
+      };
+    }
+    function loadDraft(cb) {
+      const req = indexedDB.open('AGI_Legal_Mobile', 1);
+      req.onupgradeneeded = e => { if(!e.target.result.objectStoreNames.contains('drafts')) e.target.result.createObjectStore('drafts',{keyPath:'id'}); };
+      req.onsuccess = e => {
+        const db = e.target.result;
+        if(!db.objectStoreNames.contains('drafts')) return cb(null);
+        const tx = db.transaction('drafts','readonly');
+        const get = tx.objectStore('drafts').get('current');
+        get.onsuccess = () => cb(get.result ? get.result.data : null);
+      };
+    }
+
+    // Generate affidavit preview with required field validation
+    function generateAffidavit() {
+      if (!nameInput.value.trim() || !fatherInput.value.trim() || !ageInput.value.trim() || !addressInput.value.trim()) {
+        showToast('Please fill all required fields (Name, Father, Age, Address)', true);
+        return;
+      }
+      const name = escapeHtml(nameInput.value.trim()) || 'Deponent';
+      const father = escapeHtml(fatherInput.value.trim()) || 'N/A';
+      let age = ageInput.value.trim();
+      age = age ? escapeHtml(age) : '';
+      const address = escapeHtml(addressInput.value.trim()) || 'Not provided';
+      const purpose = escapeHtml(purposeSelect.value);
+      const statement = escapeHtml(statementInput.value);
+      const date = new Date().toLocaleDateString('en-GB');
+      
+      let html = `<div style="text-align:center;"><h1>AFFIDAVIT</h1><p>BEFORE THE NOTARY PUBLIC</p></div>`;
+      html += `<p>I, ${name}, son/daughter of ${father}, aged ${age} years, resident of ${address}, do hereby affirm:</p>`;
+      html += `<p>Purpose: ${purpose}</p><p>Statement: ${statement}</p><p>This affidavit is true to my knowledge.</p>`;
+      html += `<p>Verified under law. Date: ${date}</p>`;
+      if(uploadedPhoto) {
+        html += `<div style="margin-top:20px;"><img src="${uploadedPhoto}" loading="lazy" style="width:120px; border:1px solid #000; border-radius:8px;" alt="Photo"></div>`;
+      }
+      if(signatureDataURL) {
+        html += `<div style="margin-top:20px;"><img src="${signatureDataURL}" style="max-width:150px; border:1px solid black;" alt="Signature"></div>`;
+      }
+      previewDiv.innerHTML = DOMPurify.sanitize(html);
+      
+      const qrText = `AGI:${Date.now()}|${name}|${purpose}`;
+      qrContainer.innerHTML = '';
+      new QRCode(qrContainer, { text: qrText, width: 100, height: 100 });
+      
+      saveDraft({ name, father, age, address, purpose, statement, signatureDataURL, uploadedPhoto, timestamp: Date.now() });
+    }
+
+    function exportPDF() {
+      if (!previewDiv.innerText.trim() || previewDiv.innerText === 'Your affidavit will appear here.') {
+        showToast('Generate affidavit first', true);
+        return;
+      }
+      const element = document.getElementById('previewCard');
+      html2pdf().set({
+        margin: 0.4,
+        filename: 'affidavit.pdf',
+        html2canvas: { scale: window.devicePixelRatio > 1 ? 3 : 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      }).from(element).save();
+    }
+
+    let dark = true;
+    function toggleTheme() {
+      dark = !dark;
+      document.body.style.background = dark ? '#0a192f' : '#f4f7fc';
+      document.body.style.color = dark ? '#eef2ff' : '#0a2540';
+    }
+
+    let timer;
+    function autoSave() { clearTimeout(timer); timer = setTimeout(() => generateAffidavit(), 500); }
+    const inputs = [nameInput, fatherInput, ageInput, addressInput, purposeSelect, statementInput];
+    inputs.forEach(i => i.addEventListener('input', autoSave));
+    generateBtn.onclick = generateAffidavit;
+    pdfBtn.onclick = exportPDF;
+    themeBtn.onclick = toggleTheme;
+
+    window.addEventListener('online', () => offlineBanner.style.display = 'none');
+    window.addEventListener('offline', () => offlineBanner.style.display = 'block');
+    if(!navigator.onLine) offlineBanner.style.display = 'block';
+
+    loadDraft(draft => {
+      if(draft) {
+        nameInput.value = draft.name || '';
+        fatherInput.value = draft.father || '';
+        ageInput.value = draft.age || '';
+        addressInput.value = draft.address || '';
+        purposeSelect.value = draft.purpose || 'Name Change';
+        statementInput.value = draft.statement || '';
+        signatureDataURL = draft.signatureDataURL || '';
+        uploadedPhoto = draft.uploadedPhoto || '';
+        initSignature();
+        generateAffidavit();
+        showToast('Draft restored');
+      } else {
+        generateAffidavit();
+      }
+    });
+  })();
+</script>
 </body>
 </html>
