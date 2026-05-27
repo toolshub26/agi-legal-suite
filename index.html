@@ -5,22 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0a192f">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>AGI Legal – Mobile Affidavit</title>
+  <title>AGI Legal – Professional Affidavit Generator</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:#0a192f; font-family:system-ui, -apple-system, 'Segoe UI', sans-serif; color:#eef2ff; padding:16px; }
-    .container { max-width:600px; margin:0 auto; }
-    .card { background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); border-radius:24px; padding:20px; margin-bottom:20px; border:1px solid #d4af37; }
-    h2 { color:#d4af37; margin-bottom:12px; font-size:1.5rem; }
-    label { display:block; margin:12px 0 6px; font-weight:600; }
+    body { background:#0a192f; font-family:system-ui, -apple-system, 'Segoe UI', sans-serif; color:#eef2ff; padding:20px; }
+    .container { max-width:800px; margin:0 auto; }
+    .card { background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); border-radius:24px; padding:24px; margin-bottom:24px; border:1px solid #d4af37; }
+    h2 { color:#d4af37; margin-bottom:16px; font-size:1.6rem; border-left:4px solid #d4af37; padding-left:12px; }
+    label { display:block; margin:16px 0 6px; font-weight:600; }
     input, select, textarea { width:100%; padding:12px; background:#1e2a3e; border:1px solid #d4af37; border-radius:16px; color:white; font-size:16px; }
-    button { background:linear-gradient(145deg,#b8860b,#d4af37); border:none; padding:12px 18px; border-radius:40px; font-weight:bold; color:#0a192f; cursor:pointer; margin:4px; }
-    .btn-group { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0; }
+    button { background:linear-gradient(145deg,#b8860b,#d4af37); border:none; padding:12px 20px; border-radius:40px; font-weight:bold; color:#0a192f; cursor:pointer; margin:5px; transition:0.2s; }
+    button:hover { transform:scale(0.98); opacity:0.9; }
+    button:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+    .btn-group { display:flex; flex-wrap:wrap; gap:10px; margin:20px 0 10px; }
     canvas { width:100%; height:150px; background:white; border-radius:12px; margin:10px 0; touch-action:none; }
-    .preview { background:white; color:black; padding:20px; border-radius:16px; margin-top:20px; font-family:'Times New Roman', serif; }
+    .preview {
+      background:white;
+      color:black;
+      padding:20px;
+      border-radius:16px;
+      margin-top:20px;
+      font-family:'Times New Roman', Times, serif;
+      line-height:1.5;
+      box-shadow:0 8px 20px rgba(0,0,0,0.2);
+      overflow-wrap:break-word;
+      white-space:pre-wrap;
+      min-height:500px;
+    }
+    .preview h1 { font-size:28px; text-align:center; margin-bottom:10px; }
+    .preview .sub { text-align:center; margin-bottom:30px; border-bottom:1px solid #ccc; padding-bottom:8px; }
     .toast { position:fixed; bottom:20px; left:20px; background:#2c3e50; padding:10px 16px; border-radius:40px; color:white; z-index:1000; }
     .offline { background:#e67e22; text-align:center; padding:6px; display:none; }
-    @media print { .no-print { display:none; } .preview { margin:0; padding:10px; } }
+    .purpose-search { margin-bottom:8px; }
+    .purpose-list { max-height:200px; overflow-y:auto; background:#1e2a3e; border:1px solid #d4af37; border-radius:16px; padding:8px; margin-top:8px; }
+    .purpose-item { cursor:pointer; padding:10px; border-bottom:1px solid rgba(212,175,55,0.3); transition:0.1s; }
+    .purpose-item:hover { background:#d4af37; color:#0a192f; }
+    .selected-purpose-box { margin-top:12px; padding:12px; border:1px solid #d4af37; border-radius:14px; background:rgba(212,175,55,0.08); color:#d4af37; font-weight:bold; font-size:15px; }
+    @media print { .no-print { display:none; } .preview { margin:0; padding:15px; box-shadow:none; min-height:auto; } }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
@@ -28,52 +49,93 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 </head>
 <body>
-<div id="offlineBanner" class="offline">⚠️ Offline mode – changes saved</div>
+<div id="offlineBanner" class="offline">📡 Offline – changes saved locally</div>
 <div class="container">
-  <div class="card">
-    <h2>⚖️ AGI LEGAL PRO</h2>
-    <label>Full Name *</label>
-    <input type="text" id="name" maxlength="100" placeholder="Full name" required>
-    <label>Father's Name *</label>
-    <input type="text" id="father" maxlength="100" placeholder="Father's name" required>
-    <label>Age *</label>
-    <input type="number" id="age" min="1" max="120" inputmode="numeric" placeholder="Age" required>
-    <label>Address *</label>
-    <textarea id="address" rows="2" maxlength="300" placeholder="Address" required></textarea>
-    <label>Purpose</label>
-    <select id="purpose"><option>Name Change</option><option>Marriage</option><option>Income Proof</option></select>
-    <label>Statement</label>
-    <textarea id="statement" maxlength="2000" rows="3">I hereby declare that the facts mentioned are true and accurate.</textarea>
+  <div class="card no-print">
+    <h2>📝 Affidavit Details</h2>
+    <label>Full Name *</label><input type="text" id="name" maxlength="100" placeholder="e.g. Abdul Rahman Khan" required>
+    <label>Father's Name *</label><input type="text" id="father" maxlength="100" placeholder="e.g. Mohammed Salim" required>
+    <label>Age *</label><input type="number" id="age" min="1" max="120" inputmode="numeric" placeholder="e.g. 32" required>
+    <label>Address *</label><textarea id="address" rows="2" maxlength="300" placeholder="Complete residential address" required></textarea>
+    
+    <label>Legal Purpose (search)</label>
+    <input type="text" id="purposeSearch" class="purpose-search" placeholder="Type to filter...">
+    <div id="purposeList" class="purpose-list"></div>
+    <input type="hidden" id="selectedPurpose" value="Name Change">
+    <div id="selectedPurposeBox" class="selected-purpose-box">
+      📌 Selected Purpose: <strong>Name Change</strong>
+    </div>
+    
+    <label>Sworn Statement</label>
+    <textarea id="statement" maxlength="2000" rows="3">I hereby declare that the facts mentioned above are true and correct to the best of my knowledge and belief.</textarea>
+    
     <label>Upload Photo (optional)</label>
     <input type="file" id="photoUpload" accept="image/jpeg,image/png,image/webp">
-    <div class="signature-area">
-      <label>✍️ Signature</label>
+    
+    <div>
+      <label>✍️ Electronic Signature</label>
       <canvas id="signatureCanvas"></canvas>
       <div class="btn-group">
-        <button id="clearSig">Clear</button>
-        <button id="saveSig">Save</button>
+        <button id="clearSig">Clear Signature</button>
+        <button id="saveSig">Save Signature</button>
       </div>
     </div>
+    
     <div class="btn-group">
       <button id="generateBtn">✨ Generate Affidavit</button>
-      <button id="pdfBtn">📑 PDF</button>
-      <button id="themeBtn">🌓 Theme</button>
+      <button id="pdfBtn">📑 Save as PDF</button>
+      <button id="themeBtn">🌓 Light/Dark</button>
     </div>
   </div>
+  
   <div class="card" id="previewCard">
-    <h2>Preview</h2>
-    <div id="previewArea" class="preview">Your affidavit will appear here.</div>
-    <div id="qrContainer" style="text-align:center; margin-top:16px;"></div>
+    <h2>📄 Affidavit Preview</h2>
+    <div id="previewArea" class="preview">
+      <h1>AFFIDAVIT</h1>
+      <div class="sub">BEFORE THE NOTARY PUBLIC</div>
+      <p>Your affidavit will appear here after clicking "Generate".</p>
+    </div>
+    <div id="qrContainer" style="text-align:center; margin-top:20px;"></div>
   </div>
 </div>
+
 <script>
   (function(){
+    // ----------------------------- REAL LEGAL PURPOSES (80+ authentic) -----------------------------
+    const purposesList = [
+      "Name Change", "Marriage Affidavit", "Income / Salary Proof", "Passport Verification", "Court Submission",
+      "Property Transfer", "Bank Loan Application", "Education Loan", "Visa / Immigration", "Aadhaar Correction",
+      "GST Registration", "Police Verification", "Trademark / Copyright", "Research Ethics Compliance", "Startup Registration",
+      "Business Agreement", "NGO / Trust Registration", "University Degree Verification", "Employment Contract", "Residential Proof",
+      "Affidavit of Heirship", "Lost Document Declaration", "Affidavit of Support", "Guardianship", "Medical Consent",
+      "Date of Birth Correction", "Single Status", "Divorce Decree", "No Objection Certificate", "Affidavit of Residence",
+      "Business License", "Tax Residency", "Vehicle Ownership Transfer", "Insurance Claim", "Intellectual Property",
+      "Export / Import License", "Customs Declaration", "Legal Heir Certificate", "Succession Certificate", "Indemnity Bond",
+      "Will Registration", "Partnership Deed", "Merger Declaration", "Police Clearance", "Character Certificate",
+      "Student Visa", "Work / Employment Permit", "Family Visa", "Sponsorship Affidavit", "Real Estate Sale",
+      "Mortgage Affidavit", "Rental / Lease Agreement", "Tenancy Dispute", "Labour Dispute", "Arbitration / Mediation",
+      "Contract Review", "Patent Filing", "Geographical Indication", "MSME Registration", "IEC Code",
+      "GST Cancellation", "Income Tax Appeal", "Customs Appeal", "Bank Guarantee", "Affidavit of Truth",
+      "Witness Statement", "Police Complaint", "FIR Affidavit", "Bail Affidavit", "Anticipatory Bail",
+      "Interim Relief", "Probate", "Letters of Administration", "Legal Notice", "Cease & Desist", "Government Tender",
+      "RTI Affidavit", "Election Affidavit", "Construction Permit", "Factory License", "Trade License", "FSSAI License",
+      "Drug License", "Medical Practice", "Nursing Registration", "Engineering Council", "Architect Certification",
+      "Birth Certificate Correction", "Death Certificate Correction", "Duplicate Marksheet", "Caste / OBC / EWS Certificate",
+      "Domicile Certificate", "Nationality Certificate", "Lost Mobile / SIM Declaration", "Electricity / Water Connection",
+      "Court Marriage", "Adoption Affidavit", "Child Custody", "Pension / Retirement Benefits", "Bank Account Opening",
+      "Cheque Bounce Declaration", "Cyber Crime Complaint"
+    ];
+    const purposes = [...new Map(purposesList.map(p => [p.toLowerCase(), p])).values()].sort();
+
     // DOM elements
     const nameInput = document.getElementById('name');
     const fatherInput = document.getElementById('father');
     const ageInput = document.getElementById('age');
     const addressInput = document.getElementById('address');
-    const purposeSelect = document.getElementById('purpose');
+    const purposeSearch = document.getElementById('purposeSearch');
+    const purposeListDiv = document.getElementById('purposeList');
+    const selectedPurposeHidden = document.getElementById('selectedPurpose');
+    const selectedPurposeBox = document.getElementById('selectedPurposeBox');
     const statementInput = document.getElementById('statement');
     const photoUpload = document.getElementById('photoUpload');
     const generateBtn = document.getElementById('generateBtn');
@@ -90,7 +152,36 @@
     let signaturePad = null;
     let signatureDataURL = '';
 
-    // Image validation (size & type)
+    // Update visible purpose box
+    function updateVisiblePurpose(purpose) {
+      selectedPurposeBox.innerHTML = `📌 Selected Purpose: <strong>${escapeHtml(purpose)}</strong>`;
+    }
+
+    // Render purpose list with filter
+    function renderPurposeList(filter = '') {
+      const filtered = purposes.filter(p => p.toLowerCase().includes(filter.toLowerCase()));
+      purposeListDiv.innerHTML = '';
+      filtered.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'purpose-item';
+        div.textContent = p;
+        div.onclick = () => {
+          selectedPurposeHidden.value = p;
+          purposeSearch.value = p;
+          updateVisiblePurpose(p);
+          renderPurposeList(p);
+          generateAffidavit();
+        };
+        purposeListDiv.appendChild(div);
+      });
+      if (filtered.length === 0) {
+        purposeListDiv.innerHTML = '<div class="purpose-item">No matching purpose</div>';
+      }
+    }
+    purposeSearch.addEventListener('input', (e) => renderPurposeList(e.target.value));
+    renderPurposeList();
+
+    // Image validation
     const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
     function validateImage(file) {
       const allowed = ['image/jpeg', 'image/png', 'image/webp'];
@@ -104,7 +195,6 @@
       }
       return true;
     }
-
     photoUpload.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
@@ -129,9 +219,9 @@
       canvas.height = rect.height * ratio;
       const ctx = canvas.getContext('2d');
       ctx.scale(ratio, ratio);
-      if(signaturePad) signaturePad.clear();
+      if (signaturePad) signaturePad.clear();
       else signaturePad = new SignaturePad(canvas, { minDistance:1, throttle:16, backgroundColor:'white', penColor:'black' });
-      if(signatureDataURL) {
+      if (signatureDataURL) {
         const img = new Image();
         img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
         img.src = signatureDataURL;
@@ -140,48 +230,45 @@
     window.addEventListener('resize', initSignature);
     initSignature();
     clearSigBtn.onclick = () => { signaturePad.clear(); signatureDataURL = ''; showToast('Signature cleared'); };
-    saveSigBtn.onclick = () => { if(!signaturePad.isEmpty()) { signatureDataURL = signaturePad.toDataURL(); showToast('Signature saved'); } else showToast('Draw signature first', true); };
+    saveSigBtn.onclick = () => { if (!signaturePad.isEmpty()) { signatureDataURL = signaturePad.toDataURL(); showToast('Signature saved'); } else showToast('Draw signature first', true); };
 
-    // XSS escaping
+    // HTML escaping
     function escapeHtml(str) {
-      if(!str) return '';
-      return str.replace(/[&<>"']/g, m => ({
-        '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
-      }[m]));
+      if (!str) return '';
+      return str.replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
     }
-
-    function showToast(msg, err=false) {
+    function showToast(msg, err = false) {
       const t = document.createElement('div');
       t.className = 'toast';
-      t.innerText = msg;
-      if(err) t.style.borderLeft = '3px solid red';
+      t.textContent = msg;
+      if (err) t.style.borderLeft = '3px solid #e74c3c';
       document.body.appendChild(t);
       setTimeout(() => t.remove(), 3000);
     }
 
     // IndexedDB drafts
     function saveDraft(data) {
-      const req = indexedDB.open('AGI_Legal_Mobile', 1);
-      req.onupgradeneeded = e => { if(!e.target.result.objectStoreNames.contains('drafts')) e.target.result.createObjectStore('drafts',{keyPath:'id'}); };
-      req.onsuccess = e => {
+      const req = indexedDB.open('AGI_Legal', 1);
+      req.onupgradeneeded = (e) => { if (!e.target.result.objectStoreNames.contains('drafts')) e.target.result.createObjectStore('drafts', {keyPath:'id'}); };
+      req.onsuccess = (e) => {
         const db = e.target.result;
-        const tx = db.transaction('drafts','readwrite');
+        const tx = db.transaction('drafts', 'readwrite');
         tx.objectStore('drafts').put({id:'current', data});
       };
     }
     function loadDraft(cb) {
-      const req = indexedDB.open('AGI_Legal_Mobile', 1);
-      req.onupgradeneeded = e => { if(!e.target.result.objectStoreNames.contains('drafts')) e.target.result.createObjectStore('drafts',{keyPath:'id'}); };
-      req.onsuccess = e => {
+      const req = indexedDB.open('AGI_Legal', 1);
+      req.onupgradeneeded = (e) => { if (!e.target.result.objectStoreNames.contains('drafts')) e.target.result.createObjectStore('drafts', {keyPath:'id'}); };
+      req.onsuccess = (e) => {
         const db = e.target.result;
-        if(!db.objectStoreNames.contains('drafts')) return cb(null);
-        const tx = db.transaction('drafts','readonly');
+        if (!db.objectStoreNames.contains('drafts')) return cb(null);
+        const tx = db.transaction('drafts', 'readonly');
         const get = tx.objectStore('drafts').get('current');
         get.onsuccess = () => cb(get.result ? get.result.data : null);
       };
     }
 
-    // Generate affidavit preview with required field validation
+    // Generate affidavit preview
     function generateAffidavit() {
       if (!nameInput.value.trim() || !fatherInput.value.trim() || !ageInput.value.trim() || !addressInput.value.trim()) {
         showToast('Please fill all required fields (Name, Father, Age, Address)', true);
@@ -189,25 +276,29 @@
       }
       const name = escapeHtml(nameInput.value.trim()) || 'Deponent';
       const father = escapeHtml(fatherInput.value.trim()) || 'N/A';
-      let age = ageInput.value.trim();
-      age = age ? escapeHtml(age) : '';
+      const age = escapeHtml(ageInput.value.trim());
       const address = escapeHtml(addressInput.value.trim()) || 'Not provided';
-      const purpose = escapeHtml(purposeSelect.value);
+      const purpose = escapeHtml(selectedPurposeHidden.value);
       const statement = escapeHtml(statementInput.value);
       const date = new Date().toLocaleDateString('en-GB');
+
+      let html = `<h1>AFFIDAVIT</h1><div class="sub">BEFORE THE NOTARY PUBLIC</div>`;
+      html += `<p>I, <strong>${name}</strong>, son/daughter of <strong>${father}</strong>, aged <strong>${age}</strong> years, resident of <strong>${address}</strong>, do hereby solemnly affirm and state as under:</p>`;
+      html += `<p><strong>Purpose:</strong> ${purpose}</p>`;
+      html += `<p><strong>Declaration:</strong> ${statement}</p>`;
+      html += `<p>I declare that the above statements are true and correct to the best of my knowledge and belief. Nothing material has been concealed.</p>`;
+      html += `<p>Verified at ________ on this <strong>${date}</strong>.</p>`;
       
-      let html = `<div style="text-align:center;"><h1>AFFIDAVIT</h1><p>BEFORE THE NOTARY PUBLIC</p></div>`;
-      html += `<p>I, ${name}, son/daughter of ${father}, aged ${age} years, resident of ${address}, do hereby affirm:</p>`;
-      html += `<p>Purpose: ${purpose}</p><p>Statement: ${statement}</p><p>This affidavit is true to my knowledge.</p>`;
-      html += `<p>Verified under law. Date: ${date}</p>`;
-      if(uploadedPhoto) {
+      if (uploadedPhoto) {
         html += `<div style="margin-top:20px;"><img src="${uploadedPhoto}" loading="lazy" style="width:120px; border:1px solid #000; border-radius:8px;" alt="Photo"></div>`;
       }
-      if(signatureDataURL) {
-        html += `<div style="margin-top:20px;"><img src="${signatureDataURL}" style="max-width:150px; border:1px solid black;" alt="Signature"></div>`;
+      if (signatureDataURL) {
+        html += `<div style="margin-top:25px;"><img src="${signatureDataURL}" style="max-width:180px; border:1px solid black;" alt="Signature"></div>`;
+        html += `<p style="margin-top:5px;"><strong>Signature of Deponent</strong></p>`;
       }
       previewDiv.innerHTML = DOMPurify.sanitize(html);
       
+      // QR code
       const qrText = `AGI:${Date.now()}|${name}|${purpose}`;
       qrContainer.innerHTML = '';
       new QRCode(qrContainer, { text: qrText, width: 100, height: 100 });
@@ -215,46 +306,61 @@
       saveDraft({ name, father, age, address, purpose, statement, signatureDataURL, uploadedPhoto, timestamp: Date.now() });
     }
 
-    function exportPDF() {
-      if (!previewDiv.innerText.trim() || previewDiv.innerText === 'Your affidavit will appear here.') {
+    // PDF export with spam protection
+    async function exportPDF() {
+      if (!previewDiv.innerText.includes('AFFIDAVIT')) {
         showToast('Generate affidavit first', true);
         return;
       }
-      const element = document.getElementById('previewCard');
-      html2pdf().set({
-        margin: 0.4,
-        filename: 'affidavit.pdf',
-        html2canvas: { scale: window.devicePixelRatio > 1 ? 3 : 2, useCORS: true },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-      }).from(element).save();
+      pdfBtn.disabled = true;
+      pdfBtn.innerText = 'Generating...';
+      try {
+        const element = document.getElementById('previewCard');
+        await html2pdf().set({
+          margin: 0.4,
+          filename: 'affidavit.pdf',
+          html2canvas: { scale: window.devicePixelRatio > 1 ? 3 : 2, useCORS: true },
+          jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        }).from(element).save();
+      } finally {
+        pdfBtn.disabled = false;
+        pdfBtn.innerText = '📑 Save as PDF';
+      }
     }
 
+    // Theme toggle
     let dark = true;
     function toggleTheme() {
       dark = !dark;
       document.body.style.background = dark ? '#0a192f' : '#f4f7fc';
       document.body.style.color = dark ? '#eef2ff' : '#0a2540';
     }
+    themeBtn.onclick = toggleTheme;
 
+    // Auto-save debounce
     let timer;
     function autoSave() { clearTimeout(timer); timer = setTimeout(() => generateAffidavit(), 500); }
-    const inputs = [nameInput, fatherInput, ageInput, addressInput, purposeSelect, statementInput];
+    const inputs = [nameInput, fatherInput, ageInput, addressInput, statementInput];
     inputs.forEach(i => i.addEventListener('input', autoSave));
     generateBtn.onclick = generateAffidavit;
     pdfBtn.onclick = exportPDF;
-    themeBtn.onclick = toggleTheme;
 
+    // Offline detection
     window.addEventListener('online', () => offlineBanner.style.display = 'none');
     window.addEventListener('offline', () => offlineBanner.style.display = 'block');
-    if(!navigator.onLine) offlineBanner.style.display = 'block';
+    if (!navigator.onLine) offlineBanner.style.display = 'block';
 
+    // Load draft on start
     loadDraft(draft => {
-      if(draft) {
+      if (draft) {
         nameInput.value = draft.name || '';
         fatherInput.value = draft.father || '';
         ageInput.value = draft.age || '';
         addressInput.value = draft.address || '';
-        purposeSelect.value = draft.purpose || 'Name Change';
+        selectedPurposeHidden.value = draft.purpose || 'Name Change';
+        purposeSearch.value = draft.purpose || '';
+        updateVisiblePurpose(draft.purpose || 'Name Change');
+        renderPurposeList(draft.purpose || '');
         statementInput.value = draft.statement || '';
         signatureDataURL = draft.signatureDataURL || '';
         uploadedPhoto = draft.uploadedPhoto || '';
