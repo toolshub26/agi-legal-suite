@@ -1,5 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Offline – AGI Legal</title><link rel="stylesheet" href="styles.css"></head>
-<body><div class="legal-container" style="max-width:500px; margin:2rem auto; background:var(--glass); border-radius:32px; padding:2rem; text-align:center;"><h1>⚠️ You are offline</h1><p>The affidavit generator works offline, but some features (PDF export, image upload) require an internet connection.</p><p><a href="index.html">← Retry</a></p></div></body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline – AGI Legal</title>
+  <style>
+    body {
+      background: #0a192f;
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      color: #eef2ff;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .offline-box {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 32px;
+      padding: 2rem;
+      border: 1px solid #d4af37;
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 { color: #d4af37; margin-bottom: 1rem; }
+    p { margin-bottom: 1.5rem; line-height: 1.5; }
+    button {
+      background: linear-gradient(145deg, #b8860b, #d4af37);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-weight: bold;
+      color: #0a192f;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover { opacity: 0.9; transform: scale(0.98); }
+  </style>
+</head>
+<body>
+<div class="offline-box">
+  <h1>📡 You are offline</h1>
+  <p>Your affidavit drafts are saved locally. Most features work offline, but PDF export and image upload may require internet.</p>
+  <button onclick="location.reload()">↻ Retry Connection</button>
+  <p style="margin-top: 1rem;"><a href="index.html" style="color:#d4af37; text-decoration:none;">← Back to App</a></p>
+</div>
+</body>
 </html>
