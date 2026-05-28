@@ -1,4 +1,4 @@
-const APP_VERSION = '4.1.0';
+const APP_VERSION = '4.4.0';
 const CACHE_NAME = `agi-legal-${APP_VERSION}`;
 const urlsToCache = [
   './',
@@ -16,7 +16,6 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
-  // Only cache same-origin requests (avoid CDN bloat)
   if (url.origin !== self.location.origin) {
     event.respondWith(fetch(event.request));
     return;
@@ -25,7 +24,10 @@ self.addEventListener('fetch', event => {
     caches.match(event.request).then(cached => {
       if (cached) return cached;
       return fetch(event.request).then(response => {
-        if (event.request.method === 'GET' && response.status === 200) {
+        if (
+          event.request.method === 'GET' &&
+          response.status === 200
+        ) {
           const cloned = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, cloned));
         }
