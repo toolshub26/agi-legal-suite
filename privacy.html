@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0a192f">
   <link rel="icon" href="icon-192.png">
-  <title>Privacy Policy | AGI Legal</title>
+  <title>Privacy Policy | AGI Legal Pro</title>
   <style>
     body {
       background: #0a192f;
@@ -28,31 +28,68 @@
       width: 100%;
     }
     h1, h2 { color: #d4af37; margin-bottom: 0.5rem; }
-    p { line-height: 1.5; margin: 1rem 0; }
+    p, li { line-height: 1.6; margin: 0.8rem 0; }
     a { color: #d4af37; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .back-link { margin-top: 1.5rem; display: inline-block; }
-    .copyright {
-      margin-top: 20px;
-      font-size: 12px;
-      opacity: 0.7;
-      text-align: center;
-    }
+    .copyright { margin-top: 20px; font-size: 12px; opacity: 0.7; text-align: center; }
   </style>
 </head>
 <body>
 <div class="container">
   <h1>Privacy Policy</h1>
-  <p><strong>Effective Date:</strong> May 2025</p>
-  <p>All affidavit data is stored locally on your device using IndexedDB and localStorage. No personal information is sent to our servers unless you manually export or share it.</p>
-  <h2>Data Collection</h2>
-  <p>We collect only the information you provide in the affidavit forms (name, address, signature, photo, etc.). This data remains on your device.</p>
-  <h2>Third‑Party Services</h2>
-  <p>We use locally hosted libraries (html2pdf, html2canvas, QRCode, SignaturePad, DOMPurify) – no external calls except for Google Fonts (which can be disabled if needed).</p>
-  <h2>Your Rights</h2>
-  <p>You can clear all stored data at any time by clearing your browser cache / IndexedDB. Use the browser's developer tools or site settings.</p>
+  <p><strong>Last updated:</strong> May 2025</p>
+
+  <p>AGI Legal Pro ("we", "us", or "our") operates as a global affidavit generation platform. This policy explains how we collect, use, and safeguard your information when you use our app.</p>
+
+  <h2>1. Information We Collect</h2>
+  <ul>
+    <li><strong>Google Account Data:</strong> When you log in with Google, we receive your email address and public display name. We do <strong>not</strong> see or store your Google password.</li>
+    <li><strong>Affidavit Content:</strong> The details you enter (full name, father's name, age, address, purpose, statement, etc.) are stored in our secure cloud database (Firebase Firestore) in order to generate and finalize your affidavit.</li>
+    <li><strong>Signature & Photo:</strong> Any signature you draw or photo you upload is stored as part of your affidavit document.</li>
+    <li><strong>Payment Information:</strong> We <strong>never</strong> store your credit/debit card or UPI details. All payments are processed securely by Razorpay, a PCI‑DSS compliant gateway. We only keep a transaction reference and order ID for audit purposes.</li>
+  </ul>
+
+  <h2>2. How We Use Your Data</h2>
+  <p>Your data is used solely for:</p>
+  <ul>
+    <li>Generating, previewing, and finalizing affidavits</li>
+    <li>Managing your premium subscription (if purchased)</li>
+    <li>Enabling QR‑based public verification (only the affidavit’s existence and status are public – <strong>never</strong> your personal details)</li>
+    <li>Improving the app experience (themes, preferences)</li>
+  </ul>
+  <p>We do <strong>not</strong> sell, rent, or share your personal information with third parties for marketing.</p>
+
+  <h2>3. Data Storage & Security</h2>
+  <ul>
+    <li>All affidavit and profile data is stored on Google Firebase (Firestore), with encryption at rest and in transit.</li>
+    <li>Access to your documents is restricted to your authenticated account only (enforced by Firestore security rules).</li>
+    <li>Payment processing is handled entirely by Razorpay, and we never see your full card details.</li>
+  </ul>
+
+  <h2>4. Data Retention & Deletion</h2>
+  <p>We retain your affidavits and account data until you request deletion. To request deletion of all your data, contact us at <a href="mailto:support@yourdomain.com">support@yourdomain.com</a>. We will process your request within 30 days.</p>
+
+  <h2>5. Public Verification</h2>
+  <p>When you finalize an affidavit, a unique, unguessable verification token is generated. Scanning the QR code opens a public page that shows <strong>only</strong> whether the document is valid and its status (Active/Revoked). It <strong>does not</strong> display your name, address, or any personal information.</p>
+
+  <h2>6. Your Rights</h2>
+  <p>You have the right to:</p>
+  <ul>
+    <li>Access and update your profile information</li>
+    <li>Request deletion of your affidavits and account data</li>
+    <li>Withdraw consent at any time (logout and stop using the app)</li>
+  </ul>
+
+  <h2>7. Changes to This Policy</h2>
+  <p>We may update this policy from time to time. Continued use of the app after changes constitutes acceptance.</p>
+
+  <h2>Contact Us</h2>
+  <p>For any privacy‑related questions or data requests:<br>
+  📧 <a href="mailto:support@yourdomain.com">support@yourdomain.com</a></p>
+
   <a href="index.html" class="back-link">← Back to App</a>
-  <div class="copyright">© 2025 AGI Legal. All rights reserved.</div>
+  <div class="copyright">© 2025 AGI Legal Pro. All rights reserved.</div>
 </div>
 </body>
 </html>
