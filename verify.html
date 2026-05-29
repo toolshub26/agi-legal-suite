@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Affidavit - AGI Legal Pro</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+    .valid { color: #2e7d32; }
+    .invalid { color: #c62828; }
+    .status-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+    .ACTIVE { background: #e8f5e9; color: #2e7d32; }
+    .REVOKED { background: #ffebee; color: #c62828; }
+    .NOT_FOUND, .INVALID_TOKEN { background: #eeeeee; color: #555; }
+    #error { color: #c62828; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>🔍 Affidavit Verification</h2>
+    <div id="result">Checking...</div>
+  </div>
 
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    const token = urlParams.get('token');
+    const resultDiv = document.getElementById('result');
+
+    if (!id || !token) {
+      resultDiv.innerHTML = '<p id="error">❌ Missing affidavit ID or token.</p>';
+    } else {
+      // Replace with your actual Cloud Function URL
+      const FUNCTION_URL = 'https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/verifyAffidavit';
+      fetch(`${FUNCTION_URL}?id=${id}&token=${token}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.valid) {
+            resultDiv.innerHTML = `
+              <p>✅ <strong>Valid Affidavit</strong></p>
+              <div class="status-badge ${data.status}">${data.status}</div>
+            `;
+          } else {
+            resultDiv.innerHTML = `
+              <p>❌ <strong>Not Valid</strong></p>
+              <div class="status-badge ${data.status || 'INVALID'}">${data.status || 'INVALID'}</div>
+            `;
+          }
+        })
+        .catch(err => {
+          resultDiv.innerHTML = '<p id="error">⚠️ Verification failed. Try again later.</p>';
+        });
+    }
+  </script>
+</body>
+</html>
