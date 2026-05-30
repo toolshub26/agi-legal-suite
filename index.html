@@ -15,7 +15,7 @@
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     font-src https://fonts.gstatic.com;
     script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.gstatic.com https://checkout.razorpay.com;
-    connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net;
+    connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://us-central1-affidavittool.cloudfunctions.net;
     frame-src https://checkout.razorpay.com;
   ">
   <title>AGI Legal Pro – Global Affidavit System</title>
@@ -43,17 +43,17 @@
   <script>
     (function() {
       const FIREBASE_CONFIG = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
-      };
+  apiKey: "AIzaSyC_1bKbNGAoGviGt1-a1f27h9VDj4hr3oA",
+  authDomain: "affidavittool.firebaseapp.com",
+  projectId: "affidavittool",
+  storageBucket: "affidavittool.firebasestorage.app",
+  messagingSenderId: "108525725649",
+  appId: "1:108525725649:web:2c3cab440860c81e6de2f0"
+};
 
-      if (!firebase.apps.length) {
-        firebase.initializeApp(FIREBASE_CONFIG);
-      }
+if (!firebase.apps.length) {
+  firebase.initializeApp(FIREBASE_CONFIG);
+}
       const auth = firebase.auth();
       const db = firebase.firestore();
       const functions = firebase.functions();
