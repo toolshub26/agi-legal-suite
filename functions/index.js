@@ -30,6 +30,7 @@ function verifyRazorpaySignature(orderId, paymentId, signature) {
   return expected === signature;
 }
 
+
 function generateAffidavitHash(data) {
   const salted = stableStringify(data) + AFFIDAVIT_SALT;
   return crypto.createHash('sha256').update(salted).digest('hex');
@@ -166,7 +167,18 @@ const VERIFICATION_WINDOW = 60000, VERIFICATION_MAX = 20;
 setInterval(() => { const now = Date.now(); for (const [ip, e] of rateLimitMap.entries()) { if (now - e.startTime > VERIFICATION_WINDOW) rateLimitMap.delete(ip); } }, 10 * 60 * 1000);
 function checkRateLimit(ip) { /* ... same as before ... */ }
 
-function handleCors(req, res) { /* ... same as before ... */ }
+function handleCors(req, res) {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.status(204).send('');
+    return true;
+  }
+
+  return false;
+}
 
 exports.verifyAffidavit = functions.https.onRequest(async (req, res) => {
   if (handleCors(req, res)) return;
