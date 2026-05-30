@@ -26,9 +26,22 @@ class ValidationError extends Error { constructor(m) { super(m); this.name = 'Va
 
 function verifyRazorpaySignature(orderId, paymentId, signature) {
   const body = orderId + '|' + paymentId;
-  const expected = crypto.createHmac('sha256', functions.config().razorpay.key_secret).update(body).digest('hex');
-  return expected === signature;
+
+  const expected = crypto
+    .createHmac('sha256', functions.config().razorpay.key_secret)
+    .update(body)
+    .digest('hex');
+
+  try {
+    return crypto.timingSafeEqual(
+      Buffer.from(expected),
+      Buffer.from(signature)
+    );
+  } catch {
+    return false;
+  }
 }
+
 
 
 function generateAffidavitHash(data) {
@@ -85,7 +98,24 @@ exports.verifyPayment = functions.https.onCall(async (data, context) => {
       const processedSnap = await transaction.get(processedRef);
       if (processedSnap.exists) return;
       const userSnap = await transaction.get(userRef);
-      if (!userSnap.exists) throw new ValidationError('User not found');
+      if (!userSnap.exists) {
+  transaction.set(userRef, {
+    email: context.auth.token.email || '',
+    premiumExpiry: admin.firestore.Timestamp.fromDate(
+      new Date(Date.now() + PREMIUM_DURATION_DAYS * 24 * 60 * 60 * 1000)
+    ),
+    createdAt: now
+  });
+
+  transaction.create(processedRef, {
+    userId,
+    orderId: razorpay_order_id,
+    status: 'CAPTURED',
+    createdAt: now
+  });
+
+  return;
+}
       const currentExpiry = userSnap.data().premiumExpiry?.toDate();
       const baseDate = (currentExpiry && currentExpiry > new Date()) ? currentExpiry : new Date();
       baseDate.setDate(baseDate.getDate() + PREMIUM_DURATION_DAYS);
@@ -165,7 +195,34 @@ exports.createFinalAffidavit = functions.https.onCall(async (data, context) => {
 const rateLimitMap = new Map();
 const VERIFICATION_WINDOW = 60000, VERIFICATION_MAX = 20;
 setInterval(() => { const now = Date.now(); for (const [ip, e] of rateLimitMap.entries()) { if (now - e.startTime > VERIFICATION_WINDOW) rateLimitMap.delete(ip); } }, 10 * 60 * 1000);
-function checkRateLimit(ip) { /* ... same as before ... */ }
+function checkRateLimit(ip) {
+  const now = Date.now();
+
+  let entry = rateLimitMap.get(ip);
+
+  if (!entry) {
+    rateLimitMap.set(ip, {
+      count: 1,
+      startTime: now
+    });
+    return true;
+  }
+
+  if (now - entry.startTime > VERIFICATION_WINDOW) {
+    rateLimitMap.set(ip, {
+      count: 1,
+      startTime: now
+    });
+    return true;
+  }
+
+  if (entry.count >= VERIFICATION_MAX) {
+    return false;
+  }
+
+  entry.count++;
+  return true;
+}
 
 function handleCors(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
