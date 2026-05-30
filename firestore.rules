@@ -1,74 +1,76 @@
 rules_version = '2';
 service cloud.firestore {
-match /databases/{database}/documents {
+  match /databases/{database}/documents {
 
-function isAuth() {
-  return request.auth != null;
-}
+    function isAuth() {
+      return request.auth != null;
+    }
 
-function isOwner(uid) {
-  return isAuth() && request.auth.uid == uid;
-}
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
+    }
 
-match /users/{userId} {
+    match /users/{userId} {
 
-  allow get: if isOwner(userId);
+      allow get: if isOwner(userId);
 
-  allow create: if isOwner(userId)
-    && request.resource.data.email == request.auth.token.email
-    && !('premiumExpiry' in request.resource.data);
+      allow create: if isOwner(userId)
+        && request.resource.data.email == request.auth.token.email
+        && !('premiumExpiry' in request.resource.data);
 
-  allow update: if isOwner(userId)
-    && request.resource.data.premiumExpiry == resource.data.premiumExpiry;
+      allow update: if isOwner(userId)
+        && request.resource.data.premiumExpiry == resource.data.premiumExpiry;
 
-  allow delete: if false;
-}
+      allow delete: if false;
+    }
 
-match /draft_affidavits/{docId} {
+    match /draft_affidavits/{docId} {
 
-  allow read: if isOwner(resource.data.userId);
+      allow read: if isOwner(resource.data.userId);
 
-  allow create: if isAuth()
-    && request.resource.data.userId == request.auth.uid;
+      allow create: if isAuth()
+        && request.resource.data.userId == request.auth.uid
+        && !('finalized' in request.resource.data)
+        && !('finalAffidavitId' in request.resource.data);
 
-  allow update: if isOwner(resource.data.userId)
-    && request.resource.data.userId == request.auth.uid;
+      allow update: if isOwner(resource.data.userId)
+        && request.resource.data.userId == request.auth.uid
+        && !('finalAffidavitId' in request.resource.data);
 
-  allow delete: if isOwner(resource.data.userId);
-}
+      allow delete: if isOwner(resource.data.userId);
+    }
 
-match /affidavits/{docId} {
+    match /affidavits/{docId} {
 
-  allow read: if isOwner(resource.data.userId);
+      allow read: if isOwner(resource.data.userId);
 
-  allow create: if false;
+      allow create: if false;
 
-  allow update, delete: if false;
-}
+      allow update, delete: if false;
+    }
 
-match /rate_limits/{doc} {
-  allow read, write: if false;
-}
+    match /rate_limits/{doc} {
+      allow read, write: if false;
+    }
 
-match /payment_logs/{doc} {
-  allow read, write: if false;
-}
+    match /payment_logs/{doc} {
+      allow read, write: if false;
+    }
 
-match /processed_payments/{doc} {
-  allow read, write: if false;
-}
+    match /processed_payments/{doc} {
+      allow read, write: if false;
+    }
 
-match /verification_logs/{doc} {
-  allow read, write: if false;
-}
+    match /verification_logs/{doc} {
+      allow read, write: if false;
+    }
 
-match /affidavit_logs/{doc} {
-  allow read, write: if false;
-}
+    match /affidavit_logs/{doc} {
+      allow read, write: if false;
+    }
 
-match /{document=**} {
-  allow read, write: if false;
-}
-
-}
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
 }
