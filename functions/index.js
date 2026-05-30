@@ -237,20 +237,66 @@ function handleCors(req, res) {
   return false;
 }
 
-exports.verifyAffidavit = functions.https.onRequest(async (req, res) => {
-  if (handleCors(req, res)) return;
-  const ip = getClientIP(req);
-  if (!checkRateLimit(ip)) { res.status(429).json({ valid: false, error: 'Too many requests' }); return; }
-  const id = req.query.id || (req.body && req.body.affidavitId);
-  const token = req.query.token || (req.body && req.body.token);
-  if (!id || !token) { res.status(400).json({ valid: false, error: 'id and token required' }); return; }
-  const docSnap = await db.collection('affidavits').doc(id).get();
-  if (!docSnap.exists) { res.json({ valid: false, status: 'NOT_FOUND' }); return; }
-  const aff = docSnap.data();
-  if (aff.verificationToken !== token) { res.json({ valid: false, status: 'INVALID_TOKEN' }); return; }
-  res.json({ valid: aff.status === 'ACTIVE', status: aff.status });
-});
-
 exports.verifyAffidavitWithHash = functions.https.onRequest(async (req, res) => {
-  // similar with hash match
+  if (handleCors(req, res)) return;
+
+  const ip = getClientIP(req);
+
+  if (!checkRateLimit(ip)) {
+    return res.status(429).json({
+      valid: false,
+      error: 'Too many requests'
+    });
+  }
+
+  const affidavitId =
+    req.query.id ||
+    (req.body && req.body.affidavitId);
+
+  const hash =
+    req.query.hash ||
+    (req.body && req.body.hash);
+
+  if (!affidavitId || !hash) {
+    return res.status(400).json({
+      valid: false,
+      error: 'id and hash required'
+    });
+  }
+
+  try {
+    const docSnap = await db
+      .collection('affidavits')
+      .doc(affidavitId)
+      .get();
+
+    if (!docSnap.exists) {
+      return res.json({
+        valid: false,
+        status: 'NOT_FOUND'
+      });
+    }
+
+    const aff = docSnap.data();
+
+    if (aff.hash !== hash) {
+      return res.json({
+        valid: false,
+        status: 'INVALID_HASH'
+      });
+    }
+
+    return res.json({
+      valid: aff.status === 'ACTIVE',
+      status: aff.status
+    });
+
+  } catch (err) {
+    console.error(err);
+
+    return res.status(500).json({
+      valid: false,
+      error: 'Internal server error'
+    });
+  }
 });
