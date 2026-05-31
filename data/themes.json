@@ -1,1 +1,67 @@
 
+[
+  {
+    "id": "classic",
+    "name": "Classic Legal",
+    "headerColor": "#0a192f",
+    "accentColor": "#d4af37",
+    "backgroundColor": "#ffffff",
+    "textColor": "#000000"
+  },
+  {
+    "id": "royal-blue",
+    "name": "Royal Blue",
+    "headerColor": "#003366",
+    "accentColor": "#3399ff",
+    "backgroundColor": "#ffffff",
+    "textColor": "#000000"
+  },
+  {
+    "id": "emerald-green",
+    "name": "Emerald Green",
+    "headerColor": "#006400",
+    "accentColor": "#00a86b",
+    "backgroundColor": "#ffffff",
+    "textColor": "#000000"
+  },
+  {
+    "id": "premium-gold",
+    "name": "Premium Gold",
+    "headerColor": "#1a1a1a",
+    "accentColor": "#d4af37",
+    "backgroundColor": "#ffffff",
+    "textColor": "#000000"
+  },
+  {
+    "id": "executive-black",
+    "name": "Executive Black",
+    "headerColor": "#000000",
+    "accentColor": "#d4af37",
+    "backgroundColor": "#ffffff",
+    "textColor": "#000000"
+  },
+  {
+    "id": "maroon",
+    "name": "Maroon Professional",
+    "headerColor": "#800000",
+    "accentColor": "#c04040",
+    "backgroundColor": "#ffffff",
+    "textColor": "#000000"
+  },
+  {
+    "id": "dark-mode",
+    "name": "Dark Mode",
+    "headerColor": "#121212",
+    "accentColor": "#d4af37",
+    "backgroundColor": "#1e1e1e",
+    "textColor": "#ffffff"
+  },
+  {
+    "id": "custom",
+    "name": "Custom User Theme",
+    "headerColor": "",
+    "accentColor": "",
+    "backgroundColor": "",
+    "textColor": ""
+  }
+]
