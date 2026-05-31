@@ -1,1 +1,131 @@
 /* Affidavit Print Styles */
+/* Affidavit Preview */
+
+#previewArea{
+  background:#ffffff;
+  border:2px solid #ddd;
+  padding:30px;
+  min-height:500px;
+}
+
+/* Legal Document */
+
+.affidavit-document{
+  background:#ffffff;
+  color:#000000;
+  padding:40px;
+  font-family:"Times New Roman",serif;
+  line-height:1.8;
+}
+
+.affidavit-title{
+  text-align:center;
+  font-size:28px;
+  font-weight:bold;
+  text-transform:uppercase;
+  margin-bottom:30px;
+}
+
+.affidavit-number{
+  text-align:right;
+  margin-bottom:20px;
+}
+
+.affidavit-content{
+  text-align:justify;
+  margin-top:20px;
+}
+
+.affidavit-content p{
+  margin-bottom:15px;
+}
+
+/* Signature Area */
+
+.signature-section{
+  margin-top:60px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.signature-box{
+  width:45%;
+  text-align:center;
+}
+
+.signature-line{
+  border-top:1px solid #000;
+  margin-top:50px;
+  padding-top:5px;
+}
+
+/* Notary Area */
+
+.notary-section{
+  margin-top:60px;
+  border-top:2px dashed #999;
+  padding-top:20px;
+}
+
+.notary-title{
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+/* Stamp Area */
+
+.stamp-box{
+  width:120px;
+  height:120px;
+  border:2px dashed #999;
+  margin-top:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* QR Verification */
+
+.qr-section{
+  text-align:center;
+  margin-top:30px;
+}
+
+.qr-section img{
+  width:120px;
+  height:120px;
+}
+
+/* A4 Print Layout */
+
+@page{
+  size:A4;
+  margin:20mm;
+}
+
+@media print{
+
+  body{
+    background:#fff;
+  }
+
+  header,
+  button,
+  select,
+  input,
+  textarea{
+    display:none !important;
+  }
+
+  #previewArea{
+    border:none;
+    padding:0;
+    margin:0;
+  }
+
+  .affidavit-document{
+    width:100%;
+    padding:0;
+  }
+
+}
