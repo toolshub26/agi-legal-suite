@@ -1,1 +1,40 @@
-
+[
+  {
+    "id": "free",
+    "name": "Free",
+    "price": 0,
+    "currency": "INR",
+    "features": [
+      "Basic Affidavit Generator",
+      "PDF Export",
+      "QR Verification"
+    ]
+  },
+  {
+    "id": "monthly",
+    "name": "Premium Monthly",
+    "price": 299,
+    "currency": "INR",
+    "features": [
+      "Unlimited Affidavits",
+      "Premium Templates",
+      "PNG Export",
+      "Priority Support",
+      "Cloud Backup"
+    ]
+  },
+  {
+    "id": "yearly",
+    "name": "Premium Yearly",
+    "price": 2999,
+    "currency": "INR",
+    "features": [
+      "Unlimited Affidavits",
+      "Premium Templates",
+      "PNG Export",
+      "Priority Support",
+      "Cloud Backup",
+      "2 Months Free"
+    ]
+  }
+]
