@@ -1,1 +1,58 @@
 /* Dynamic Themes */
+:root{
+  --primary:#0a192f;
+  --secondary:#d4af37;
+  --background:#f5f7fa;
+  --text:#222222;
+}
+
+body{
+  background:var(--background);
+  color:var(--text);
+}
+
+header{
+  background:var(--primary);
+}
+
+button{
+  background:var(--primary);
+}
+
+/* Classic Legal */
+.theme-classic{
+  --primary:#0a192f;
+  --secondary:#d4af37;
+}
+
+/* Royal Blue */
+.theme-royal{
+  --primary:#003366;
+  --secondary:#3399ff;
+}
+
+/* Emerald Green */
+.theme-emerald{
+  --primary:#006400;
+  --secondary:#00a86b;
+}
+
+/* Premium Gold */
+.theme-gold{
+  --primary:#1a1a1a;
+  --secondary:#d4af37;
+}
+
+/* Executive Black */
+.theme-executive{
+  --primary:#000000;
+  --secondary:#888888;
+}
+
+/* Dark Mode */
+.theme-dark{
+  --primary:#121212;
+  --secondary:#d4af37;
+  --background:#1e1e1e;
+  --text:#ffffff;
+}
