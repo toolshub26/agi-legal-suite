@@ -1,1 +1,202 @@
-
+[
+  {
+    "code": "IN",
+    "name": "India",
+    "currency": "INR",
+    "language": "English",
+    "flag": "assets/flags/india.png",
+    "logo": "assets/logos/india.png"
+  },
+  {
+    "code": "PK",
+    "name": "Pakistan",
+    "currency": "PKR",
+    "language": "Urdu",
+    "flag": "assets/flags/pakistan.png",
+    "logo": "assets/logos/pakistan.png"
+  },
+  {
+    "code": "BD",
+    "name": "Bangladesh",
+    "currency": "BDT",
+    "language": "Bengali",
+    "flag": "assets/flags/bangladesh.png",
+    "logo": "assets/logos/bangladesh.png"
+  },
+  {
+    "code": "NP",
+    "name": "Nepal",
+    "currency": "NPR",
+    "language": "Nepali",
+    "flag": "assets/flags/nepal.png",
+    "logo": "assets/logos/nepal.png"
+  },
+  {
+    "code": "LK",
+    "name": "Sri Lanka",
+    "currency": "LKR",
+    "language": "Sinhala",
+    "flag": "assets/flags/sri-lanka.png",
+    "logo": "assets/logos/sri-lanka.png"
+  },
+  {
+    "code": "AE",
+    "name": "United Arab Emirates",
+    "currency": "AED",
+    "language": "Arabic",
+    "flag": "assets/flags/uae.png",
+    "logo": "assets/logos/uae.png"
+  },
+  {
+    "code": "SA",
+    "name": "Saudi Arabia",
+    "currency": "SAR",
+    "language": "Arabic",
+    "flag": "assets/flags/saudi-arabia.png",
+    "logo": "assets/logos/saudi-arabia.png"
+  },
+  {
+    "code": "QA",
+    "name": "Qatar",
+    "currency": "QAR",
+    "language": "Arabic",
+    "flag": "assets/flags/qatar.png",
+    "logo": "assets/logos/qatar.png"
+  },
+  {
+    "code": "KW",
+    "name": "Kuwait",
+    "currency": "KWD",
+    "language": "Arabic",
+    "flag": "assets/flags/kuwait.png",
+    "logo": "assets/logos/kuwait.png"
+  },
+  {
+    "code": "BH",
+    "name": "Bahrain",
+    "currency": "BHD",
+    "language": "Arabic",
+    "flag": "assets/flags/bahrain.png",
+    "logo": "assets/logos/bahrain.png"
+  },
+  {
+    "code": "OM",
+    "name": "Oman",
+    "currency": "OMR",
+    "language": "Arabic",
+    "flag": "assets/flags/oman.png",
+    "logo": "assets/logos/oman.png"
+  },
+  {
+    "code": "US",
+    "name": "United States",
+    "currency": "USD",
+    "language": "English",
+    "flag": "assets/flags/usa.png",
+    "logo": "assets/logos/usa.png"
+  },
+  {
+    "code": "GB",
+    "name": "United Kingdom",
+    "currency": "GBP",
+    "language": "English",
+    "flag": "assets/flags/uk.png",
+    "logo": "assets/logos/uk.png"
+  },
+  {
+    "code": "CA",
+    "name": "Canada",
+    "currency": "CAD",
+    "language": "English",
+    "flag": "assets/flags/canada.png",
+    "logo": "assets/logos/canada.png"
+  },
+  {
+    "code": "AU",
+    "name": "Australia",
+    "currency": "AUD",
+    "language": "English",
+    "flag": "assets/flags/australia.png",
+    "logo": "assets/logos/australia.png"
+  },
+  {
+    "code": "NZ",
+    "name": "New Zealand",
+    "currency": "NZD",
+    "language": "English",
+    "flag": "assets/flags/new-zealand.png",
+    "logo": "assets/logos/new-zealand.png"
+  },
+  {
+    "code": "CN",
+    "name": "China",
+    "currency": "CNY",
+    "language": "Chinese",
+    "flag": "assets/flags/china.png",
+    "logo": "assets/logos/china.png"
+  },
+  {
+    "code": "JP",
+    "name": "Japan",
+    "currency": "JPY",
+    "language": "Japanese",
+    "flag": "assets/flags/japan.png",
+    "logo": "assets/logos/japan.png"
+  },
+  {
+    "code": "SG",
+    "name": "Singapore",
+    "currency": "SGD",
+    "language": "English",
+    "flag": "assets/flags/singapore.png",
+    "logo": "assets/logos/singapore.png"
+  },
+  {
+    "code": "MY",
+    "name": "Malaysia",
+    "currency": "MYR",
+    "language": "Malay",
+    "flag": "assets/flags/malaysia.png",
+    "logo": "assets/logos/malaysia.png"
+  },
+  {
+    "code": "DE",
+    "name": "Germany",
+    "currency": "EUR",
+    "language": "German",
+    "flag": "assets/flags/germany.png",
+    "logo": "assets/logos/germany.png"
+  },
+  {
+    "code": "FR",
+    "name": "France",
+    "currency": "EUR",
+    "language": "French",
+    "flag": "assets/flags/france.png",
+    "logo": "assets/logos/france.png"
+  },
+  {
+    "code": "IT",
+    "name": "Italy",
+    "currency": "EUR",
+    "language": "Italian",
+    "flag": "assets/flags/italy.png",
+    "logo": "assets/logos/italy.png"
+  },
+  {
+    "code": "ES",
+    "name": "Spain",
+    "currency": "EUR",
+    "language": "Spanish",
+    "flag": "assets/flags/spain.png",
+    "logo": "assets/logos/spain.png"
+  },
+  {
+    "code": "ZA",
+    "name": "South Africa",
+    "currency": "ZAR",
+    "language": "English",
+    "flag": "assets/flags/south-africa.png",
+    "logo": "assets/logos/south-africa.png"
+  }
+]
