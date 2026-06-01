@@ -16,3 +16,4 @@ async function loadLanguages() {
     console.error(error);
   }
 }
+loadLanguages();
