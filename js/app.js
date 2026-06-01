@@ -122,7 +122,8 @@ async function loadAffidavitTypes() {
 ------------------------- */
 
 function generateAffidavit() {
-
+const verificationToken =
+  generateVerificationToken();
   const name =
     document.getElementById("name")?.value || "";
 
@@ -189,7 +190,10 @@ function generateAffidavit() {
       </p>
 
       <br><br>
-
+<p>
+  Verification ID:
+  <strong>${verificationToken}</strong>
+</p>
       <div class="signature-section">
 
         <div class="signature-box">
@@ -215,7 +219,10 @@ function generateAffidavit() {
   </div>
 
   `;
-
+localStorage.setItem(
+  "lastVerificationToken",
+  verificationToken
+);
   console.log("Affidavit Generated");
 
 }
