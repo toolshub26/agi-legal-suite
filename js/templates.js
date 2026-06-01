@@ -38,3 +38,4 @@ async function loadAffidavitTypes() {
   }
 
 }
+loadAffidavitTypes();
