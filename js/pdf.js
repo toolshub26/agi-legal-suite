@@ -1,1 +1,3 @@
-
+function generatePDF() {
+  window.print();
+}
