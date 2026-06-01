@@ -1,10 +1,29 @@
+function generateVerificationToken() {
+
+  return "AFF-" +
+    Date.now() +
+    "-" +
+    Math.floor(
+      Math.random() * 100000
+    );
+
+}
+
 function verifyAffidavit(token) {
 
   if (!token) {
+
     return false;
+
   }
 
-  console.log("Verifying:", token);
+  console.log(
+    "Verifying:",
+    token
+  );
 
-  return true;
+  return token.startsWith(
+    "AFF-"
+  );
+
 }
