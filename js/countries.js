@@ -16,3 +16,4 @@ async function loadCountries() {
     console.error("Countries Load Error", error);
   }
 }
+loadCountries();
