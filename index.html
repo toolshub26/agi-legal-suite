@@ -150,7 +150,7 @@ if (!firebase.apps.length) {
               <div id="qrCodeContainer"></div>
             </div>`;
           new QRCode(document.getElementById('qrCodeContainer'), {
-            text: `https://yourdomain.com/verify.html?id=${affidavitId}&token=${verificationToken}`,
+            text: `https://toolshub26.github.io/agi-legal-suite/verify.html?id=${affidavitId}&token=${verificationToken}`,
             width: 120, height: 120
           });
           showToast('Affidavit finalized!');
