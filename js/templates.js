@@ -1,22 +1,40 @@
-async function loadTemplates() {
+async function loadAffidavitTypes() {
+
   try {
-    const response = await fetch("data/affidavit-types.json");
-    const templates = await response.json();
 
-    const select = document.getElementById("purposeSelect");
+    const response =
+      await fetch("data/affidavit-types.json");
 
-    templates.forEach(template => {
-      const option = document.createElement("option");
-      option.value = template.id;
-      option.textContent = template.name;
+    const types =
+      await response.json();
+
+    const select =
+      document.getElementById("purposeSelect");
+
+    if (!select) return;
+
+    types.forEach(type => {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        type.id;
+
+      option.textContent =
+        type.name;
+
       select.appendChild(option);
+
     });
 
-    console.log("Templates Loaded:", templates.length);
-
   } catch (error) {
-    console.error("Templates Load Error", error);
-  }
-}
 
-loadTemplates();
+    console.error(
+      "Affidavit Types Error:",
+      error
+    );
+
+  }
+
+}
