@@ -1,7 +1,28 @@
-function isPremiumUser() {
-  return localStorage.getItem("premium") === "true";
+function getPlan() {
+
+  return localStorage.getItem(
+    "plan"
+  ) || "free";
+
 }
 
-function activatePremium() {
-  localStorage.setItem("premium", "true");
+function setPlan(plan) {
+
+  localStorage.setItem(
+    "plan",
+    plan
+  );
+
+}
+
+function isPremiumUser() {
+
+  return getPlan() === "premium";
+
+}
+
+function isProUser() {
+
+  return getPlan() === "pro";
+
 }
