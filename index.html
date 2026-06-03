@@ -115,7 +115,7 @@ Download PDF
 
 </main>
 
- <cript>
+ <script>
     (function() {
       const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC_1bKbNGAoGviGt1-a1f27h9VDj4hr3oA",
@@ -220,10 +220,10 @@ if (!firebase.apps.length) {
           // Show in preview the token and QR
           const previewDiv = document.getElementById('previewArea');
           previewDiv.innerHTML += `
-            <div style="margin-top:20px; text-align:center; border-top:1px solid #ccc; padding-top:15px;">
-              <p><strong>Verification Token:</strong><br><span style="font-size:12px;">${verificationToken}</span></p>
-              <div id="qrCodeContainer"></div>
-            </div>`;
+<div style="margin-top:20px; text-align:center; border-top:1px solid #ccc; padding-top:15px;">
+  <p><strong>Verification Token:</strong><br><span style="font-size:12px;">${verificationToken}</span></p>
+  <div id="qrCodeContainer"></div>
+</div>`;
           new QRCode(document.getElementById('qrCodeContainer'), {
             text: `https://toolshub26.github.io/agi-legal-suite/verify.html?id=${affidavitId}&token=${verificationToken}`,
             width: 120, height: 120
