@@ -155,70 +155,78 @@ const verificationToken =
 
   preview.innerHTML = `
 
-  <div class="affidavit-document">
+<div class="affidavit-document">
 
-    <div class="affidavit-title">
-      AFFIDAVIT
-    </div>
+  <div class="affidavit-title">
+    AFFIDAVIT
+  </div>
 
-    <div class="affidavit-content">
+  <div class="affidavit-content">
 
-      <p>
+    <p><strong>VERIFICATION ID:</strong> ${verificationToken}</p>
+
+    <p>
       I, <strong>${name}</strong>,
       son/daughter of <strong>${father}</strong>,
-      aged <strong>${age}</strong> years,
-      resident of <strong>${address}</strong>.
-      </p>
+      aged about <strong>${age}</strong> years,
+      resident of <strong>${address}</strong>,
+      do hereby solemnly affirm and declare as under:
+    </p>
 
-      <p>
-      This affidavit is submitted for:
-      <strong>${purpose}</strong>.
-      </p>
+    <ol>
+      <li>
+        That I am the deponent of this affidavit.
+      </li>
 
-      <p>
+      <li>
+        That this affidavit is being submitted for
+        <strong>${purpose}</strong>.
+      </li>
+
+      <li>
+        That the contents stated herein are true
+        and correct to the best of my knowledge
+        and belief.
+      </li>
+
+      <li>
+        That I have not concealed any material fact.
+      </li>
+    </ol>
+
+    <p>
+      <strong>Statement:</strong><br>
       ${statement}
-      </p>
+    </p>
 
-      <p>
-      Country:
-      <strong>${country}</strong>
-      </p>
+    <p>
+      <strong>Country:</strong> ${country}<br>
+      <strong>Language:</strong> ${language}
+    </p>
 
-      <p>
-      Language:
-      <strong>${language}</strong>
-      </p>
+    <br><br>
 
-      <br><br>
-<p>
-  Verification ID:
-  <strong>${verificationToken}</strong>
-</p>
-      <div class="signature-section">
+    <div class="signature-section">
 
-        <div class="signature-box">
+      <div class="signature-box">
+        ______________________
+        <br>
+        DEPONENT
+      </div>
 
-          <div class="signature-line">
-            Deponent Signature
-          </div>
-
-        </div>
-
-        <div class="signature-box">
-
-          <div class="signature-line">
-            Notary / Authority
-          </div>
-
-        </div>
-
+      <div class="signature-box">
+        ______________________
+        <br>
+        NOTARY / OATH COMMISSIONER
       </div>
 
     </div>
 
   </div>
 
-  `;
+</div>
+
+`;
 localStorage.setItem(
   "lastVerificationToken",
   verificationToken
