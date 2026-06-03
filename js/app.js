@@ -234,3 +234,6 @@ localStorage.setItem(
   console.log("Affidavit Generated");
 
 }
+function generateVerificationToken() {
+  return "AFF-" + Date.now();
+}
